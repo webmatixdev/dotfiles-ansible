@@ -49,7 +49,7 @@ default_roles:
   - tmux
   # - tshark
   - warp
-  - whalebrew
+  # - whalebrew
   # - zellij
   - zoxide
   - zsh
@@ -58,13 +58,13 @@ git_user_name: "TechDufus"
 op:
   git:
     user:
-      email: "op://Personal/Github/email"
-    allowed_signers: "op://Personal/SSH-Sign/allowed_signers"
+      email: "op://Private/Github/username"
+    allowed_signers: "op://Private/SSH-Sign/allowed_signers"
   ssh:
     github:
       techdufus:
         - name: id_ed25519
-          vault_path: "op://Personal/SSH-Auth"
+          vault_path: "op://Private/SSH-Auth"
         #- name: raft-infra
         #  vault_path: "op://Raft/Raft-SSH"
 # FIXME: See `system/tasks/main.yml` for how to structure this var looping.

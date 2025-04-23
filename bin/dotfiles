@@ -153,7 +153,10 @@ function arch_setup() {
 function macos_setup() {
   if ! [ -x "$(command -v brew)" ]; then
     __task "Installing Homebrew"
-    _cmd "/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo >> ~/.zprofile
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
   if ! [ -x "$(command -v git)" ]; then
     __task "Installing Git"
@@ -165,8 +168,8 @@ function macos_setup() {
   fi
   if ! [ -x "$(command -v op)" ]; then
     __task "Installing 1Password CLI"
-    _cmd "brew install 1password@beta"
-    _cmd "brew install 1password-cli@beta"
+    _cmd "brew install 1password"
+    _cmd "brew install 1password-cli"
     __task "Setting up 1Password CLI"
     # press any key to continue
     read -n 1 -s -r -p "Press any key to continue"
@@ -238,7 +241,7 @@ fi
 
 if ! [[ -d "$DOTFILES_DIR" ]]; then
   __task "Cloning repository"
-  _cmd "git clone --quiet https://github.com/TechDufus/dotfiles.git $DOTFILES_DIR"
+  _cmd "git clone --quiet https://github.com/webmatixdev/dotfiles-ansible.git $DOTFILES_DIR"
 else
   __task "Updating repository"
   _cmd "git -C $DOTFILES_DIR pull --quiet"
