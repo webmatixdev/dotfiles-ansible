@@ -1,6 +1,6 @@
 default_roles:
   - system
-  # - 1password
+  - 1password
   - aldente
   - asciiquarium
   - bash
@@ -11,7 +11,7 @@ default_roles:
   - flatpak
   - fonts
   - fzf
-  - gh
+  # - gh
   - git
   - go
   - hammerspoon
@@ -37,7 +37,7 @@ default_roles:
   # - ruby
   # - rust
   - slides
-  - spotify
+  # - spotify
   - ssh
   - sshfs
   - starship
@@ -58,15 +58,15 @@ git_user_name: "TechDufus"
 op:
   git:
     user:
-      email: "op://Personal/GitHub/email"
-    allowed_signers: "op://Personal/TechDufus SSH/allowed_signers"
+      email: "op://Personal/Github/email"
+    allowed_signers: "op://Personal/SSH-Sign/allowed_signers"
   ssh:
     github:
       techdufus:
         - name: id_ed25519
-          vault_path: "op://Personal/TechDufus SSH"
-        - name: raft-infra
-          vault_path: "op://Raft/Raft-SSH"
+          vault_path: "op://Personal/SSH-Auth"
+        #- name: raft-infra
+        #  vault_path: "op://Raft/Raft-SSH"
 # FIXME: See `system/tasks/main.yml` for how to structure this var looping.
   # system:
   #   hosts:
