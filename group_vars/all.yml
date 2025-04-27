@@ -1,8 +1,6 @@
 default_roles:
   - system
   - 1password
-  - aldente
-  - asciiquarium
   - bash
   - bat
   - btop
@@ -14,7 +12,6 @@ default_roles:
   # - gh
   - git
   - go
-  - hammerspoon
   - helm
   # - k8s
   - k9s
@@ -22,14 +19,12 @@ default_roles:
   - lazygit
   - lsd
   - lua
-  - nala
   - ncdu
   - neofetch
   - neovim
   - nerdfetch
   - npm
   - nvm
-  - obsidian
   - podman
   - pwsh
   - python
@@ -37,41 +32,13 @@ default_roles:
   # - ruby
   # - rust
   - slides
-  # - spotify
   - ssh
   - sshfs
   - starship
-  - taskfile
   - terraform
-  - terragrunt
-  - tldr
-  - tmate
   - tmux
-  # - tshark
-  - warp
-  # - whalebrew
-  # - zellij
   - zoxide
   - zsh
-
-git_user_name: "TechDufus"
-op:
-  git:
-    user:
-      email: "op://Private/Github/username"
-    allowed_signers: "op://Private/SSH-Sign/allowed_signers"
-  ssh:
-    github:
-      techdufus:
-        - name: id_ed25519
-          vault_path: "op://Private/SSH-Auth"
-        #- name: raft-infra
-        #  vault_path: "op://Raft/Raft-SSH"
-# FIXME: See `system/tasks/main.yml` for how to structure this var looping.
-  # system:
-  #   hosts:
-  #     - item: op://Raft/rdp-demo-local-ingress/notesPlain
-  #       account: my.1password.com
 
 k8s:
   repo:

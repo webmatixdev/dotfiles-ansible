@@ -1,0 +1,11 @@
+git_user_name: "webmatixdev"
+op:
+  git:
+    user:
+      email: "op://Private/Github/username"
+    allowed_signers: "op://Private/SSH-Sign/allowed_signers"
+  ssh:
+    git:
+      webmatix:
+        - name: id_ed25519
+          vault_path: "op://Private/SSH-Auth"

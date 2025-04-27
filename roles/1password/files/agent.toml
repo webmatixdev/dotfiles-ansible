@@ -29,10 +29,9 @@
 # More examples can be found here:
 #  https://developer.1password.com/docs/ssh/agent/config
 [[ssh-keys]]
-vault = "Personal"
+vault = "Private"
+account = "my.1password.com"
 
 [[ssh-keys]]
-vault = "Raft"
-
-[[ssh-keys]]
-vault = "StarSage"
+vault = "Employee"
+account = "viesure.1password.com"

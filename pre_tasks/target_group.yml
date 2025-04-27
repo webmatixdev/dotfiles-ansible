@@ -1,0 +1,15 @@
+- name: Determine target group based on username
+  ansible.builtin.set_fact:
+    target_group: >-
+      {% if ansible_user_id.endswith('w') %}
+        work
+      {% elif ansible_user_id.endswith('p') %}
+        personal
+      {% else %}
+        unknown
+      {% endif %}
+
+- name: Fail if target group is unknown
+  ansible.builtin.fail:
+    msg: "Unable to determine target group from username '{{ ansible_user_id }}'. Ensure it ends with 'w' or 'p'."
+  when: target_group == "unknown"

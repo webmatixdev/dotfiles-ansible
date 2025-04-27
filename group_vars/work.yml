@@ -1,0 +1,11 @@
+git_user_name: "matthias.webhofer"
+op:
+  git:
+    user:
+      email: "op://Private/Okta/username"
+    allowed_signers: "op://Employee/SSH-Sign/allowed_signers"
+  ssh:
+    git:
+      webmatix:
+        - name: id_ed25519
+          vault_path: "op://Employee/SSH-Auth"
