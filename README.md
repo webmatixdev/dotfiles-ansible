@@ -14,10 +14,14 @@ My personal dotfiles configuration using Ansible for automated setup and managem
 
 ## Installation
 
-Install with a single command:
+Install with a single command (environment must be specified):
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/webmatixdev/dotfiles-ansible/main/bin/dotfiles)"
+# For work environment
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/webmatixdev/dotfiles-ansible/main/bin/dotfiles)" -- --env=work
+
+# For personal environment
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/webmatixdev/dotfiles-ansible/main/bin/dotfiles)" -- --env=personal
 ```
 
 If you prefer to clone the repository first:
@@ -26,8 +30,8 @@ If you prefer to clone the repository first:
 # Clone the repository
 git clone https://github.com/webmatixdev/dotfiles-ansible.git ~/.dotfiles
 
-# Run the installation script
-~/.dotfiles/bin/dotfiles
+# Run the installation script (must specify an environment)
+~/.dotfiles/bin/dotfiles --env=work  # or --env=personal
 ```
 
 ## Environment System

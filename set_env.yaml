@@ -3,8 +3,25 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Detect environment
-      ansible.builtin.import_tasks: pre_tasks/env.yaml
+    # The environment (env) variable should be set by passing -e "env=value" to ansible-playbook
+    - name: Fail if environment is not provided
+      ansible.builtin.fail:
+        msg: "Environment not specified. Please run the dotfiles script with --env=work or --env=personal"
+      when: env is not defined or env == ""
+
+    - name: Create config directory if it doesn't exist
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config"
+        state: directory
+        mode: '0755'
+
+    - name: Save environment as YAML variables file
+      ansible.builtin.copy:
+        content: |
+          ---
+          env: "{{ env }}"
+        dest: "{{ ansible_env.HOME }}/.config/dotfiles_env_vars"
+        mode: '0644'
 
     - name: Display selected environment
       ansible.builtin.debug:
