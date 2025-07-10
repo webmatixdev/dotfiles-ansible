@@ -475,9 +475,9 @@ when = 'git rev-parse --is-inside-work-tree 2> /dev/null'
 format = "$output "
 
 [custom.docker]
-description = "Shows the docker symbol if the current directory has Dockerfile or docker-compose.yml files"
+description = "Shows the docker symbol if the current directory has Dockerfile or docker-compose.yaml files"
 # command = "echo 🐳"
 command = "echo '  '"
-files = ["Dockerfile", "docker-compose.yml", "docker-compose.yaml"]
+files = ["Dockerfile", "docker-compose.yaml", "docker-compose.yaml"]
 when = """ command -v docker &> /dev/null; exit (echo $?); """
 style = "bold blue"

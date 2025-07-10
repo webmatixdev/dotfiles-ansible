@@ -175,11 +175,11 @@ update_ansible_galaxy() {
   local os=$1
   local os_requirements=""
   __task "Updating Ansible Galaxy"
-  if [ -f "$DOTFILES_DIR/requirements/$os.yml" ]; then
+  if [ -f "$DOTFILES_DIR/requirements/$os.yaml" ]; then
     __task "${OVERWRITE}Updating Ansible Galaxy with OS Config: $os"
-    os_requirements="$DOTFILES_DIR/requirements/$os.yml"
+    os_requirements="$DOTFILES_DIR/requirements/$os.yaml"
   fi
-  _cmd "ansible-galaxy install -r $DOTFILES_DIR/requirements/common.yml $os_requirements"
+  _cmd "ansible-galaxy install -r $DOTFILES_DIR/requirements/common.yaml $os_requirements"
 }
 
 function confirmVaultAccess() {
@@ -260,12 +260,12 @@ done
 # If env is provided, set it first
 if [[ -n "$env_value" ]]; then
   __task "Setting environment to: $env_value"
-  _cmd "ansible-playbook \"$DOTFILES_DIR/set_env.yml\" -e \"env=$env_value\""
+  _cmd "ansible-playbook \"$DOTFILES_DIR/set_env.yaml\" -e \"env=$env_value\""
   _task_done
 fi
 
 # Run the main playbook with remaining arguments
-ansible-playbook "$DOTFILES_DIR/main.yml" "${remaining_args[@]}"
+ansible-playbook "$DOTFILES_DIR/main.yaml" "${remaining_args[@]}"
 
 popd 2>&1 > /dev/null
 

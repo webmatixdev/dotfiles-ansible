@@ -1,0 +1,11 @@
+---
+- name: "Fonts | MacOSX | Install"
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - font-jetbrains-mono-nerd-font
+    - font-hack-nerd-font
+    - font-fira-code-nerd-font
+    - font-fira-mono-nerd-font
+    - font-sauce-code-pro-nerd-font

@@ -1,0 +1,11 @@
+---
+- name: Set Environment
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Detect environment
+      ansible.builtin.import_tasks: pre_tasks/env.yaml
+
+    - name: Display selected environment
+      ansible.builtin.debug:
+        msg: "Selected environment: {{ env }}"
