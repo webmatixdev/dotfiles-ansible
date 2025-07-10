@@ -3,11 +3,11 @@
   hosts: localhost
   connection: local
   tasks:
-    # The environment (env) variable should be set by passing -e "env=value" to ansible-playbook
+    # The environment (dotfiles_env) variable should be set by passing -e "dotfiles_env=value" to ansible-playbook
     - name: Fail if environment is not provided
       ansible.builtin.fail:
-        msg: "Environment not specified. Please run the dotfiles script with --env=work or --env=personal"
-      when: env is not defined or env == ""
+        msg: "Environment not specified. Please run with --env=work or --env=personal"
+      when: dotfiles_env is not defined or dotfiles_env == ""
 
     - name: Create config directory if it doesn't exist
       ansible.builtin.file:
@@ -19,10 +19,10 @@
       ansible.builtin.copy:
         content: |
           ---
-          env: "{{ env }}"
+          dotfiles_env: "{{ dotfiles_env }}"
         dest: "{{ ansible_env.HOME }}/.config/dotfiles_env_vars"
         mode: '0644'
 
     - name: Display selected environment
       ansible.builtin.debug:
-        msg: "Selected environment: {{ env }}"
+        msg: "Selected environment: {{ dotfiles_env }}"

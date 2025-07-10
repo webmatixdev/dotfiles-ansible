@@ -116,46 +116,22 @@ function ubuntu_setup() {
   fi
 }
 
-function arch_setup() {
-  if ! [ -x "$(command -v ansible)" ]; then
-    __task "Installing Ansible"
-    _cmd "sudo pacman -Sy --noconfirm"
-    _cmd "sudo pacman -S --noconfirm ansible"
-    _cmd "sudo pacman -S --noconfirm python-argcomplete"
-    # _cmd "sudo activate-global-python-argcomplete3"
-  fi
-  if ! pacman -Q python3 >/dev/null 2>&1; then
-    __task "Installing Python3"
-    _cmd "sudo pacman -S --noconfirm python3"
-  fi
-  if ! pacman -Q python-pip >/dev/null 2>&1; then
-    __task "Installing Python3 Pip"
-    _cmd "sudo pacman -S --noconfirm python-pip"
-  fi
-  if ! pip3 list | grep watchdog >/dev/null 2>&1; then
-    __task "Installing Python3 Watchdog"
-    _cmd "sudo pacman -S --noconfirm python-watchdog"
-  fi
-
-  if ! pacman -Q openssh >/dev/null 2>&1; then
-    __task "Installing OpenSSH"
-    _cmd "sudo pacman -S --noconfirm openssh"
-  fi
-
-  __task "Setting Locale"
-  _cmd "sudo localectl set-locale LANG=en_US.UTF-8"
-}
-
 function macos_setup() {
   if ! [ -x "$(command -v brew)" ]; then
-    __task "Installing Homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     eval "$(/opt/homebrew/bin/brew shellenv)"
+
+    if ! [ -x "$(command -v brew)" ]; then
+      __task "Installing Homebrew"
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    fi
   fi
+
   if ! [ -x "$(command -v git)" ]; then
     __task "Installing Git"
     _cmd "brew install git"
   fi
+
   if ! [ -x "$(command -v ansible)" ]; then
     __task "Installing Ansible"
     _cmd "brew install ansible"
@@ -182,21 +158,6 @@ update_ansible_galaxy() {
   _cmd "ansible-galaxy install -r $DOTFILES_DIR/requirements/common.yaml $os_requirements"
 }
 
-function confirmVaultAccess() {
-  __task "Checking for 1Password CLI"
-  if ! command -v op >/dev/null 2>&1; then
-    printf "${OVERWRITE} ${RED}[X]  Checking for 1Password CLI\n"
-    printf " ${WARNING}${RED}   1Password CLI is not installed.${NC}\n"
-    exit 1
-  fi
-  local op_version
-  op_version=$(op --version)
-  __task "1Password CLI found: [$op_version] -- Authenticating..."
-  if ! _cmd "op --account my.1password.com vault list"; then exit 1; fi
-  _task_done && printf "${GREEN} [✓] Successfully authenticated with 1Password CLI! ☕\n"
-  return
-}
-
 detect_os() {
   if [ -f /etc/os-release ]; then
     source /etc/os-release
@@ -212,9 +173,6 @@ case $dotfiles_os in
   ubuntu)
     ubuntu_setup
     ;;
-  arch)
-    arch_setup
-    ;;
   darwin)
     macos_setup
     ;;
@@ -223,15 +181,6 @@ case $dotfiles_os in
     _cmd "echo 'Unsupported OS'"
     ;;
 esac
-
-
-if ! [[ -f "$SSH_DIR/authorized_keys" ]]; then
-  __task "Generating SSH keys"
-  _cmd "mkdir -p $SSH_DIR"
-  _cmd "chmod 700 $SSH_DIR"
-  _cmd "ssh-keygen -b 4096 -t rsa -f $SSH_DIR/id_rsa -N '' -C $USER@$HOSTNAME"
-  _cmd "cat $SSH_DIR/id_rsa.pub >> $SSH_DIR/authorized_keys"
-fi
 
 if ! [[ -d "$DOTFILES_DIR" ]]; then
   __task "Cloning repository"
@@ -243,8 +192,6 @@ fi
 
 pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 update_ansible_galaxy $ID
-
-# confirmVaultAccess
 
 # Check if env argument is provided
 env_value=""
@@ -260,7 +207,7 @@ done
 # If env is provided, set it first
 if [[ -n "$env_value" ]]; then
   __task "Setting environment to: $env_value"
-  _cmd "ansible-playbook \"$DOTFILES_DIR/set_env.yaml\" -e \"env=$env_value\""
+  _cmd "ansible-playbook \"$DOTFILES_DIR/set_env.yaml\" -e \"dotfiles_env=$env_value\""
   _task_done
 fi
 
