@@ -38,10 +38,6 @@ RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
 set -e
 
 # Paths
-VAULT_SECRET_FILE="$HOME/.ansible-vault/vault.secret"
-OP_INSTALLED=false
-OP_AUTHENTICATED=false
-OP_VAULT_SECRET=""
 ID=""
 DOTFILES_LOG="$HOME/.dotfiles.log"
 DOTFILES_DIR="$HOME/.dotfiles"
@@ -65,14 +61,14 @@ function _cmd {
     touch $DOTFILES_LOG
   fi
   # empty conduro.log
-  > $DOTFILES_LOG
+  # > $DOTFILES_LOG
   # hide stdout, on error we print and exit
   if eval "$1" 1> /dev/null 2> $DOTFILES_LOG; then
     return 0 # success
   fi
   # read error from log and add spacing
   printf "${OVERWRITE}${LRED} [X]  ${TASK}${LRED}\n"
-  while read line; do
+  while read -r line; do
     printf "      ${line}\n"
   done < $DOTFILES_LOG
   printf "\n"
@@ -250,8 +246,26 @@ update_ansible_galaxy $ID
 
 # confirmVaultAccess
 
-rm -f $VAULT_SECRET_FILE
-ansible-playbook "$DOTFILES_DIR/main.yml" "$@"
+# Check if env argument is provided
+env_value=""
+remaining_args=()
+for arg in "$@"; do
+  if [[ $arg == "--env="* ]]; then
+    env_value="${arg#*=}"
+  else
+    remaining_args+=("$arg")
+  fi
+done
+
+# If env is provided, set it first
+if [[ -n "$env_value" ]]; then
+  __task "Setting environment to: $env_value"
+  _cmd "ansible-playbook \"$DOTFILES_DIR/set_env.yml\" -e \"env=$env_value\""
+  _task_done
+fi
+
+# Run the main playbook with remaining arguments
+ansible-playbook "$DOTFILES_DIR/main.yml" "${remaining_args[@]}"
 
 popd 2>&1 > /dev/null
 

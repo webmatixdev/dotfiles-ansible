@@ -2,10 +2,15 @@
 - name: DotFiles Config
   hosts: localhost
   connection: local
+  vars_files:
+    - "{{ lookup('env', 'HOME') }}/.config/dotfiles_env_vars"
+    - "group_vars/all.yml"
+    - "group_vars/{{ env }}.yml"
 
   pre_tasks:
-    - name: Detect target_group
-      ansible.builtin.import_tasks: pre_tasks/target_group.yml
+    - name: Debug environment
+      ansible.builtin.debug:
+        msg: "Using environment: {{ env }}"
       tags:
         - always
 
