@@ -7,3 +7,33 @@
 - name: "{{ role_name }} | Run Tasks: {{ ansible_distribution }}"
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: distribution_config.stat.exists
+
+- name: K8s | Ensure .kube directory exists
+  ansible.builtin.file:
+    path: "~/.kube"
+    state: directory
+    mode: "0755"
+
+- name: K8s | Configure kubeconfig from 1Password
+  block:
+   - name: K8s | Get kubeconfig from 1Password
+     ansible.builtin.command: "op --account my.1password.com read '{{ op.k8s.kubeconfig }}'"
+     register: op_kubeconfig
+     changed_when: false
+     # no_log: true to avoid leaking sensitive info in logs
+     no_log: true
+
+   - name: K8s | Create .kube/config file from 1Password
+     ansible.builtin.copy:
+       content: "{{ op_kubeconfig.stdout }}"
+       dest: "~/.kube/config"
+       mode: "0600"
+  when: op.k8s.kubeconfig
+
+- name: K8s | Configure GKE clusters with gcloud
+  block:
+   - name: K8s | Configure kubectl with gcloud for each GKE cluster
+     ansible.builtin.command: "gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
+     changed_when: false
+     loop: "{{ gke_clusters }}"
+  when: k8s.gke_clusters

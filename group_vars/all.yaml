@@ -40,3 +40,18 @@ default_roles:
   - zoxide
   - zsh
 
+op:
+  k8s:
+    kubeconfig: "op://Private/k8s-config/kubeconfig"
+
+k8s:
+  gke_clusters:
+    - cluster_name: "gke-vs-stable"
+      location: "europe-west3"
+      project_id: "vs-stable"
+    - cluster_name: "gke-vs-config-controller"
+      location: "europe-west3"
+      project_id: "vs-config-controller"
+    - cluster_name: "gke-vs-cops-sandbox"
+      location: "europe-west3"
+      project_id: "vs-cops-sandbox"
