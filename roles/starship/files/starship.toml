@@ -105,7 +105,7 @@ $character"""
 
 # Sets user-defined palette
 # Palettes must be defined _after_ this line
-palette = "catppuccin_latte"
+palette = "wez"
 
 # Starship modules
 [character]
@@ -226,6 +226,34 @@ surface0 = "#313244"
 base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
+
+[palettes.wez]
+rosewater = "#B3B3B3"  # Using foreground as rosewater
+flamingo = "#FF5555"   # Bright Red
+pink = "#FF55FF"       # Bright Magenta
+mauve = "#CC55CC"      # Magenta
+red = "#CC5555"        # Red
+maroon = "#CC5555"     # Using Red as maroon
+peach = "#CDCD55"      # Yellow
+yellow = "#FFFF55"     # Bright Yellow
+green = "#55CC55"      # Green
+teal = "#55FFFF"       # Bright Cyan
+sky = "#55FFFF"        # Bright Cyan (duplicate)
+sapphire = "#5555FF"   # Bright Blue
+blue = "#5555CC"       # Blue
+lavender = "#7ACACA"   # Cyan
+text = "#B3B3B3"       # Foreground
+subtext1 = "#CCCCCC"   # White
+subtext0 = "#FFFFFF"   # Bright White
+overlay2 = "#CCCCCC"   # White (duplicate)
+overlay1 = "#B3B3B3"   # Foreground (duplicate)
+overlay0 = "#CCCCCC"   # White (duplicate)
+surface2 = "#555555"   # Bright Black
+surface1 = "#555555"   # Bright Black (duplicate)
+surface0 = "#000000"   # Black
+base = "#000000"       # Background
+mantle = "#000000"     # Background (duplicate)
+crust = "#000000"      # Background (duplicate)
 
 [aws]
 symbol = " "
