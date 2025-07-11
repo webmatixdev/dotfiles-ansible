@@ -1,0 +1,5 @@
+- name: "BTOP | Install"
+  ansible.builtin.apt:
+    name: bash
+    state: present
+  become: true
