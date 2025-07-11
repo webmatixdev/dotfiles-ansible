@@ -1,0 +1,110 @@
+---
+- name: Check if gcloud is already installed
+  ansible.builtin.command: which gcloud
+  register: gcloud_check
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+- name: Create temporary directory for Google Cloud SDK download
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: gcloud
+  register: gcloud_temp_dir
+  when: gcloud_check.rc != 0
+
+- name: Download Google Cloud SDK
+  ansible.builtin.get_url:
+    url: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-darwin-arm.tar.gz
+    dest: "{{ gcloud_temp_dir.path }}/google-cloud-sdk.tar.gz"
+    mode: '0644'
+  when: gcloud_check.rc != 0
+
+- name: Extract Google Cloud SDK
+  ansible.builtin.unarchive:
+    src: "{{ gcloud_temp_dir.path }}/google-cloud-sdk.tar.gz"
+    dest: "{{ gcloud_temp_dir.path }}"
+    remote_src: true
+  when: gcloud_check.rc != 0
+
+- name: Install Google Cloud SDK
+  ansible.builtin.command:
+    cmd: "{{ gcloud_temp_dir.path }}/google-cloud-sdk/install.sh --quiet --usage-reporting=false --command-completion=true --path-update=true --install-python=true"
+  when: gcloud_check.rc != 0
+
+- name: Create Google Cloud SDK directory in user's home
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.google-cloud-sdk"
+    state: directory
+    mode: '0755'
+  when: gcloud_check.rc != 0
+
+- name: Move Google Cloud SDK to user's home directory
+  ansible.builtin.command:
+    cmd: "cp -r {{ gcloud_temp_dir.path }}/google-cloud-sdk/* {{ ansible_env.HOME }}/.google-cloud-sdk/"
+  when: gcloud_check.rc != 0
+
+- name: Ensure .config/zsh directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/zsh"
+    state: directory
+    mode: "0755"
+
+- name: Create gcloud shell configuration file
+  ansible.builtin.copy:
+    dest: "{{ ansible_env.HOME }}/.config/zsh/gcloud-cli.zsh"
+    content: |
+      # Google Cloud SDK shell configuration
+      if [ -f ~/.google-cloud-sdk/path.zsh.inc ]; then
+        source ~/.google-cloud-sdk/path.zsh.inc
+      fi
+      
+      if [ -f ~/.google-cloud-sdk/completion.zsh.inc ]; then
+        source ~/.google-cloud-sdk/completion.zsh.inc
+      fi
+    mode: "0644"
+
+- name: Clean up temporary directory
+  ansible.builtin.file:
+    path: "{{ gcloud_temp_dir.path }}"
+    state: absent
+  when: gcloud_check.rc != 0 and gcloud_temp_dir.path is defined
+
+- name: Check if user is authenticated with gcloud
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.google-cloud-sdk/bin/gcloud auth list --filter=status:ACTIVE --format=\"value(account)\""
+  register: gcloud_auth_check
+  changed_when: false
+  failed_when: false
+  check_mode: false
+
+- name: Prompt user to run gcloud init manually
+  ansible.builtin.pause:
+    prompt: |
+      
+      ==========================================================================
+      Google Cloud authentication required.
+      
+      Please open another terminal window and run these commands:
+        1. ~/.google-cloud-sdk/bin/gcloud init
+        2. ~/.google-cloud-sdk/bin/gcloud auth application-default login
+      
+      The first command will guide you through:
+      - Authenticating with your Google account
+      - Setting up your default project
+      - Configuring your default compute region and zone
+      
+      The second command will set up application default credentials for
+      tools and applications that use Google Cloud client libraries.
+      
+      After you've completed both commands, return here and
+      press ENTER to continue the playbook execution.
+      ==========================================================================
+
+  when: gcloud_auth_check.stdout == ""
+
+- name: Verify authentication was successful
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.google-cloud-sdk/bin/gcloud auth list --filter=status:ACTIVE --format=\"value(account)\""
+  register: gcloud_auth_verify
+  changed_when: false
+  failed_when: gcloud_auth_verify.stdout == ""
+  when: gcloud_auth_check.stdout == ""
