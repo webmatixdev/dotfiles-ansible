@@ -4,38 +4,30 @@ default_roles:
   - bash
   - bat
   - btop
-  # - discord
-  # - docker
+  - discord
+  - docker
   - flatpak
   - fonts
   - fzf
-  # - gh
   - git
   - go
   - helm
-  # - k8s
+  - k8s
   - k9s
   - kitty
   - lazygit
-  - lsd
   - lua
-  - ncdu
   - neofetch
   - neovim
-  - nerdfetch
   - npm
   - nvm
+  - oh-my-posh
   - podman
   - pwsh
   - python
   - raycast
-  # - ruby
-  # - rust
-  - slides
   - ssh
-  - sshfs
   - starship
-  - terraform
   - tmux
   - zoxide
   - zsh
