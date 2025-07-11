@@ -20,14 +20,14 @@ k9s:
     # Set to true to hide K9s header. Default false
     headless: false
     # Set to true to hide the K9S logo Default false
-    logoless: true
+    logoless: false
     # Set to true to hide K9s crumbs. Default false
     crumbsless: false
     noIcons: false
     # Toggles reactive UI. This option provide for watching on disk artifacts changes and update the UI live Defaults to false.
     reactive: true
     # By default all contexts wil use the dracula skin unless explicitly overridden in the context config file.
-    skin: catppuccin_mocha # => assumes the file skins/dracula.yaml is present in the  $XDG_DATA_HOME/k9s/skins directory
+    # skin: catppuccin_mocha # => assumes the file skins/dracula.yaml is present in the  $XDG_DATA_HOME/k9s/skins directory
     # Allows to set certain views default fullscreen mode. (yaml, helm history, describe, value_extender, details, logs) Default false
     defaultsToFullScreen: false
   # Toggles icons display as not all terminal support these chars.
@@ -41,23 +41,23 @@ k9s:
     # Defines the number of lines to return. Default 100
     tail: 200
     # Defines the total number of log lines to allow in the view. Default 1000
-    buffer: 500
+    #buffer: 500
     # Represents how far to go back in the log timeline in seconds. Setting to -1 will tail logs. Default is -1.
-    sinceSeconds: 300 # => tail the last 5 mins.
+    #sinceSeconds: 300 # => tail the last 5 mins.
     # Toggles log line wrap. Default false
-    textWrap: false
+    #textWrap: false
     # Toggles log line timestamp info. Default false
-    showTime: false
+    #showTime: false
   # Provide shell pod customization when nodeShell feature gate is enabled!
-  shellPod:
-    # The shell pod image to use.
-    image: killerAdmin
-    # The namespace to launch to shell pod into.
-    namespace: default
-    # The resource limit to set on the shell pod.
-    limits:
-      cpu: 100m
-      memory: 100Mi
-    # Enable TTY
-    tty: true
+#  shellPod:
+#    # The shell pod image to use.
+#    image: killerAdmin
+#    # The namespace to launch to shell pod into.
+#    namespace: default
+#    # The resource limit to set on the shell pod.
+#    limits:
+#      cpu: 100m
+#      memory: 100Mi
+#    # Enable TTY
+#    tty: true
 
