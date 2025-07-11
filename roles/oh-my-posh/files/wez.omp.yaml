@@ -1,0 +1,84 @@
+$schema: https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+blocks:
+  - alignment: left
+    leading_diamond: <#7ACACA>┏</>  # Cyan
+    segments:
+      - foreground: '#7ACACA'  # Cyan
+        style: plain
+        template: '[<#FFFFFF></> {{ .UserName }} :: <#FFFFFF></> {{ .HostName }}]'  # Bright White
+        type: session
+      - foreground: '#CDCD55'  # Yellow
+        foreground_templates:
+          - '{{if eq "Charging" .State.String}}#55FFFF{{end}}'  # Bright Cyan
+          - '{{if eq "Discharging" .State.String}}#CC5555{{end}}'  # Red
+          - '{{if eq "Full" .State.String}}#55CC55{{end}}'  # Green
+        properties:
+          charged_icon: '<#FFFFFF></> '  # Bright White
+          charging_icon: ' '
+          discharging_icon: '<#FFFF55></> '  # Bright Yellow
+        style: plain
+        template: '[{{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }}]'
+        type: battery
+    type: prompt
+  - alignment: right
+    segments:
+      - foreground: '#5555CC'  # Blue
+        properties:
+          style: dallas
+          threshold: 0
+        style: diamond
+        template: '[<#FFFFFF></> {{ .FormattedMs }}s]'  # Bright White
+        type: executiontime
+      - foreground: '#CC55CC'  # Magenta
+        style: diamond
+        template: "[<#FFFFFF>\uf10fe</> <#FFFF55>{{.Context}}</>{{if .Namespace}} :: <#FFFF55>{{.Namespace}}</>{{end}}]"  # Bright White, Bright Yellow
+        type: kubectl
+    type: prompt
+  - alignment: left
+    newline: true
+    leading_diamond: <#7ACACA>┣</>  # Cyan
+    segments:
+      - foreground: '#7ACACA'  # Cyan
+        properties:
+          style: full
+        style: diamond
+        template: '[<#FFFFFF></> <#55CC55>{{ .Path }}</>]'  # Bright White, Green
+        type: path
+    type: prompt
+  - alignment: right
+    segments:
+      - foreground: '#CC55CC'  # Magenta
+        properties:
+          fetch_stash_count: true
+          fetch_status: true
+          fetch_upstream_icon: true
+        style: plain
+        template: '[<#FFFFFF>{{ .UpstreamIcon }} </>{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <#FFFFFF></> {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} <#FFFFFF></> {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} <#FFFFFF></> {{ .StashCount }}{{ end }}]'  # Bright White
+        type: git
+    type: prompt
+  - alignment: left
+    newline: true
+    leading_diamond: <#7ACACA>└─</>  # Cyan
+    segments:
+      - style: diamond
+        template: <#FFFF55>[#]</>  # Bright Yellow
+        type: root
+      - foreground: '#CC55CC'  # Magenta
+        style: diamond
+        template: '<#CC5555></>'  # Red
+        type: status
+      - style: diamond
+        template: '>'
+        type: text
+    type: prompt
+final_space: true
+secondary_prompt:
+  background: transparent
+  template: ' '
+valid_line:
+  background: transparent
+  template: '> '
+error_line:
+  background: transparent
+  template: '<#FF5555></> '  # Bright Red
+version: 3
