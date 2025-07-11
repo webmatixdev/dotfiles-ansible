@@ -3,6 +3,7 @@ default_roles:
   - 1password
   - bash
   - bat
+  - brave
   - btop
   - discord
   - docker
