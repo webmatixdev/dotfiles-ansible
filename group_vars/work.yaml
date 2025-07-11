@@ -9,3 +9,6 @@ op:
       webmatix:
         - name: id_ed25519
           vault_path: "op://Employee/SSH-Auth"
+
+#additional_roles:
+#  - discord
