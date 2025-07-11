@@ -13,3 +13,10 @@
   with_items: "{{ gcloud.components | default([]) }}"
   register: gcloud_component_install
   changed_when: "'is already installed' not in gcloud_component_install.stdout"
+
+- name: Add gcloud update command to update config
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.config/update-commands.conf"
+    line: "gcloud components update --quiet;Google Cloud SDK"
+    state: present
+    create: false

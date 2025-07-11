@@ -14,3 +14,10 @@
     url: "{{ item.url }}"
     repo_state: present
   loop: "{{ helm.repos }}"
+
+- name: Add helm repo update command to update config
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.config/update-commands.conf"
+    line: "helm repo update --quiet;Helm Repo Update"
+    state: present
+    create: false

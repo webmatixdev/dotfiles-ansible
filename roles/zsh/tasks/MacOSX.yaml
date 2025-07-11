@@ -11,3 +11,23 @@
     name: "{{ host_user }}"
     shell: /opt/homebrew/bin/zsh
   become: true
+
+- name: Ensure config directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config"
+    state: directory
+    mode: "0755"
+
+- name: Create update commands config file
+  ansible.builtin.copy:
+    dest: "{{ ansible_env.HOME }}/.config/update-commands.conf"
+    content: |
+      # Update commands configuration
+      # Format: command;description
+      # Each role can append to this file with its own update commands
+      
+      # System updates
+      softwareupdate -i -a;macOS Software Update
+      brew update && brew upgrade && brew cleanup;Homebrew packages
+    mode: "0644"
+    force: false  # Don't overwrite if exists
