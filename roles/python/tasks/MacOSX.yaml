@@ -1,0 +1,5 @@
+---
+- name: "Python | MacOSX | Install python3"
+  community.general.homebrew:
+    name: python3
+    state: present
