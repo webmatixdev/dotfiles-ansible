@@ -1,0 +1,118 @@
+# User aliases for common operations
+[alias]
+prune = fetch --prune
+cdiff = diff --cached
+st = status --short
+log1 = log --all --graph --decorate --oneline --abbrev-commit
+glog = log --graph --pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset'
+merge-branch = merge --log --no-commit --no-ff
+push-this = push origin HEAD
+fix-submodules = submodule update --recursive --init
+recursive = "!sh -c 'for i in . `git submodule foreach -q --recursive pwd`; do cd $i && git $@; done' -"
+recursive-sh = "!sh -c 'for i in . `git submodule foreach -q --recursive pwd`; do cd $i && $@; done' -"
+pt = !git tag -l | xargs git tag -d && git fetch -t
+# New useful aliases
+recent = !git branch --sort=-committerdate --format=\"%(committerdate:relative)%09%(refname:short)\" | head -10
+amend = commit --amend --no-edit
+unstage = restore --staged
+
+# Core configurations
+[core]
+autocrlf = input
+safecrlf = warn
+editor = code --wait
+pager = less -FRX
+excludesfile = ~/.gitignore_global
+
+# Default branch setting
+[init]
+defaultBranch = main
+
+# Branch display settings
+[branch]
+sort = -committerdate
+
+# Color settings for better readability
+[color]
+ui = auto
+diff = auto
+status = auto
+branch = auto
+
+# Diff and merge tools
+[diff]
+tool = code
+colorMoved = default
+
+[difftool "code"]
+cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+tool = code
+conflictstyle = diff3
+
+[mergetool "code"]
+cmd = code --wait $MERGED
+
+# Git LFS settings
+[filter "lfs"]
+clean = git-lfs clean %f
+smudge = git-lfs smudge %f
+required = true
+
+# Commit signing
+[gpg]
+format = ssh
+
+[gpg "ssh"]
+program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+gpgsign = true
+
+[tag]
+gpgsign = true
+
+# Reuse recorded resolution
+[rerere]
+enabled = true
+autoupdate = true
+
+# Push/pull behavior
+[push]
+followTags = true
+autoSetupRemote = true
+
+[pull]
+rebase = true
+ff = only
+
+# Fetch settings
+[fetch]
+prune = true
+pruneTags = true
+
+# Rebase settings for safety
+[rebase]
+autoStash = true
+updateRefs = true
+
+# Default user configuration (from group_vars)
+[user]
+{% if git.user.default.name | default('') != '' %}
+    name = {{ git.user.default.name }}
+{% endif %}
+{% if git.user.default.email | default('') != '' %}
+    email = {{ git.user.default.email }}
+{% endif %}
+{% if git.user.default.signingkey | default('') != '' %}
+    signingkey = {{ git.user.default.signingkey }}
+{% endif %}
+
+# Conditional user configuration for specific directories (from group_vars)
+{% for user in git.user.additional | default([]) %}
+{% if user.name | default('') != '' and user.email | default('') != '' and user.gitdir | default('') != '' %}
+[includeIf "gitdir:{{ user.gitdir }}"]
+    path = ~/.gitconfig-{{ loop.index }}
+{% endif %}
+{% endfor %}

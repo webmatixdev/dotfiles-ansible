@@ -1,14 +1,33 @@
-git_user_name: "matthias.webhofer"
-op:
-  git:
-    user:
-      email: "op://Private/Okta/username"
-    allowed_signers: "op://Employee/SSH-Sign/allowed_signers"
-  ssh:
-    git:
-      webmatix:
-        - name: id_ed25519
-          vault_path: "op://Employee/SSH-Auth"
-
 #additional_roles:
 #  - discord
+
+git:
+  user:
+    default:
+      name:
+        opLookup:
+          account: "my.1password.com" # Company account
+          uri: "op://Private/Okta/git_username"
+      email:
+        opLookup:
+          account: "my.1password.com" # Company account
+          uri: "op://Private/Okta/username"
+      signingkey:
+        opLookup:
+          account: "viesure.1password.com" # Company account
+          uri: "op://Employee/SSH-Sign/public key"
+
+    additional:
+      - name:
+          opLookup:
+            account: "my.1password.com" # Personal account
+            uri: "op://Private/Github/git_username"
+        email:
+          opLookup:
+            account: "my.1password.com" # Personal account
+            uri: "op://Private/Github/username"
+        signingkey:
+          opLookup:
+            account: "my.1password.com" # Personal account
+            uri: "op://Private/SSH-Sign/public key"
+        gitdir: "~/personal-workspace"

@@ -49,12 +49,3 @@ k8s:
     - cluster_name: "gke-vs-cops-sandbox"
       location: "europe-west3"
       project_id: "vs-cops-sandbox"
-
-gcloud:
-  components:
-    - gsutil
-    - bq
-    - docker-credential-gcr
-    - log-streaming
-    - config-connector
-    - gke-cloud-auth-plugin

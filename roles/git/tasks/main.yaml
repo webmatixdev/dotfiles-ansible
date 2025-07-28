@@ -8,152 +8,77 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: distribution_config.stat.exists
 
-- name: "Git | Set diff.colorMoved"
-  community.general.git_config:
-    name: diff.colorMoved
-    scope: global
-    value: zebra
-
-- name: "Git | Set fetch.prune"
-  community.general.git_config:
-    name: fetch.prune
-    scope: global
-    value: true
-
-# git config --global --add url."git@github.com:".insteadOf "https://github.com/"
-# - name: "Git | Set URL to SSH"
-#   community.general.git_config:
-#     name: URL
-#     scope: global
-#     value: "git@github.com"
-
-- name: "Git | Set init.defaultBranch"
-  community.general.git_config:
-    name: init.defaultBranch
-    scope: global
-    value: main
-
-- name: "Git | Set rerere.enabled"
-  community.general.git_config:
-    name: rerere.enabled
-    scope: global
-    value: true
-
-- name: "Git | Set pull.ff"
-  community.general.git_config:
-    name: pull.ff
-    scope: global
-    value: only
-
-- name: "Git | Set pull.rebase"
-  community.general.git_config:
-    name: pull.rebase
-    scope: global
-    value: true
-
-- name: "Git | Set rebase.autoStash"
-  community.general.git_config:
-    name: rebase.autoStash
-    scope: global
-    value: true
-
-- name: "Git | Read user.email secret from 1Password"
-  when: op_installed
-  block:
-    - name: "1Password | Get user.email"
-      ansible.builtin.command: "op --account my.1password.com read '{{ op.git.user.email }}'"
-      register: op_git_user_email
-      changed_when: false
-      # no_log: true
-
-    - name: "1Password | Set git_user_email"
-      ansible.builtin.set_fact:
-        git_user_email: "{{ op_git_user_email.stdout }}"
-      no_log: true
-
-- name: "Git | Set user.email"
-  community.general.git_config:
-    name: user.email
-    scope: global
-    value: "{{ git_user_email }}"
-  no_log: true
-
-- name: "Git | Set user.name"
-  community.general.git_config:
-    name: user.name
-    scope: global
-    value: "{{ git_user_name }}"
-
-- name: "Git | Set user.signingkey"
-  community.general.git_config:
-    name: user.signingkey
-    scope: global
-    value: "{{ ansible_user_dir }}/.ssh/id_ed25519.pub"
-
-- name: "Git | Set gpg.format"
-  community.general.git_config:
-    name: gpg.format
-    scope: global
-    value: ssh
-
-- name: "Git | Set commit.gpgsign"
-  community.general.git_config:
-    name: commit.gpgsign
-    scope: global
-    value: true
-
-- name: "Git | Set tag.gpgsign"
-  community.general.git_config:
-    name: tag.gpgsign
-    scope: global
-    value: true
-
-- name: "Git | Ensure ~/.config/git/allowed_signers exists"
-  ansible.builtin.file:
-    path: "{{ ansible_user_dir }}/.config/git"
-    state: directory
-    mode: "0755"
-
-- name: "1Password | Get allowed_signers"
-  ansible.builtin.command: "op read '{{ op.git.allowed_signers }}'"
-  register: op_git_ssh_allowed_signers
+# Configure user settings from group_vars
+- name: "Git | Set user.name from 1Password using op CLI"
+  when: git.user.default.name.opLookup is defined
+  ansible.builtin.shell: >
+    op read "{{ git.user.default.name.opLookup.uri }}"
+    --account "{{ git.user.default.name.opLookup.account }}"
+  register: op_name_output
   changed_when: false
   no_log: true
 
-- name: "1Password | Configure ~/.config/git/allowed_signers"
-  ansible.builtin.blockinfile:
-    path: "{{ ansible_user_dir }}/.config/git/allowed_signers"
-    block: "{{ op_git_ssh_allowed_signers.stdout }}"
-    mode: "0600"
-    create: true
+- name: "Git | Update user.name from op CLI output"
+  when: git.user.default.name.opLookup is defined
+  ansible.builtin.set_fact:
+    git: "{{ git | combine({'user': {'default': {'name': op_name_output.stdout}}}, recursive=True) }}"
   no_log: true
 
-- name: "Git | Set gpg.ssh.allowedSignersFile"
-  community.general.git_config:
-    name: gpg.ssh.allowedSignersFile
-    scope: global
-    value: "{{ ansible_user_dir }}/.config/git/allowed_signers"
+- name: "Git | Set user.email from 1Password using op CLI"
+  when: git.user.default.email.opLookup is defined
+  ansible.builtin.shell: >
+    op read "{{ git.user.default.email.opLookup.uri }}"
+    --account "{{ git.user.default.email.opLookup.account }}"
+  register: op_email_output
+  changed_when: false
+  no_log: true
 
-- name: "Git | Set undo alias"
-  community.general.git_config:
-    name: alias.undo
-    scope: global
-    value: "reset HEAD~1 --mixed"
+- name: "Git | Update user.email from op CLI output"
+  when: git.user.default.email.opLookup is defined
+  ansible.builtin.set_fact:
+    git: "{{ git | combine({'user': {'default': {'email': op_email_output.stdout}}}, recursive=True) }}"
+  no_log: true
 
-- name: "Git | Set br alias"
-  community.general.git_config:
-    name: alias.br
-    scope: global
-    value: "branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
+- name: "Git | Set user.signingkey from 1Password using op CLI"
+  when: git.user.default.signingkey.opLookup is defined
+  ansible.builtin.shell: >
+    op read "{{ git.user.default.signingkey.opLookup.uri }}"
+    --account "{{ git.user.default.signingkey.opLookup.account }}"
+  register: op_signingkey_output
+  changed_when: false
+  no_log: true
 
-- name: "Git | Copy global.commit.template"
-  ansible.builtin.copy:
-    src: global.commit.template
-    dest: "{{ ansible_user_dir }}/.config/git/commit_template"
-    mode: "0644"
+- name: "Git | Update user.signingkey from op CLI output"
+  when: git.user.default.signingkey.opLookup is defined
+  ansible.builtin.set_fact:
+    git: "{{ git | combine({'user': {'default': {'signingkey': op_signingkey_output.stdout}}}, recursive=True) }}"
+  no_log: true
 
-- name: "Git | Set commit.template"
-  community.general.git_config:
-    name: commit.template
-    scope: global
-    value: "{{ ansible_user_dir }}/.config/git/commit_template"
+# Process additional git users if they exist
+- name: "Git | Process additional users from 1Password"
+  when: git.user.additional is defined
+  block:
+    - name: "Git | Read additional users email/signingkey from 1Password"
+      include_tasks: process_additional_user.yaml
+      loop: "{{ git.user.additional | default([]) }}"
+      loop_control:
+        loop_var: additional_user
+        index_var: user_index
+
+# Create main gitconfig file from template
+- name: "Git | Create .gitconfig file"
+  ansible.builtin.template:
+    src: "git-config.j2"
+    dest: "{{ ansible_user_dir }}/.gitconfig"
+    mode: '0644'
+
+# Create additional conditional gitconfig files for specific directories
+- name: "Git | Create conditional gitconfig files"
+  ansible.builtin.template:
+    src: "git-config-conditional.j2"
+    dest: "{{ ansible_user_dir }}/.gitconfig-{{ loop.index }}"
+    mode: '0644'
+  loop: "{{ git.user.additional | default([]) }}"
+  loop_control:
+    label: "{{ item.gitdir | default('unknown') }}"
+  when: item.name is defined and item.name != '' and item.email is defined and item.email != '' and item.gitdir is defined and item.gitdir != ''
