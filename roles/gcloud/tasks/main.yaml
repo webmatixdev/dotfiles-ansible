@@ -11,7 +11,7 @@
 - name: gcloud | Configure k8s for GKE clusters with gcloud
   block:
     - name: K8s | Configure kubectl with gcloud for each GKE cluster
-      ansible.builtin.command: "gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
+      ansible.builtin.command: "{{ ansible_env.HOME }}/.google-cloud-sdk/bin/gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
       changed_when: false
       loop: "{{ k8s.gke_clusters }}"
   when: k8s.gke_clusters
