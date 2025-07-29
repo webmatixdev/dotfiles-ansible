@@ -21,10 +21,8 @@
   when: gcloud_check.rc != 0
 
 - name: Extract Google Cloud SDK
-  ansible.builtin.unarchive:
-    src: "{{ gcloud_temp_dir.path }}/google-cloud-sdk.tar.gz"
-    dest: "{{ gcloud_temp_dir.path }}"
-    remote_src: true
+  ansible.builtin.command:
+    cmd: "tar -xzf {{ gcloud_temp_dir.path }}/google-cloud-sdk.tar.gz -C {{ gcloud_temp_dir.path }}"
   when: gcloud_check.rc != 0
 
 - name: Install Google Cloud SDK
