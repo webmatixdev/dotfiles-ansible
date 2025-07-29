@@ -1,5 +1,6 @@
 #additional_roles:
 #  - discord
+additional_roles: []
 
 git:
   user:
