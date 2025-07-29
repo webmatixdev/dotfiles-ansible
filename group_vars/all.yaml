@@ -13,7 +13,7 @@ default_roles:
   # - gcloud
   - git
   - go
-  - helm
+  # - helm # fix later
   # - jj
   - k8s
   - k9s
