@@ -29,11 +29,3 @@
        dest: "~/.kube/config"
        mode: "0600"
   when: op.k8s.kubeconfig
-
-- name: K8s | Configure GKE clusters with gcloud
-  block:
-   - name: K8s | Configure kubectl with gcloud for each GKE cluster
-     ansible.builtin.command: "gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
-     changed_when: false
-     loop: "{{ gke_clusters }}"
-  when: k8s.gke_clusters
