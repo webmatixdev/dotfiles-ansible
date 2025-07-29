@@ -38,6 +38,13 @@ op:
   k8s:
     kubeconfig: "op://Private/k8s-config/kubeconfig"
 
+ssh:
+  config:
+    opLookup:
+      account: "my.1password.com"
+      uri: "op://Private/ssh-config/notesPlain"
+  importFido: true  # Set to true when you want to extract resident keys from FIDO device
+
 k8s:
   gke_clusters:
     - cluster_name: "gke-vs-stable"

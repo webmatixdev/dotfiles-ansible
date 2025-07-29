@@ -1,10 +1,51 @@
 ---
-- name: "SSH | Deploy SSH keys from Vault"
-  when: op_installed
-  ansible.builtin.include_tasks: ssh_keys.yaml
-  with_items: "{{ op.ssh.github.techdufus }}"
+- name: "{{ role_name }} | Checking for Distribution Config: {{ ansible_distribution }}"
+  ansible.builtin.stat:
+    path: "{{ role_path }}/tasks/{{ ansible_distribution }}.yaml"
+  register: distribution_config
 
-# - name: Copy config
-#   ansible.builtin.template:
-#     dest: "{{ ansible_user_dir }}/.ssh/config"
-#     src: "config.j2"
+- name: "{{ role_name }} | Run Tasks: {{ ansible_distribution }}"
+  ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
+  when: distribution_config.stat.exists
+
+# SSH Configuration from 1Password
+- name: "{{ role_name }} | Get SSH config from 1Password"
+  when: ssh.config.opLookup is defined
+  ansible.builtin.shell: >
+    op read "{{ ssh.config.opLookup.uri }}"
+    --account "{{ ssh.config.opLookup.account }}"
+  register: op_ssh_config_output
+  changed_when: false
+  no_log: true
+
+- name: "{{ role_name }} | Create .ssh directory"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.ssh"
+    state: directory
+    mode: '0700'
+
+- name: "{{ role_name }} | Create SSH config file from 1Password content"
+  when: ssh.config.opLookup is defined
+  ansible.builtin.copy:
+    content: "{{ op_ssh_config_output.stdout }}"
+    dest: "{{ ansible_user_dir }}/.ssh/config"
+    mode: '0600'
+
+# FIDO key resident key extraction
+- name: "{{ role_name }} | Prompt user to insert FIDO key"
+  ansible.builtin.pause:
+    prompt: "Please insert your FIDO key and press ENTER to continue"
+  when: ssh.importFido | default(false) | bool
+
+- name: "{{ role_name }} | Extract resident keys from FIDO key"
+  ansible.builtin.shell: ssh-keygen -K
+  register: ssh_keygen_output
+  when: ssh.importFido | default(false) | bool
+  changed_when: "'Resident keys now on disk:' in ssh_keygen_output.stdout"
+
+- name: "{{ role_name }} | Display extracted keys information"
+  ansible.builtin.debug:
+    msg: "{{ ssh_keygen_output.stdout_lines }}"
+  when:
+    - ssh.importFido | default(false) | bool
+    - ssh_keygen_output is defined

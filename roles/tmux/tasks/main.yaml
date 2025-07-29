@@ -20,3 +20,16 @@
     mode: "0644"
     directory_mode: "0755"
     force: true
+
+- name: "Tmux | Ensure .ssh directory exists"
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.ssh"
+    state: directory
+    mode: "0700"
+
+- name: "Tmux | Copy ssh_agent_fix to .ssh/rc"
+  ansible.builtin.copy:
+    src: tmux/ssh_agent_fix
+    dest: "{{ ansible_user_dir }}/.ssh/rc"
+    mode: "0644"
+    force: true
