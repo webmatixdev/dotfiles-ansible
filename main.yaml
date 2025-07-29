@@ -25,13 +25,13 @@
   tasks:
     - name: Set default roles
       ansible.builtin.set_fact:
-        default_run_roles: "{{ ansible_run_tags != ['all'] and ansible_run_tags or default_roles | difference(exclude_roles | default([])) | sort }}"
+        default_run_roles: "{{ ansible_run_tags != ['all'] and ansible_run_tags or default_roles | difference(exclude_roles | default([])) }}"
       tags:
         - always
 
     - name: Set additional environment-specific roles
       ansible.builtin.set_fact:
-        additional_run_roles: "{{ ansible_run_tags != ['all'] and ansible_run_tags or additional_roles | difference(exclude_roles | default([])) | sort }}"
+        additional_run_roles: "{{ ansible_run_tags != ['all'] and ansible_run_tags or additional_roles | difference(exclude_roles | default([])) }}"
       tags:
         - always
 
