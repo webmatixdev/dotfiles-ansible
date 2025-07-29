@@ -256,7 +256,13 @@ if [[ -n "$env_value" ]]; then
 fi
 
 # Run the main playbook with remaining arguments
-ansible-playbook "$DOTFILES_DIR/main.yaml" "${remaining_args[@]}"
+# Add --ask-become-pass on first run for sudo privileges
+if ! [[ -f "$IS_FIRST_RUN" ]]; then
+  echo -e "${ARROW} ${CYAN}First run detected - you'll be asked for your sudo password${NC}"
+  ansible-playbook "$DOTFILES_DIR/main.yaml" --ask-become-pass "${remaining_args[@]}"
+else
+  ansible-playbook "$DOTFILES_DIR/main.yaml" "${remaining_args[@]}"
+fi
 
 popd 2>&1 > /dev/null
 
