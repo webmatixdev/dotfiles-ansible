@@ -13,7 +13,7 @@
     - name: K8s | Configure kubectl with gcloud for each GKE cluster
       ansible.builtin.command: "gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
       changed_when: false
-      loop: "{{ gke_clusters }}"
+      loop: "{{ k8s.gke_clusters }}"
   when: k8s.gke_clusters
 
 - name: gcloud | Install gcloud components
