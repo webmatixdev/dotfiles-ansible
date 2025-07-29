@@ -78,11 +78,7 @@ zinit snippet OMZP::command-not-found
 zinit snippet OMZP::colored-man-pages
 zinit snippet OMZP::tmux
 zinit snippet OMZP::mvn
-
-# docker
 zinit snippet OMZP::docker
-zinit snippet OMZP::plugins/docker-compose
-zinit snippet OMZP::plugins/docker-machine
 
 # Load completions
 autoload -U +X bashcompinit && bashcompinit
