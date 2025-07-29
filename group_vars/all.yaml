@@ -1,4 +1,4 @@
-default_roles:
+pre_roles:
   - system
   - 1password
   - ssh
@@ -9,6 +9,8 @@ default_roles:
   - zoxide
   - bash
   - zsh
+
+default_roles:
   - bat
   - brave
   - btop
