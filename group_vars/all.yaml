@@ -1,14 +1,20 @@
 default_roles:
   - system
   - 1password
+  - ssh
+  - fonts
+  - oh-my-posh
+  - starship
+  - tmux
+  - zoxide
   - bash
+  - zsh
   - bat
   - brave
   - btop
   - discord
   - docker
   - flatpak
-  - fonts
   - fzf
   # - gcloud
   - git
@@ -24,16 +30,10 @@ default_roles:
   - neovim
   - npm
   - nvm
-  - oh-my-posh
   - podman
   - pwsh
   - python
   - raycast
-  - ssh
-  - starship
-  - tmux
-  - zoxide
-  - zsh
 
 op:
   k8s:
