@@ -10,10 +10,11 @@ default_roles:
   - flatpak
   - fonts
   - fzf
-  - gcloud
+  # - gcloud
   - git
   - go
   - helm
+  # - jj
   - k8s
   - k9s
   - kitty
@@ -43,7 +44,6 @@ ssh:
     opLookup:
       account: "my.1password.com"
       uri: "op://Private/ssh-config/notesPlain"
-  importFido: true  # Set to true when you want to extract resident keys from FIDO device
 
 k8s:
   gke_clusters:

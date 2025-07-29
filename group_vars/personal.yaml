@@ -20,11 +20,11 @@ git:
     additional:
       - name:
           opLookup:
-            account: "viesure.1password.com" # Company account
+            account: "my.1password.com" # Company account
             uri: "op://Private/Okta/git_username"
         email:
           opLookup:
-            account: "viesure.1password.com" # Company account
+            account: "my.1password.com" # Company account
             uri: "op://Private/Okta/username"
         signingkey:
           opLookup:
