@@ -6,10 +6,8 @@
 
 - name: "System | MacOSX | Install Homebrew Packages"
   community.general.homebrew:
-    name: "{{ item }}"
+    name: "jq"
     state: present
-  with_items:
-    - jq
 
 - name: "System | MacOSX | Enable Passwordless Sudo"
   ansible.builtin.template:
