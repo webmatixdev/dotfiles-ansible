@@ -18,7 +18,7 @@ default_roles:
   - docker
   - flatpak
   - fzf
-  # - gcloud
+  - gcloud
   - git
   - go
   # - helm # fix later
