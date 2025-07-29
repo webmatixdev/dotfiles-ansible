@@ -10,6 +10,7 @@ My personal dotfiles configuration using Ansible for automated setup and managem
 - **Automated Setup**: Simple one-command installation
 - **Persistent Environment Selection**: Remembers your chosen environment between runs
 - **1Password Integration**: Securely manage sensitive configuration values
+- **FIDO Key Support**: Automatically sets up FIDO security keys for SSH
 - **Customizable**: Easily extend with your own roles and configurations
 
 ## Installation
@@ -22,6 +23,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/webmatixdev/dotfiles-ans
 
 # For personal environment
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/webmatixdev/dotfiles-ansible/main/bin/dotfiles)" -- --env=personal
+
+# Skip FIDO key setup
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/webmatixdev/dotfiles-ansible/main/bin/dotfiles)" -- --env=personal --no-fido
 ```
 
 If you prefer to clone the repository first:
@@ -32,7 +36,20 @@ git clone https://github.com/webmatixdev/dotfiles-ansible.git ~/.dotfiles
 
 # Run the installation script (must specify an environment)
 ~/.dotfiles/bin/dotfiles --env=work  # or --env=personal
+
+# Skip FIDO key setup
+~/.dotfiles/bin/dotfiles --env=work --no-fido
 ```
+
+## FIDO Key Setup
+
+By default, the installation script will check for and set up FIDO security keys for SSH authentication:
+
+- FIDO key setup runs early in the process, before Git operations
+- If FIDO keys already exist, the setup is skipped automatically
+- Use the `--no-fido` flag to skip FIDO key setup entirely
+
+This allows you to use SSH authentication with Git repositories right from the start of your dotfiles setup.
 
 ## Environment System
 

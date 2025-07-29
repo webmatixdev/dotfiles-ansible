@@ -31,21 +31,4 @@
     dest: "{{ ansible_user_dir }}/.ssh/config"
     mode: '0600'
 
-# FIDO key resident key extraction
-- name: "{{ role_name }} | Prompt user to insert FIDO key"
-  ansible.builtin.pause:
-    prompt: "Please insert your FIDO key and press ENTER to continue"
-  when: ssh.importFido | default(false) | bool
-
-- name: "{{ role_name }} | Extract resident keys from FIDO key"
-  ansible.builtin.shell: ssh-keygen -K
-  register: ssh_keygen_output
-  when: ssh.importFido | default(false) | bool
-  changed_when: "'Resident keys now on disk:' in ssh_keygen_output.stdout"
-
-- name: "{{ role_name }} | Display extracted keys information"
-  ansible.builtin.debug:
-    msg: "{{ ssh_keygen_output.stdout_lines }}"
-  when:
-    - ssh.importFido | default(false) | bool
-    - ssh_keygen_output is defined
+# Note: FIDO key extraction has been moved to bin/dotfiles script

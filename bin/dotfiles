@@ -43,6 +43,8 @@ DOTFILES_LOG="$HOME/.dotfiles.log"
 DOTFILES_DIR="$HOME/.dotfiles"
 SSH_DIR="$HOME/.ssh"
 IS_FIRST_RUN="$HOME/.dotfiles_run"
+SKIP_FIDO=false
+
 # _header colorize the given argument with spacing
 function __task {
   # if _task is called while a task was set, complete the previous
@@ -85,6 +87,41 @@ function _clear_task {
 function _task_done {
   printf "${OVERWRITE}${LGREEN} [✓]  ${LGREEN}${TASK}\n"
   _clear_task
+}
+
+function setup_fido_ssh_keys {
+  # Ensure SSH directory exists
+  mkdir -p "$SSH_DIR"
+  chmod 700 "$SSH_DIR"
+
+  # Check if any SSH key files already exist
+  local fido_key_files=("$SSH_DIR/id_ed25519_sk" "$SSH_DIR/id_ecdsa_sk" "$SSH_DIR/id_ed25519_sk_rk" "$SSH_DIR/id_ecdsa_sk_rk")
+  local keys_exist=false
+
+  for key_file in "${fido_key_files[@]}"; do
+    if [[ -f "$key_file" ]]; then
+      keys_exist=true
+      break
+    fi
+  done
+
+  if [[ "$keys_exist" == false ]]; then
+    __task "Setting up FIDO SSH keys"
+    echo -e "${ARROW} ${LYELLOW}Please insert your FIDO key and press ENTER to continue${NC}"
+    read -n 1 -s -r
+
+    # Run ssh-keygen -K to extract resident keys
+    # Don't redirect output as this command is interactive and needs user input
+    echo -e "${ARROW} ${LYELLOW}Running ssh-keygen -K, follow the prompts...${NC}"
+    if ssh-keygen -K; then
+      echo -e "${CHECK_MARK} ${GREEN}FIDO keys extracted successfully${NC}"
+      _task_done
+    else
+      echo -e "${X_MARK} ${RED}Failed to extract FIDO keys${NC}"
+    fi
+  else
+    echo -e "${CHECK_MARK} ${GREEN}FIDO SSH keys already exist${NC}"
+  fi
 }
 
 function ubuntu_setup() {
@@ -182,6 +219,24 @@ case $dotfiles_os in
     ;;
 esac
 
+# Process command line arguments early
+env_value=""
+remaining_args=()
+for arg in "$@"; do
+  if [[ $arg == "--env="* ]]; then
+    env_value="${arg#*=}"
+  elif [[ $arg == "--no-fido" ]]; then
+    SKIP_FIDO=true
+  else
+    remaining_args+=("$arg")
+  fi
+done
+
+# Setup FIDO SSH keys early, before any Git interactions
+if [ "$SKIP_FIDO" = false ]; then
+  setup_fido_ssh_keys
+fi
+
 if ! [[ -d "$DOTFILES_DIR" ]]; then
   __task "Cloning repository"
   _cmd "git clone --quiet https://github.com/webmatixdev/dotfiles-ansible.git $DOTFILES_DIR"
@@ -192,17 +247,6 @@ fi
 
 pushd "$DOTFILES_DIR" 2>&1 > /dev/null
 update_ansible_galaxy $ID
-
-# Check if env argument is provided
-env_value=""
-remaining_args=()
-for arg in "$@"; do
-  if [[ $arg == "--env="* ]]; then
-    env_value="${arg#*=}"
-  else
-    remaining_args+=("$arg")
-  fi
-done
 
 # If env is provided, set it first
 if [[ -n "$env_value" ]]; then
