@@ -71,14 +71,3 @@
     src: "git-config.j2"
     dest: "{{ ansible_user_dir }}/.gitconfig"
     mode: '0644'
-
-# Create additional conditional gitconfig files for specific directories
-- name: "Git | Create conditional gitconfig files"
-  ansible.builtin.template:
-    src: "git-config-conditional.j2"
-    dest: "{{ ansible_user_dir }}/.gitconfig-{{ loop.index }}"
-    mode: '0644'
-  loop: "{{ git.user.additional | default([]) }}"
-  loop_control:
-    label: "{{ item.gitdir | default('unknown') }}"
-  when: item.name is defined and item.name != '' and item.email is defined and item.email != '' and item.gitdir is defined and item.gitdir != ''

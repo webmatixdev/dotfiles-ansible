@@ -49,16 +49,16 @@
     processed_user: "{{ processed_user | combine({'name': op_name_output.stdout}) }}"
   no_log: true
 
-- name: "Git | Create updated list of additional users"
-  ansible.builtin.set_fact:
-    updated_additional_users: "{{ (updated_additional_users | default([])) + [processed_user if item.0 == user_index else item.1] }}"
-  with_indexed_items: "{{ git.user.additional }}"
-  no_log: true
+#- name: "Git | Create updated list of additional users"
+#  ansible.builtin.set_fact:
+#    updated_additional_users: "{{ (updated_additional_users | default([])) + [processed_user if item.0 == user_index else item.1] }}"
+#  with_indexed_items: "{{ git.user.additional }}"
+#  no_log: true
 
-- name: "Git | Update user in the additional users list"
-  ansible.builtin.set_fact:
-    git: "{{ git | combine({'user': {'additional': updated_additional_users}}, recursive=true) }}"
-  no_log: true
+#- name: "Git | Update user in the additional users list"
+#  ansible.builtin.set_fact:
+#    git: "{{ git | combine({'user': {'additional': updated_additional_users}}, recursive=true) }}"
+#  no_log: true
 
 # Ensure gitdir exists with proper handling of tilde (~)
 - name: "Git | Ensure gitdir exists"
@@ -67,3 +67,14 @@
     state: directory
     mode: '0755'
   when: processed_user.gitdir is defined
+
+# Create conditional gitconfig file for this additional user
+- name: "Git | Create conditional gitconfig file"
+  ansible.builtin.template:
+    src: "git-config-conditional.j2"
+    dest: "{{ ansible_user_dir }}/.gitconfig-{{ processed_user.id }}"
+    mode: '0644'
+  when: processed_user.name is defined and processed_user.name != '' and 
+        processed_user.email is defined and processed_user.email != '' and 
+        processed_user.gitdir is defined and processed_user.gitdir != '' and 
+        processed_user.id is defined and processed_user.id != ''

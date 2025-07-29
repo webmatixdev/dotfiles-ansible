@@ -19,7 +19,8 @@ git:
           uri: "op://Private/SSH-Sign/public key"
 
     additional:
-      - name:
+      - id: "work"
+        name:
           opLookup:
             account: "my.1password.com" # Company account
             uri: "op://Private/Okta/git_username"

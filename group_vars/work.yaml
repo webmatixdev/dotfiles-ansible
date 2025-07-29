@@ -19,7 +19,8 @@ git:
           uri: "op://Employee/SSH-Sign/public key"
 
     additional:
-      - name:
+      - id: "personal"
+        name:
           opLookup:
             account: "my.1password.com" # Personal account
             uri: "op://Private/Github/git_username"
