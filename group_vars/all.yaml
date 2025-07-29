@@ -37,7 +37,7 @@ default_roles:
 
 op:
   k8s:
-    kubeconfig: "op://Private/k8s-config/kubeconfig"
+    kubeconfig: "op://Private/kubeconfig/notesPlain"
 
 ssh:
   config:
