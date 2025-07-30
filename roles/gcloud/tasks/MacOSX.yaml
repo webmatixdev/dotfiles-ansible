@@ -27,7 +27,7 @@
 
 - name: Rename Google Cloud SDK directory
   ansible.builtin.command:
-    cmd: "mv -r {{ ansible_env.HOME }}/google-cloud-sdk {{ ansible_env.HOME }}/.google-cloud-sdk"
+    cmd: "mv {{ ansible_env.HOME }}/google-cloud-sdk {{ ansible_env.HOME }}/.google-cloud-sdk"
   when: gcloud_check.rc != 0
 
 - name: Install Google Cloud SDK
