@@ -29,7 +29,7 @@
 
 - name: "Tmux | Copy ssh_agent_fix to .ssh/rc"
   ansible.builtin.copy:
-    src: tmux/ssh_agent_fix
+    src: ssh_agent_fix
     dest: "{{ ansible_user_dir }}/.ssh/rc"
     mode: "0644"
     force: true
