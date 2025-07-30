@@ -22,7 +22,12 @@
 
 - name: Extract Google Cloud SDK directly to home directory
   ansible.builtin.command:
-    cmd: "tar -xzf {{ gcloud_temp_dir.path }}/google-cloud-sdk.tar.gz -C {{ ansible_env.HOME }} && mv {{ ansible_env.HOME }}/google-cloud-sdk {{ ansible_env.HOME }}/.google-cloud-sdk"
+    cmd: "tar -xzf {{ gcloud_temp_dir.path }}/google-cloud-sdk.tar.gz -C {{ ansible_env.HOME }}"
+  when: gcloud_check.rc != 0
+
+- name: Rename Google Cloud SDK directory
+  ansible.builtin.command:
+    cmd: "mv -r {{ ansible_env.HOME }}/google-cloud-sdk {{ ansible_env.HOME }}/.google-cloud-sdk"
   when: gcloud_check.rc != 0
 
 - name: Install Google Cloud SDK
