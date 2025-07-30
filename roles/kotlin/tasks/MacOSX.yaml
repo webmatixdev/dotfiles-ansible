@@ -1,0 +1,5 @@
+---
+- name: "kotlin | MacOSX | Install kotlin"
+  community.general.homebrew:
+    name: kotlin
+    state: present
