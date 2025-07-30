@@ -9,6 +9,7 @@ pre_roles:
   - zoxide
   - bash
   - zsh
+  - jdk
 
 default_roles:
   - bat

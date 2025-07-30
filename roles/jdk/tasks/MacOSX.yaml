@@ -1,0 +1,5 @@
+---
+- name: "jdk | MacOSX | Install jdk"
+  community.general.homebrew_cask:
+    name: adoptopenjdk
+    state: present
