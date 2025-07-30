@@ -21,6 +21,7 @@ default_roles:
   - gcloud
   - git
   - go
+  - intellij
   # - helm # fix later
   # - jj
   - k8s
@@ -28,6 +29,7 @@ default_roles:
   - kitty
   - lazygit
   - lua
+  - maven
   - neofetch
   - neovim
   - npm
@@ -36,6 +38,8 @@ default_roles:
   - pwsh
   - python
   - raycast
+  - slack
+  - vscode
 
 op:
   k8s:
