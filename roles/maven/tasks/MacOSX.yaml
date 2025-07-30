@@ -1,0 +1,5 @@
+---
+- name: "maven | MacOSX | Install maven"
+  community.general.homebrew:
+    name: maven
+    state: present
