@@ -47,6 +47,14 @@ ssh:
       account: "my.1password.com"
       uri: "op://Private/ssh-config/notesPlain"
 
+gcloud:
+  components:
+    - "gke-gcloud-auth-plugin"
+    - "kpt"
+    - "config-connector"
+    - "terraform-tools"
+    - "docker-credential-gcr"
+
 k8s:
   gke_clusters:
     - cluster_name: "gke-vs-stable"

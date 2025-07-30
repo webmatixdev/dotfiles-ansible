@@ -10,11 +10,11 @@
     state: directory
     mode: "0755"
 
-- name: "K9s | Copy config"
-  ansible.builtin.copy:
-    dest: "{{ ansible_user_dir }}/Library/Application Support/k9s/{{ item }}"
-    src: "{{ item }}"
-    mode: "0644"
-  loop:
-    - config.yaml
-    - aliases.yaml
+#- name: "K9s | Copy config"
+#  ansible.builtin.copy:
+#    dest: "{{ ansible_user_dir }}/Library/Application Support/k9s/{{ item }}"
+#    src: "{{ item }}"
+#    mode: "0644"
+#  loop:
+#    - config.yaml
+#    - aliases.yaml
