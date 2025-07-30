@@ -53,7 +53,7 @@ k8s:
       location: "europe-west3"
       project_id: "vs-stable"
     - cluster_name: "gke-vs-config-controller"
-      location: "europe-west3"
+      location: "europe-west4"
       project_id: "vs-config-controller"
     - cluster_name: "gke-vs-cops-sandbox"
       location: "europe-west3"
