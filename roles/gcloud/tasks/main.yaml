@@ -8,14 +8,6 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: distribution_config.stat.exists
 
-- name: gcloud | Configure k8s for GKE clusters with gcloud
-  block:
-    - name: K8s | Configure kubectl with gcloud for each GKE cluster
-      ansible.builtin.command: "{{ ansible_env.HOME }}/.google-cloud-sdk/bin/gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
-      changed_when: false
-      loop: "{{ k8s.gke_clusters }}"
-  when: k8s.gke_clusters
-
 - name: gcloud | Install gcloud components
   ansible.builtin.command: "{{ ansible_env.HOME }}/.google-cloud-sdk/bin/gcloud components install {{ item }} --quiet"
   with_items: "{{ gcloud.components | default([]) }}"
@@ -28,3 +20,11 @@
     line: "gcloud components update --quiet;Google Cloud SDK"
     state: present
     create: false
+
+- name: gcloud | Configure k8s for GKE clusters with gcloud
+  block:
+    - name: K8s | Configure kubectl with gcloud for each GKE cluster
+      ansible.builtin.command: "{{ ansible_env.HOME }}/.google-cloud-sdk/bin/gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
+      changed_when: false
+      loop: "{{ k8s.gke_clusters }}"
+  when: k8s.gke_clusters
