@@ -28,6 +28,7 @@ default_roles:
   - k8s
   - k9s
   - kitty
+  - kotlin
   - lazygit
   - lua
   - maven
