@@ -27,4 +27,3 @@
       ansible.builtin.command: "{{ ansible_env.HOME }}/.google-cloud-sdk/bin/gcloud container clusters get-credentials {{ item.cluster_name }} --location {{ item.location }} --project {{ item.project_id }}"
       changed_when: false
       loop: "{{ k8s.gke_clusters }}"
-  when: k8s.gke_clusters

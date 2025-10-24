@@ -15,7 +15,7 @@
     op read "{{ ssh.config.opLookup.uri }}" --account "{{ ssh.config.opLookup.account }}"
   register: op_ssh_config_output
   changed_when: false
-  no_log: false
+  no_log: true
 
 - name: "{{ role_name }} | Create .ssh directory"
   ansible.builtin.file:
