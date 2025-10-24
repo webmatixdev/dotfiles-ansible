@@ -12,8 +12,7 @@
 - name: "{{ role_name }} | Get SSH config from 1Password"
   when: ssh.config.opLookup is defined
   ansible.builtin.shell: >
-    op read "{{ ssh.config.opLookup.uri }}"
-    --account "{{ ssh.config.opLookup.account }}"
+    op read "{{ ssh.config.opLookup.uri }}" --account "{{ ssh.config.opLookup.account }}"
   register: op_ssh_config_output
   changed_when: false
   no_log: true

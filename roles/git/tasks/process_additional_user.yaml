@@ -7,8 +7,7 @@
 - name: "Git | Set additional user email from 1Password using op CLI"
   when: additional_user.email.opLookup is defined
   ansible.builtin.shell: >
-    op read "{{ additional_user.email.opLookup.uri }}"
-    --account "{{ additional_user.email.opLookup.account }}"
+    op read "{{ additional_user.email.opLookup.uri }}" --account "{{ additional_user.email.opLookup.account }}"
   register: op_email_output
   changed_when: false
   no_log: true
@@ -22,8 +21,7 @@
 - name: "Git | Set additional user signingkey from 1Password using op CLI"
   when: additional_user.signingkey.opLookup is defined
   ansible.builtin.shell: >
-    op read "{{ additional_user.signingkey.opLookup.uri }}"
-    --account "{{ additional_user.signingkey.opLookup.account }}"
+    op read "{{ additional_user.signingkey.opLookup.uri }}" --account "{{ additional_user.signingkey.opLookup.account }}"
   register: op_signingkey_output
   changed_when: false
   no_log: true
@@ -37,8 +35,7 @@
 - name: "Git | Set additional user name from 1Password using op CLI"
   when: additional_user.name.opLookup is defined
   ansible.builtin.shell: >
-    op read "{{ additional_user.name.opLookup.uri }}"
-    --account "{{ additional_user.name.opLookup.account }}"
+    op read "{{ additional_user.name.opLookup.uri }}" --account "{{ additional_user.name.opLookup.account }}"
   register: op_name_output
   changed_when: false
   no_log: true

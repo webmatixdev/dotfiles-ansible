@@ -12,8 +12,7 @@
 - name: "Git | Set user.name from 1Password using op CLI"
   when: git.user.default.name.opLookup is defined
   ansible.builtin.shell: >
-    op read "{{ git.user.default.name.opLookup.uri }}"
-    --account "{{ git.user.default.name.opLookup.account }}"
+    op read "{{ git.user.default.name.opLookup.uri }}" --account "{{ git.user.default.name.opLookup.account }}"
   register: op_name_output
   changed_when: false
   no_log: true
@@ -27,8 +26,7 @@
 - name: "Git | Set user.email from 1Password using op CLI"
   when: git.user.default.email.opLookup is defined
   ansible.builtin.shell: >
-    op read "{{ git.user.default.email.opLookup.uri }}"
-    --account "{{ git.user.default.email.opLookup.account }}"
+    op read "{{ git.user.default.email.opLookup.uri }}" --account "{{ git.user.default.email.opLookup.account }}"
   register: op_email_output
   changed_when: false
   no_log: true
@@ -42,8 +40,7 @@
 - name: "Git | Set user.signingkey from 1Password using op CLI"
   when: git.user.default.signingkey.opLookup is defined
   ansible.builtin.shell: >
-    op read "{{ git.user.default.signingkey.opLookup.uri }}"
-    --account "{{ git.user.default.signingkey.opLookup.account }}"
+    op read "{{ git.user.default.signingkey.opLookup.uri }}" --account "{{ git.user.default.signingkey.opLookup.account }}"
   register: op_signingkey_output
   changed_when: false
   no_log: true
