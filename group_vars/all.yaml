@@ -45,7 +45,9 @@ default_roles:
 
 op:
   k8s:
-    kubeconfig: "op://Private/kubeconfig/notesPlain"
+    kubeconfig:
+      account: "my.1password.com"
+      uri: "op://Private/kubeconfig/notesPlain"
 
 ssh:
   config:

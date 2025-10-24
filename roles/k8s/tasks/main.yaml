@@ -17,7 +17,8 @@
 - name: K8s | Configure kubeconfig from 1Password
   block:
    - name: K8s | Get kubeconfig from 1Password
-     ansible.builtin.command: "op --account my.1password.com read '{{ op.k8s.kubeconfig }}'"
+     ansible.builtin.command: >
+       op --account {{ op.k8s.kubeconfig.account }} read '{{ op.k8s.kubeconfig.uri }}'
      register: op_kubeconfig
      changed_when: false
      # no_log: true to avoid leaking sensitive info in logs
@@ -28,4 +29,4 @@
        content: "{{ op_kubeconfig.stdout }}"
        dest: "~/.kube/config"
        mode: "0600"
-  when: op.k8s.kubeconfig
+  when: op.k8s.kubeconfig is defined and op.k8s.kubeconfig.uri is defined and op.k8s.kubeconfig.uri | length > 0
