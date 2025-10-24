@@ -28,8 +28,8 @@
         pre_run_roles: >-
           {{
             ('all' in ansible_run_tags) | ternary(
-              pre_roles | difference(exclude_roles | default([])) | sort,
-              ansible_run_tags | difference(exclude_roles | default([])) | sort
+              pre_roles | difference(exclude_roles | default([])),
+              ansible_run_tags | difference(exclude_roles | default([]))
             )
           }}
       tags:
@@ -40,8 +40,8 @@
         default_run_roles: >-
           {{
             ('all' in ansible_run_tags) | ternary(
-              default_roles | difference(exclude_roles | default([])) | sort,
-              ansible_run_tags | difference(exclude_roles | default([])) | sort
+              default_roles | difference(exclude_roles | default([])),
+              ansible_run_tags | difference(exclude_roles | default([]))
             )
           }}
       tags:
@@ -52,8 +52,8 @@
         additional_run_roles: >-
           {{
             ('all' in ansible_run_tags) | ternary(
-              additional_roles | difference(exclude_roles | default([])) | sort,
-              ansible_run_tags | difference(exclude_roles | default([])) | sort
+              additional_roles | difference(exclude_roles | default([])),
+              ansible_run_tags | difference(exclude_roles | default([]))
             )
           }}
       tags:
