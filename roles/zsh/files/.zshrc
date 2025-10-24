@@ -41,50 +41,51 @@ ZSH_HIGHLIGHT_STYLES[command]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[precommand]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[hashed-command]='fg=green,bold'
 
-# Set the directory we want to store zinit and plugins
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+# Set the directory we want to store antidote and plugins
+ANTIDOTE_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/antidote"
 
-# Download Zinit, if it's not there yet
-if [ ! -d "$ZINIT_HOME" ]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+# Download antidote, if it's not there yet
+if [ ! -d "$ANTIDOTE_HOME" ]; then
+  git clone --depth=1 https://github.com/mattmc3/antidote.git "$ANTIDOTE_HOME"
 fi
 
-# Source/Load zinit
-source "${ZINIT_HOME}/zinit.zsh"
+# Source/Load antidote
+source "$ANTIDOTE_HOME/antidote.zsh"
 
-# Add in zsh plugins
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-history-substring-search
-zinit light Aloxaf/fzf-tab
-# zinit ice depth=1; zinit light jeffreytse/zsh-vi-mode
+# Initialize antidote plugins
+antidote load <<EOBUNDLES
+# Core zsh plugins
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+Aloxaf/fzf-tab
 
-# Add in snippets
-# Needed for loading next git.zsh without [_defer_async_git_register:4: command not found: _omz_register_handler errors]
-zinit snippet OMZL::async_prompt.zsh
-zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
-zinit snippet OMZP::sudo
-zinit snippet OMZP::ssh
-zinit snippet OMZP::aliases
-zinit snippet OMZP::globalias
-zinit snippet OMZP::archlinux
-zinit snippet OMZP::aws
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
-zinit snippet OMZP::command-not-found
-zinit snippet OMZP::colored-man-pages
-zinit snippet OMZP::tmux
-zinit snippet OMZP::mvn
-zinit snippet OMZP::docker
+# Oh My Zsh library files (needed for git.zsh to work properly)
+ohmyzsh/ohmyzsh path:lib/async_prompt.zsh
+ohmyzsh/ohmyzsh path:lib/git.zsh
+
+# Oh My Zsh plugins
+ohmyzsh/ohmyzsh path:plugins/git
+ohmyzsh/ohmyzsh path:plugins/sudo
+ohmyzsh/ohmyzsh path:plugins/ssh
+ohmyzsh/ohmyzsh path:plugins/aliases
+ohmyzsh/ohmyzsh path:plugins/globalias
+ohmyzsh/ohmyzsh path:plugins/archlinux
+ohmyzsh/ohmyzsh path:plugins/aws
+ohmyzsh/ohmyzsh path:plugins/kubectl
+ohmyzsh/ohmyzsh path:plugins/kubectx
+ohmyzsh/ohmyzsh path:plugins/command-not-found
+ohmyzsh/ohmyzsh path:plugins/colored-man-pages
+ohmyzsh/ohmyzsh path:plugins/tmux
+ohmyzsh/ohmyzsh path:plugins/mvn
+ohmyzsh/ohmyzsh path:plugins/docker
+EOBUNDLES
 
 # Load completions
 autoload -U +X bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 
-zinit cdreplay -q
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -141,7 +142,6 @@ if [[ -f ~/.fzf.zsh ]]; then
   source ~/.fzf.zsh
 fi
 eval "$(fzf --zsh)"
-# zi is defined by zinit as alias zi='zinit'. Unalias it to use with zoxide
-unalias zi
+# Initialize zoxide
 eval "$(zoxide init zsh)"
 #eval "$(gh copilot alias -- zsh)"
