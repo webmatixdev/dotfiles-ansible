@@ -53,34 +53,7 @@ fi
 source "$ANTIDOTE_HOME/antidote.zsh"
 
 # Initialize antidote plugins
-antidote load <<EOBUNDLES
-# Core zsh plugins
-zsh-users/zsh-syntax-highlighting
-zsh-users/zsh-completions
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-history-substring-search
-Aloxaf/fzf-tab
-
-# Oh My Zsh library files (needed for git.zsh to work properly)
-ohmyzsh/ohmyzsh path:lib/async_prompt.zsh
-ohmyzsh/ohmyzsh path:lib/git.zsh
-
-# Oh My Zsh plugins
-ohmyzsh/ohmyzsh path:plugins/git
-ohmyzsh/ohmyzsh path:plugins/sudo
-ohmyzsh/ohmyzsh path:plugins/ssh
-ohmyzsh/ohmyzsh path:plugins/aliases
-ohmyzsh/ohmyzsh path:plugins/globalias
-ohmyzsh/ohmyzsh path:plugins/archlinux
-ohmyzsh/ohmyzsh path:plugins/aws
-ohmyzsh/ohmyzsh path:plugins/kubectl
-ohmyzsh/ohmyzsh path:plugins/kubectx
-ohmyzsh/ohmyzsh path:plugins/command-not-found
-ohmyzsh/ohmyzsh path:plugins/colored-man-pages
-ohmyzsh/ohmyzsh path:plugins/tmux
-ohmyzsh/ohmyzsh path:plugins/mvn
-ohmyzsh/ohmyzsh path:plugins/docker
-EOBUNDLES
+antidote load
 
 # Load completions
 autoload -U +X bashcompinit && bashcompinit
