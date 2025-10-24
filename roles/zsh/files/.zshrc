@@ -52,12 +52,14 @@ fi
 # Source/Load antidote
 source "$ANTIDOTE_HOME/antidote.zsh"
 
+# Initialize the completion system
+autoload -Uz compinit && compinit
+
 # Initialize antidote plugins
 antidote load
 
 # Load completions
 autoload -U +X bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
