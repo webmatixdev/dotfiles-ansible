@@ -32,4 +32,4 @@ git:
           opLookup:
             account: "my.1password.com" # Personal account
             uri: "op://Private/SSH-Sign/public key"
-        gitdir: "~/personal-workspace"
+        gitdir: "~/personal-workspace/"

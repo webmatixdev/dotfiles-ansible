@@ -32,4 +32,4 @@ git:
           opLookup:
             account: "viesure.1password.com" # Company account
             uri: "op://Employee/SSH-Sign/public key"
-        gitdir: "~/vs-workspace"
+        gitdir: "~/vs-workspace/"

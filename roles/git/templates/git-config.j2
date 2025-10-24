@@ -112,7 +112,7 @@ updateRefs = true
 # Conditional configurations for different directories
 {% for user in git.user.additional | default([]) %}
 {% if user.gitdir is defined and user.gitdir != '' and user.id is defined and user.id != '' %}
-[includeIf "gitdir:{{ user.gitdir }}"]
+[includeIf "gitdir:{{ user.gitdir.rstrip('/') }}/"]
     path = ~/.gitconfig-{{ user.id }}
 {% endif %}
 {% endfor %}
