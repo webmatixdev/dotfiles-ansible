@@ -1,0 +1,6 @@
+---
+- name: "OneDrive | MacOSX | Install mas"
+  community.general.homebrew_cask:
+    name: onedrive
+    state: present
+

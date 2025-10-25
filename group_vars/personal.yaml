@@ -21,6 +21,7 @@ additional_roles:
   gaming:
     - dosbox
     - steam
+    - virtualhere-server
 
 git:
   user:

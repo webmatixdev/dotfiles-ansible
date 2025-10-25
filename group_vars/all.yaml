@@ -7,6 +7,7 @@ base_roles:
     - fonts
     - gnupg
     - mas
+    - onedrive
   shell:
     - bash
     - zsh
@@ -74,6 +75,7 @@ base_roles:
     - appcleaner
     - balenaetcher
     - brew-cask-completion
+    - dell-display-peripheral-manager
     - flatpak
     - hex-fiend
     - hp

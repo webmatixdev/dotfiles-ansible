@@ -1,0 +1,27 @@
+---
+- name: "Dell Display and Peripheral Manager | MacOSX | Check if DDPM.app already exists"
+  stat:
+    path: /Applications/DDPM/DDPM.app
+  register: ddpm_app
+
+- name: "Dell Display and Peripheral Manager | MacOSX | Download DDPM if not present"
+  get_url:
+    url: https://dl.dell.com/FOLDER13553016M/1/DDPMv2.1.1.0007.zip
+    dest: /tmp/DDPM.zip
+    mode: '0644'
+  when: not ddpm_app.stat.exists
+
+- name: "Dell Display and Peripheral Manager | MacOSX | Ensure /Applications/DDPM directory exists"
+  file:
+    path: /Applications/DDPM
+    state: directory
+    mode: '0755'
+  when: not ddpm_app.stat.exists
+
+- name: "Dell Display and Peripheral Manager | MacOSX | Unzip DDPM.app to /Applications/DDPM"
+  unarchive:
+    src: /tmp/DDPM.zip
+    dest: /Applications/DDPM
+    remote_src: yes
+    creates: /Applications/DDPM/DDPM.app
+  when: not ddpm_app.stat.exists

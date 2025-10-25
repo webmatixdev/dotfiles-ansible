@@ -1,0 +1,41 @@
+---
+- name: "VirtualHere Server | MacOSX | Ensure VirtualHereServerUniversal.app is installed"
+  block:
+    - name: "VirtualHere Server | MacOSX | Check if VirtualHereServerUniversal.app exists"
+      stat:
+        path: /Applications/VirtualHereServerUniversal.app
+      register: vh_server_app
+
+    - name: "VirtualHere Server | MacOSX | Download VirtualHereServerUniversal.dmg if app does not exist"
+      get_url:
+        url: https://www.virtualhere.com/sites/default/files/usbserver/VirtualHereServerUniversal.dmg
+        dest: /tmp/VirtualHereServerUniversal.dmg
+        mode: '0644'
+      when: not vh_server_app.stat.exists
+
+    - name: "VirtualHere Server | MacOSX | Mount the DMG if app does not exist"
+      become: yes
+      command: hdiutil attach /tmp/VirtualHereServerUniversal.dmg -nobrowse -mountpoint /Volumes/VirtualHereServerUniversal
+      args:
+        creates: /Volumes/VirtualHereServerUniversal
+      when: not vh_server_app.stat.exists
+
+    - name: "VirtualHere Server | MacOSX | Copy VirtualHereServerUniversal.app to /Applications"
+      become: yes
+      copy:
+        src: /Volumes/VirtualHereServerUniversal/VirtualHereServerUniversal.app
+        dest: /Applications/VirtualHereServerUniversal.app
+        remote_src: yes
+      when: not vh_server_app.stat.exists
+
+    - name: "VirtualHere Server | MacOSX | Unmount the DMG"
+      become: yes
+      command: hdiutil detach /Volumes/VirtualHereServerUniversal
+      when: not vh_server_app.stat.exists
+      ignore_errors: yes
+
+    - name: "VirtualHere Server | MacOSX | Remove the downloaded DMG"
+      file:
+        path: /tmp/VirtualHereServerUniversal.dmg
+        state: absent
+      when: not vh_server_app.stat.exists
