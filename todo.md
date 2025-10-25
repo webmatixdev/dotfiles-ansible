@@ -1,0 +1,8 @@
+- affinity suite
+- excire photo
+- sdkman
+- GBPlayer - GigaBlue Sat Receiver Player
+- logitech ghub
+- openrgb
+- dell color management / ddpm
+- canon eos utilities
