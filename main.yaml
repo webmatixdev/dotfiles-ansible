@@ -32,127 +32,74 @@
       tags:
         - always
 
-    - name: Initialize execution roles list
-      ansible.builtin.set_fact:
-        execution_roles: []
+    # Core category
+    - name: Run core roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: core
       tags:
-        - always
+        - core
 
-    - name: Prepare ordered category list from execution_order
-      ansible.builtin.set_fact:
-        ordered_categories: >-
-          {{ execution_order | sort(attribute='order') | map(attribute='category') | list }}
+    # Shell category
+    - name: Run shell roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: shell
       tags:
-        - always
+        - shell
 
-    - name: Build execution roles list from ordered categories
-      ansible.builtin.set_fact:
-        execution_roles: >-
-          {{
-            execution_roles +
-            ((merged_roles[category] | default([]) |
-              difference(exclude_roles | default([]))) |
-              map('string') |
-              map('regex_replace', '^(.*)$', category ~ '/\1') |
-              list)
-          }}
-      loop: "{{ ordered_categories | difference(exclude_categories | default([])) }}"
-      loop_control:
-        loop_var: category
+    # CLI category
+    - name: Run cli roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: cli
       tags:
-        - always
+        - cli
 
-    - name: Prepare tag filtering
-      ansible.builtin.set_fact:
-        user_tags: >-
-          {{ ansible_run_tags | difference(['always']) }}
-        has_user_tags: >-
-          {{ (ansible_run_tags | difference(['always'])) | length > 0 }}
-        run_all_roles: >-
-          {{ 'all' in ansible_run_tags }}
+    # Dev category
+    - name: Run dev roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: dev
       tags:
-        - always
+        - dev
 
-    - name: Build tag regex pattern
-      ansible.builtin.set_fact:
-        tag_pattern: >-
-          {{ '/(' + (user_tags | join('|')) + ')$' }}
-      when: has_user_tags and not run_all_roles
+    # DevOps category
+    - name: Run devops roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: devops
       tags:
-        - always
+        - devops
 
-    - name: Filter roles based on tags
-      ansible.builtin.set_fact:
-        final_run_roles: >-
-          {{
-            execution_roles if run_all_roles or not has_user_tags
-            else execution_roles | select('regex', tag_pattern) | list
-          }}
+    # Utils category
+    - name: Run utils roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: utils
       tags:
-        - always
+        - utils
 
-    - name: Validate execution order
-      block:
-        - name: Extract categories from final execution roles
-          ansible.builtin.set_fact:
-            execution_categories: >-
-              {{
-                final_run_roles |
-                map('regex_replace', '^(.+?)/.*$', '\1') |
-                unique(preserve_order=true) |
-                list
-              }}
-          tags:
-            - always
-
-        - name: Extract ordered categories (excluding disabled ones)
-          ansible.builtin.set_fact:
-            expected_categories: >-
-              {{
-                ordered_categories |
-                difference(exclude_categories | default([])) |
-                list
-              }}
-          tags:
-            - always
-
-        - name: Debug execution order validation
-          ansible.builtin.debug:
-            msg: |
-              Expected category order: {{ expected_categories }}
-              Actual category order:   {{ execution_categories }}
-          tags:
-            - always
-
-        - name: Verify category order matches execution_order
-          ansible.builtin.assert:
-            that:
-              - execution_categories == expected_categories
-            fail_msg: |
-              ERROR: Role execution order is incorrect!
-              Expected: {{ expected_categories }}
-              Got:      {{ execution_categories }}
-              
-              This likely means roles from different categories are mixed up.
-              Please verify your base_roles and additional_roles definitions.
-            success_msg: "✓ Role execution order is correct"
-          tags:
-            - always
-
-    - name: Debug final execution order
-      ansible.builtin.debug:
-        var: final_run_roles
+    # Apps category
+    - name: Run apps roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: apps
       tags:
-        - always
+        - apps
 
-    - name: Run roles in category order
-      ansible.builtin.include_role:
-        apply:
-          tags:
-            - "{{ role_item | regex_replace('^.+/', '') }}"
-        name: "{{ role_item }}"
-      loop: "{{ final_run_roles }}"
-      loop_control:
-        loop_var: role_item
+    # Media category
+    - name: Run media roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: media
       tags:
-        - always
+        - media
+
+    # Gaming category
+    - name: Run gaming roles
+      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+      vars:
+        category_name: gaming
+      tags:
+        - gaming
