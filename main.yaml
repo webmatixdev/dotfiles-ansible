@@ -38,72 +38,72 @@
         - always
 
     # Core category
-    - name: Run core roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run core category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: core
       tags:
         - core
 
     # Shell category
-    - name: Run shell roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run shell category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: shell
       tags:
         - shell
 
     # CLI category
-    - name: Run cli roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run cli category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: cli
       tags:
         - cli
 
     # Dev category
-    - name: Run dev roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run dev category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: dev
       tags:
         - dev
 
     # DevOps category
-    - name: Run devops roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run devops category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: devops
       tags:
         - devops
 
     # Utils category
-    - name: Run utils roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run utils category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: utils
       tags:
         - utils
 
     # Apps category
-    - name: Run apps roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run apps category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: apps
       tags:
         - apps
 
     # Media category
-    - name: Run media roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run media category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: media
       tags:
         - media
 
     # Gaming category
-    - name: Run gaming roles
-      ansible.builtin.import_tasks: tasks/run_category_roles.yaml
+    - name: Run gaming category roles
+      ansible.builtin.include_tasks: tasks/run_category_roles.yaml
       vars:
         category_name: gaming
       tags:

@@ -6,3 +6,6 @@
   loop_control:
     loop_var: role_name
   when: 'exclude_categories | default([]) | select("search", "^" + category_name + "$") | list | length == 0'
+  tags:
+    - "{{ category_name }}"
+    - "{{ role_name }}"
