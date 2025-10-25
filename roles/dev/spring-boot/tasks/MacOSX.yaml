@@ -1,6 +1,0 @@
----
-- name: "Spring Boot | MacOSX | Install spring-boot"
-  community.general.homebrew:
-    name: spring-boot
-    state: present
-

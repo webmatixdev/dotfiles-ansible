@@ -42,7 +42,7 @@
       ansible.builtin.set_fact:
         category_role_paths: >-
           {{
-            (merged_roles[category] | default([]) | 
+            (merged_roles[category] | default([]) |
              difference(exclude_roles | default([]))) |
              map('string') |
              map('regex_replace', '^(.*)$', category ~ '/\1') |
@@ -107,4 +107,3 @@
       with_items: "{{ final_run_roles }}"
       tags:
         - always
-

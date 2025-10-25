@@ -1,6 +1,11 @@
 ---
+- name: "Speedtest | MacOSX | Tap teamookla/speedtest repository"
+  community.general.homebrew_tap:
+    name: teamookla/speedtest
+    state: present
+
 - name: "Speedtest | MacOSX | Install speedtest"
   community.general.homebrew:
-    name: teamookla/speedtest/speedtest
+    name: speedtest
     state: present
 

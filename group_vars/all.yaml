@@ -55,7 +55,6 @@ base_roles:
     - openwebstart
     - pwsh
     - python
-    - spring-boot
     - utm
     - yarn
   devops:
