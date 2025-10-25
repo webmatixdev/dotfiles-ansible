@@ -8,15 +8,6 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: distribution_config.stat.exists
 
-# SSH Configuration from 1Password
-- name: "{{ role_name }} | Get SSH config from 1Password"
-  when: ssh.config.opLookup is defined
-  ansible.builtin.shell: >
-    op read "{{ ssh.config.opLookup.uri }}" --account "{{ ssh.config.opLookup.account }}"
-  register: op_ssh_config_output
-  changed_when: false
-  no_log: true
-
 - name: "{{ role_name }} | Create .ssh directory"
   ansible.builtin.file:
     path: "{{ ansible_user_dir }}/.ssh"
@@ -24,9 +15,9 @@
     mode: '0700'
 
 - name: "{{ role_name }} | Create SSH config file from 1Password content"
-  when: ssh.config.opLookup is defined
+  when: ssh.config.opLookupId is defined and op_lookup[ssh.config.opLookupId] is defined
   ansible.builtin.copy:
-    content: "{{ op_ssh_config_output.stdout }}"
+    content: "{{ op_lookup[ssh.config.opLookupId] }}"
     dest: "{{ ansible_user_dir }}/.ssh/config"
     mode: '0600'
 

@@ -8,54 +8,30 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: distribution_config.stat.exists
 
-# Configure user settings from group_vars
-- name: "Git | Set user.name from 1Password using op CLI"
-  when: git.user.default.name.opLookup is defined
-  ansible.builtin.shell: >
-    op read "{{ git.user.default.name.opLookup.uri }}" --account "{{ git.user.default.name.opLookup.account }}"
-  register: op_name_output
-  changed_when: false
-  no_log: true
-
-- name: "Git | Update user.name from op CLI output"
-  when: git.user.default.name.opLookup is defined
+# Configure user settings from group_vars using op_lookup
+- name: "Git | Set user.name from op_lookup"
+  when: git.user.default.name.opLookupId is defined and op_lookup[git.user.default.name.opLookupId] is defined
   ansible.builtin.set_fact:
-    git: "{{ git | combine({'user': {'default': {'name': op_name_output.stdout}}}, recursive=True) }}"
+    git: "{{ git | combine({'user': {'default': {'name': op_lookup[git.user.default.name.opLookupId]}}}, recursive=True) }}"
   no_log: true
 
-- name: "Git | Set user.email from 1Password using op CLI"
-  when: git.user.default.email.opLookup is defined
-  ansible.builtin.shell: >
-    op read "{{ git.user.default.email.opLookup.uri }}" --account "{{ git.user.default.email.opLookup.account }}"
-  register: op_email_output
-  changed_when: false
-  no_log: true
-
-- name: "Git | Update user.email from op CLI output"
-  when: git.user.default.email.opLookup is defined
+- name: "Git | Set user.email from op_lookup"
+  when: git.user.default.email.opLookupId is defined and op_lookup[git.user.default.email.opLookupId] is defined
   ansible.builtin.set_fact:
-    git: "{{ git | combine({'user': {'default': {'email': op_email_output.stdout}}}, recursive=True) }}"
+    git: "{{ git | combine({'user': {'default': {'email': op_lookup[git.user.default.email.opLookupId]}}}, recursive=True) }}"
   no_log: true
 
-- name: "Git | Set user.signingkey from 1Password using op CLI"
-  when: git.user.default.signingkey.opLookup is defined
-  ansible.builtin.shell: >
-    op read "{{ git.user.default.signingkey.opLookup.uri }}" --account "{{ git.user.default.signingkey.opLookup.account }}"
-  register: op_signingkey_output
-  changed_when: false
-  no_log: true
-
-- name: "Git | Update user.signingkey from op CLI output"
-  when: git.user.default.signingkey.opLookup is defined
+- name: "Git | Set user.signingkey from op_lookup"
+  when: git.user.default.signingkey.opLookupId is defined and op_lookup[git.user.default.signingkey.opLookupId] is defined
   ansible.builtin.set_fact:
-    git: "{{ git | combine({'user': {'default': {'signingkey': op_signingkey_output.stdout}}}, recursive=True) }}"
+    git: "{{ git | combine({'user': {'default': {'signingkey': op_lookup[git.user.default.signingkey.opLookupId]}}}, recursive=True) }}"
   no_log: true
 
 # Process additional git users if they exist
-- name: "Git | Process additional users from 1Password"
+- name: "Git | Process additional users from op_lookup"
   when: git.user.additional is defined
   block:
-    - name: "Git | Read additional users email/signingkey from 1Password"
+    - name: "Git | Process additional users from op_lookup"
       include_tasks: process_additional_user.yaml
       loop: "{{ git.user.additional | default([]) }}"
       loop_control:

@@ -14,19 +14,9 @@
     state: directory
     mode: "0755"
 
-- name: K8s | Configure kubeconfig from 1Password
-  block:
-   - name: K8s | Get kubeconfig from 1Password
-     ansible.builtin.command: >
-       op --account {{ op.k8s.kubeconfig.account }} read '{{ op.k8s.kubeconfig.uri }}'
-     register: op_kubeconfig
-     changed_when: false
-     # no_log: true to avoid leaking sensitive info in logs
-     no_log: true
-
-   - name: K8s | Create .kube/config file from 1Password
-     ansible.builtin.copy:
-       content: "{{ op_kubeconfig.stdout }}"
-       dest: "~/.kube/config"
-       mode: "0600"
-  when: op.k8s.kubeconfig is defined and op.k8s.kubeconfig.uri is defined and op.k8s.kubeconfig.uri | length > 0
+- name: K8s | Create .kube/config file from 1Password
+  ansible.builtin.copy:
+    content: "{{ op_lookup[k8s.kubeconfig.opLookupId] }}"
+    dest: "~/.kube/config"
+    mode: "0600"
+  when: k8s.kubeconfig.opLookupId is defined and op_lookup[k8s.kubeconfig.opLookupId] is defined

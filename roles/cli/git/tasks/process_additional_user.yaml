@@ -1,61 +1,26 @@
 ---
-# Process a single additional user's 1Password references using op CLI
-- name: "Git | Process all 1Password lookups for additional user at once"
+# Process a single additional user's 1Password references using op_lookup
+- name: "Git | Process all op_lookup for additional user at once"
   ansible.builtin.set_fact:
     processed_user: "{{ additional_user }}"
 
-- name: "Git | Set additional user email from 1Password using op CLI"
-  when: additional_user.email.opLookup is defined
-  ansible.builtin.shell: >
-    op read "{{ additional_user.email.opLookup.uri }}" --account "{{ additional_user.email.opLookup.account }}"
-  register: op_email_output
-  changed_when: false
-  no_log: true
-
-- name: "Git | Update additional user email from op CLI output"
-  when: additional_user.email.opLookup is defined
+- name: "Git | Set additional user email from op_lookup"
+  when: additional_user.email.opLookupId is defined and op_lookup[additional_user.email.opLookupId] is defined
   ansible.builtin.set_fact:
-    processed_user: "{{ processed_user | combine({'email': op_email_output.stdout}) }}"
+    processed_user: "{{ processed_user | combine({'email': op_lookup[additional_user.email.opLookupId]}) }}"
   no_log: true
 
-- name: "Git | Set additional user signingkey from 1Password using op CLI"
-  when: additional_user.signingkey.opLookup is defined
-  ansible.builtin.shell: >
-    op read "{{ additional_user.signingkey.opLookup.uri }}" --account "{{ additional_user.signingkey.opLookup.account }}"
-  register: op_signingkey_output
-  changed_when: false
-  no_log: true
-
-- name: "Git | Update additional user signingkey from op CLI output"
-  when: additional_user.signingkey.opLookup is defined
+- name: "Git | Set additional user signingkey from op_lookup"
+  when: additional_user.signingkey.opLookupId is defined and op_lookup[additional_user.signingkey.opLookupId] is defined
   ansible.builtin.set_fact:
-    processed_user: "{{ processed_user | combine({'signingkey': op_signingkey_output.stdout}) }}"
+    processed_user: "{{ processed_user | combine({'signingkey': op_lookup[additional_user.signingkey.opLookupId]}) }}"
   no_log: true
 
-- name: "Git | Set additional user name from 1Password using op CLI"
-  when: additional_user.name.opLookup is defined
-  ansible.builtin.shell: >
-    op read "{{ additional_user.name.opLookup.uri }}" --account "{{ additional_user.name.opLookup.account }}"
-  register: op_name_output
-  changed_when: false
-  no_log: true
-
-- name: "Git | Update additional user name from op CLI output"
-  when: additional_user.name.opLookup is defined
+- name: "Git | Set additional user name from op_lookup"
+  when: additional_user.name.opLookupId is defined and op_lookup[additional_user.name.opLookupId] is defined
   ansible.builtin.set_fact:
-    processed_user: "{{ processed_user | combine({'name': op_name_output.stdout}) }}"
+    processed_user: "{{ processed_user | combine({'name': op_lookup[additional_user.name.opLookupId]}) }}"
   no_log: true
-
-#- name: "Git | Create updated list of additional users"
-#  ansible.builtin.set_fact:
-#    updated_additional_users: "{{ (updated_additional_users | default([])) + [processed_user if item.0 == user_index else item.1] }}"
-#  with_indexed_items: "{{ git.user.additional }}"
-#  no_log: true
-
-#- name: "Git | Update user in the additional users list"
-#  ansible.builtin.set_fact:
-#    git: "{{ git | combine({'user': {'additional': updated_additional_users}}, recursive=true) }}"
-#  no_log: true
 
 # Ensure gitdir exists with proper handling of tilde (~)
 - name: "Git | Ensure gitdir exists"

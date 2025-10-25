@@ -122,16 +122,34 @@ exclude_roles: []
 exclude_categories: []
 
 op:
-  k8s:
-    kubeconfig:
-      account: "my.1password.com"
-      uri: "op://Private/kubeconfig/notesPlain"
+  - id: "kubeconfig"
+    account: "my.1password.com"
+    uri: "op://Private/kubeconfig/notesPlain"
+  - id: "ssh-config"
+    account: "my.1password.com"
+    uri: "op://Private/ssh-config/notesPlain"
+  - id: "git-user-personal"
+    account: "my.1password.com"
+    uri: "op://Private/Github/git_username"
+  - id: "git-email-personal"
+    account: "my.1password.com"
+    uri: "op://Private/Github/username"
+  - id: "git-signingkey-personal"
+    account: "my.1password.com"
+    uri: "op://Private/SSH-Sign/public key"
+  - id: "git-user-work"
+    account: "my.1password.com"
+    uri: "op://Private/Okta/git_username"
+  - id: "git-email-work"
+    account: "my.1password.com"
+    uri: "op://Private/Okta/username"
+  - id: "git-signingkey-work"
+    account: "viesure.1password.com"
+    uri: "op://Employee/SSH-Sign/public key"
 
 ssh:
   config:
-    opLookup:
-      account: "my.1password.com"
-      uri: "op://Private/ssh-config/notesPlain"
+    opLookupId: ssh-config
 
 gcloud:
   components:
@@ -142,6 +160,8 @@ gcloud:
     - "docker-credential-gcr"
 
 k8s:
+  kubeconfig:
+    opLookupId: kubeconfig
   gke_clusters:
     - cluster_name: "gke-vs-stable"
       location: "europe-west3"

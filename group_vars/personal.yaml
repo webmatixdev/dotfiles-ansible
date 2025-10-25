@@ -15,30 +15,18 @@ git:
   user:
     default:
       name:
-        opLookup:
-          account: "my.1password.com" # Personal account
-          uri: "op://Private/Github/git_username"
+        opLookupId: git-user-personal
       email:
-        opLookup:
-          account: "my.1password.com" # Personal account
-          uri: "op://Private/Github/username"
+        opLookupId: git-email-personal
       signingkey:
-        opLookup:
-          account: "my.1password.com" # Personal account
-          uri: "op://Private/SSH-Sign/public key"
+        opLookupId: git-signingkey-personal
 
     additional:
       - id: "work"
         name:
-          opLookup:
-            account: "my.1password.com" # Company account
-            uri: "op://Private/Okta/git_username"
+          opLookupId: git-user-work
         email:
-          opLookup:
-            account: "my.1password.com" # Company account
-            uri: "op://Private/Okta/username"
+          opLookupId: git-email-work
         signingkey:
-          opLookup:
-            account: "viesure.1password.com" # Company account
-            uri: "op://Employee/SSH-Sign/public key"
+          opLookupId: git-signingkey-work
         gitdir: "~/vs-workspace/"

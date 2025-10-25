@@ -22,6 +22,11 @@
       tags:
         - always
 
+    - name: Load 1Password secrets
+      ansible.builtin.import_tasks: pre_tasks/load_1password_secrets.yaml
+      tags:
+        - always
+
   tasks:
     - name: Merge base and additional roles by category
       ansible.builtin.set_fact:
