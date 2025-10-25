@@ -45,32 +45,20 @@
       tags:
         - always
 
-    - name: Build category role paths
+    - name: Build execution roles list from ordered categories
       ansible.builtin.set_fact:
-        category_role_paths: >-
+        execution_roles: >-
           {{
-            (merged_roles[category] | default([]) |
-             difference(exclude_roles | default([]))) |
-             map('string') |
-             map('regex_replace', '^(.*)$', category ~ '/\1') |
-             list
+            execution_roles +
+            ((merged_roles[category] | default([]) |
+              difference(exclude_roles | default([]))) |
+              map('string') |
+              map('regex_replace', '^(.*)$', category ~ '/\1') |
+              list)
           }}
       loop: "{{ ordered_categories | difference(exclude_categories | default([])) }}"
       loop_control:
         loop_var: category
-      register: role_path_results
-      tags:
-        - always
-
-    - name: Flatten execution roles list
-      ansible.builtin.set_fact:
-        execution_roles: >-
-          {{
-            role_path_results.results |
-            map(attribute='ansible_facts.category_role_paths') |
-            flatten |
-            list
-          }}
       tags:
         - always
 
@@ -100,6 +88,60 @@
             execution_roles if run_all_roles or not has_user_tags
             else execution_roles | select('regex', tag_pattern) | list
           }}
+      tags:
+        - always
+
+    - name: Validate execution order
+      block:
+        - name: Extract categories from final execution roles
+          ansible.builtin.set_fact:
+            execution_categories: >-
+              {{
+                final_run_roles |
+                map('regex_replace', '^(.+?)/.*$', '\1') |
+                unique(preserve_order=true) |
+                list
+              }}
+          tags:
+            - always
+
+        - name: Extract ordered categories (excluding disabled ones)
+          ansible.builtin.set_fact:
+            expected_categories: >-
+              {{
+                ordered_categories |
+                difference(exclude_categories | default([])) |
+                list
+              }}
+          tags:
+            - always
+
+        - name: Debug execution order validation
+          ansible.builtin.debug:
+            msg: |
+              Expected category order: {{ expected_categories }}
+              Actual category order:   {{ execution_categories }}
+          tags:
+            - always
+
+        - name: Verify category order matches execution_order
+          ansible.builtin.assert:
+            that:
+              - execution_categories == expected_categories
+            fail_msg: |
+              ERROR: Role execution order is incorrect!
+              Expected: {{ expected_categories }}
+              Got:      {{ execution_categories }}
+              
+              This likely means roles from different categories are mixed up.
+              Please verify your base_roles and additional_roles definitions.
+            success_msg: "✓ Role execution order is correct"
+          tags:
+            - always
+
+    - name: Debug final execution order
+      ansible.builtin.debug:
+        var: final_run_roles
       tags:
         - always
 
