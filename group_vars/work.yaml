@@ -1,6 +1,15 @@
-#additional_roles:
-#  - discord
-additional_roles: []
+# Additional roles for work environment organized by category
+# Only add roles that are NOT already present in all.yaml
+additional_roles: {}
+  # Example: Add work-specific roles per category as needed
+  # devops:
+  #   - company-specific-tool
+  # dev:
+  #   - work-jdk-version
+  # utils:
+  #   - corporate-vpn-client
+  # apps:
+  #   - company-app
 
 git:
   user:

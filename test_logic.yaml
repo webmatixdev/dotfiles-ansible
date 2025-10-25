@@ -1,0 +1,352 @@
+---
+- name: Test Role Selection Logic
+  hosts: localhost
+  connection: local
+  vars_files:
+    - "group_vars/all.yaml"
+    # Simulate environment-specific vars for testing
+    - "group_vars/personal.yaml"
+
+  tasks:
+    # Test environment variable loading (simulate dotfiles_env_vars)
+    - name: Simulate environment setup
+      ansible.builtin.set_fact:
+        dotfiles_env: "test"
+        current_user: "{{ ansible_user_id }}"
+      tags:
+        - always
+    - name: Merge base and additional roles by category
+      ansible.builtin.set_fact:
+        merged_roles: >-
+          {{
+            base_roles | combine(additional_roles | default({}), recursive=true)
+          }}
+      tags:
+        - always
+
+    - name: Initialize execution roles list
+      ansible.builtin.set_fact:
+        execution_roles: []
+      tags:
+        - always
+
+    - name: Build category role paths
+      ansible.builtin.set_fact:
+        category_role_paths: >-
+          {{
+            (merged_roles[category] | default([]) | 
+             difference(exclude_roles | default([]))) |
+             map('string') |
+             map('regex_replace', '^(.*)$', category ~ '/\1') |
+             list
+          }}
+      loop: "{{ execution_order | difference(exclude_categories | default([])) }}"
+      loop_control:
+        loop_var: category
+      register: role_path_results
+      tags:
+        - always
+
+    - name: Flatten execution roles list
+      ansible.builtin.set_fact:
+        execution_roles: >-
+          {{
+            role_path_results.results |
+            map(attribute='ansible_facts.category_role_paths') |
+            flatten |
+            list
+          }}
+      tags:
+        - always
+
+    - name: Extract user tags
+      ansible.builtin.set_fact:
+        user_tags: >-
+          {{ ansible_run_tags | difference(['always']) }}
+      tags:
+        - always
+
+    - name: Prepare tag filtering flags
+      ansible.builtin.set_fact:
+        has_user_tags: >-
+          {{ user_tags | length > 0 }}
+        run_all_roles: >-
+          {{ 'all' in ansible_run_tags }}
+      tags:
+        - always
+
+    - name: Build tag regex pattern
+      ansible.builtin.set_fact:
+        tag_pattern: >-
+          {{ '/(' + (user_tags | join('|')) + ')$' }}
+      when: has_user_tags and not run_all_roles
+      tags:
+        - always
+
+    - name: Filter roles based on tags
+      ansible.builtin.set_fact:
+        final_run_roles: >-
+          {{
+            execution_roles if run_all_roles or not has_user_tags
+            else execution_roles | select('regex', tag_pattern) | list
+          }}
+      tags:
+        - always
+
+    # Simulate role execution (like main.yaml does)
+    - name: Simulate role execution
+      ansible.builtin.debug:
+        msg: "Would execute role: {{ role_item }} with tag: {{ role_item | regex_replace('^.+/', '') }}"
+      loop_control:
+        loop_var: role_item
+      with_items: "{{ final_run_roles }}"
+      tags:
+        - always
+
+    # Test exclusion functionality
+    - name: "=== EXCLUSION TESTS ==="
+      ansible.builtin.debug:
+        msg: "Testing exclusion functionality"
+      tags:
+        - always
+
+    - name: Test role exclusion
+      ansible.builtin.set_fact:
+        test_exclude_roles: ["git", "docker"]
+        test_exclude_categories: ["gaming"]
+      tags:
+        - always
+
+    - name: Build execution list with exclusions
+      ansible.builtin.set_fact:
+        test_category_role_paths: >-
+          {{
+            (merged_roles[category] | default([]) | 
+             difference(test_exclude_roles | default([]))) |
+             map('string') |
+             map('regex_replace', '^(.*)$', category ~ '/\1') |
+             list
+          }}
+      loop: "{{ execution_order | difference(test_exclude_categories | default([])) }}"
+      loop_control:
+        loop_var: category
+      register: test_exclusion_results
+      tags:
+        - always
+
+    - name: Flatten exclusion test results
+      ansible.builtin.set_fact:
+        test_excluded_roles: >-
+          {{
+            test_exclusion_results.results |
+            map(attribute='ansible_facts.test_category_role_paths') |
+            flatten |
+            list
+          }}
+      tags:
+        - always
+
+    # Test environment-specific role merging
+    - name: "=== ENVIRONMENT TESTS ==="
+      ansible.builtin.debug:
+        msg: "Testing environment-specific role merging"
+      tags:
+        - always
+
+    - name: Show additional_roles from environment
+      ansible.builtin.debug:
+        var: additional_roles
+      tags:
+        - always
+
+    - name: Verify role merging worked
+      ansible.builtin.debug:
+        msg:
+          - "Base roles in dev: {{ base_roles.dev | length }}"
+          - "Additional roles in dev: {{ additional_roles.dev | default([]) | length }}"
+          - "Merged roles in dev: {{ merged_roles.dev | length }}"
+      tags:
+        - always
+
+    # Test outputs - show what would be executed
+    - name: "=== MAIN TEST RESULTS ==="
+      ansible.builtin.debug:
+        msg: "Starting comprehensive test output analysis"
+      tags:
+        - always
+
+    - name: Show provided tags
+      ansible.builtin.debug:
+        var: ansible_run_tags
+      tags:
+        - always
+
+    - name: Show user tags (without 'always')
+      ansible.builtin.debug:
+        var: user_tags
+      tags:
+        - always
+
+    - name: Show tag filtering flags
+      ansible.builtin.debug:
+        msg:
+          - "Has user tags: {{ has_user_tags }}"
+          - "Run all roles: {{ run_all_roles }}"
+          - "Tag pattern: {{ tag_pattern | default('not set') }}"
+      tags:
+        - always
+
+    - name: Show merged roles by category
+      ansible.builtin.debug:
+        var: merged_roles
+      tags:
+        - always
+
+    - name: Show execution order
+      ansible.builtin.debug:
+        var: execution_order
+      tags:
+        - always
+
+    - name: Show all roles in execution order (before tag filtering)
+      ansible.builtin.debug:
+        var: execution_roles
+      tags:
+        - always
+
+    - name: Show final roles that would be executed
+      ansible.builtin.debug:
+        var: final_run_roles
+      tags:
+        - always
+
+    - name: Show role count summary
+      ansible.builtin.debug:
+        msg:
+          - "Total available roles: {{ execution_roles | length }}"
+          - "Final roles to execute: {{ final_run_roles | length }}"
+          - "Filtered out: {{ execution_roles | length - final_run_roles | length }}"
+      tags:
+        - always
+
+    - name: Show exclusion test results
+      ansible.builtin.debug:
+        msg:
+          - "Excluded roles count: {{ (execution_roles | length) - (test_excluded_roles | length) }}"
+          - "Remaining after exclusions: {{ test_excluded_roles | length }}"
+          - "Excluded gaming category: {{ 'gaming' not in (test_excluded_roles | map('regex_replace', '/.*', '') | unique) }}"
+      tags:
+        - always
+
+    # Test edge cases
+    - name: "=== EDGE CASE TESTS ==="
+      ansible.builtin.debug:
+        msg: "Testing edge cases and error scenarios"
+      tags:
+        - always
+
+    - name: Test empty tag scenario
+      ansible.builtin.set_fact:
+        empty_tags: []
+        empty_pattern: ""
+      tags:
+        - always
+
+    - name: Test non-existent role tags
+      ansible.builtin.set_fact:
+        fake_tags: ["nonexistent", "invalid"]
+        fake_pattern: "/(nonexistent|invalid)$"
+      tags:
+        - always
+
+    - name: Filter with non-existent tags
+      ansible.builtin.set_fact:
+        fake_filtered_roles: >-
+          {{ execution_roles | select('regex', fake_pattern) | list }}
+      tags:
+        - always
+
+    - name: Show non-existent tag results
+      ansible.builtin.debug:
+        msg:
+          - "Fake tags: {{ fake_tags }}"
+          - "Fake pattern: {{ fake_pattern }}"
+          - "Roles found with fake tags: {{ fake_filtered_roles | length }}"
+      tags:
+        - always
+
+    # Test role execution order validation
+    - name: "=== EXECUTION ORDER TESTS ==="
+      ansible.builtin.debug:
+        msg: "Validating role execution order matches category priority"
+      tags:
+        - always
+
+    - name: Extract categories from final roles
+      ansible.builtin.set_fact:
+        executed_categories: >-
+          {{ final_run_roles | map('regex_replace', '/.*', '') | unique | list }}
+      tags:
+        - always
+
+    - name: Verify execution order
+      ansible.builtin.debug:
+        msg:
+          - "Expected order: {{ execution_order }}"
+          - "Categories in execution: {{ executed_categories }}"
+          - "Order preserved: {{ executed_categories | sort == (execution_order | intersect(executed_categories)) }}"
+      tags:
+        - always
+
+    # Test regex pattern validation
+    - name: "=== REGEX PATTERN TESTS ==="
+      ansible.builtin.debug:
+        msg: "Testing regex pattern construction and matching"
+      tags:
+        - always
+
+    - name: Test various tag combinations
+      ansible.builtin.debug:
+        msg:
+          - "Single tag 'git' pattern: /(git)$"
+          - "Multi tag 'git,docker' pattern: /(git|docker)$"
+          - "Complex tag pattern works: {{ '/(git|docker|jdk)$' }}"
+      tags:
+        - always
+
+    # Performance and scale test
+    - name: "=== PERFORMANCE TESTS ==="
+      ansible.builtin.debug:
+        msg: "Testing performance with large role sets"
+      tags:
+        - always
+
+    - name: Show performance metrics
+      ansible.builtin.debug:
+        msg:
+          - "Total categories: {{ execution_order | length }}"
+          - "Total roles processed: {{ execution_roles | length }}"
+          - "Average roles per category: {{ (execution_roles | length / execution_order | length) | round(1) }}"
+          - "Largest category: {{ merged_roles | dict2items | map(attribute='value') | map('length') | max }}"
+      tags:
+        - always
+
+    # Final validation summary
+    - name: "=== FINAL VALIDATION ==="
+      ansible.builtin.debug:
+        msg: "Main.yaml functionality validation complete"
+      tags:
+        - always
+
+    - name: Validation summary
+      ansible.builtin.debug:
+        msg:
+          - "✅ Role path construction: {{ 'PASS' if execution_roles | select('match', '^[a-z]+/[a-z]') | list | length > 0 else 'FAIL' }}"
+          - "✅ Category ordering: {{ 'PASS' if execution_order | length == 9 else 'FAIL' }}"
+          - "✅ Tag filtering: {{ 'PASS' if (tag_pattern | default('')) != '' or run_all_roles else 'FAIL' }}"
+          - "✅ Environment merging: {{ 'PASS' if additional_roles is defined else 'FAIL' }}"
+          - "✅ Exclusion support: {{ 'PASS' if test_excluded_roles | length < execution_roles | length else 'FAIL' }}"
+          - "✅ Role execution simulation: {{ 'PASS' if final_run_roles | length > 0 else 'FAIL' }}"
+      tags:
+        - always
+

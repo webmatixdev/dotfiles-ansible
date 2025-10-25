@@ -6,11 +6,14 @@ My personal dotfiles configuration using Ansible for automated setup and managem
 
 - **Environment-based Configuration**: Seamlessly switch between work and personal environments
 - **Cross-platform Support**: Works on macOS, Ubuntu, and Arch Linux
-- **Modular Role System**: Individual roles for each tool and configuration
+- **Category-based Role System**: 87 roles organized into logical categories (core, shell, dev, devops, etc.)
+- **Smart Execution Order**: Roles execute in dependency order (core → shell → cli → dev → devops → utils → apps → media → gaming)
+- **Precise Tag Filtering**: Run individual roles or combinations with exact matching (no more accidental inclusions)
 - **Automated Setup**: Simple one-command installation
 - **Persistent Environment Selection**: Remembers your chosen environment between runs
 - **1Password Integration**: Securely manage sensitive configuration values
 - **FIDO Key Support**: Automatically sets up FIDO security keys for SSH
+- **Flexible Exclusions**: Exclude specific roles or entire categories as needed
 - **Customizable**: Easily extend with your own roles and configurations
 
 ## Installation
@@ -80,14 +83,50 @@ After installation, the `dotfiles` command is added to your PATH:
 # Update your dotfiles (pull latest changes and run playbook)
 dotfiles
 
-# Run specific roles/tags
-dotfiles --tags=neovim,tmux
+# Run all roles in optimal order
+dotfiles --tags=all
+
+# Run specific roles (precise matching)
+dotfiles --tags=git,docker,jdk
+
+# Run by category (if needed)
+dotfiles --tags=core,shell,dev
 
 # Run with verbose output
 dotfiles -vvv
 
 # View all available roles
 dotfiles --list-tags
+```
+
+### Role Organization
+
+Roles are organized into logical categories that execute in dependency order:
+
+1. **Core** (`core/`): Essential system components (5 roles: system, 1password, ssh, fonts, gnupg)
+2. **Shell** (`shell/`): Terminal environment (7 roles: bash, zsh, oh-my-posh, starship, tmux, kitty, neofetch)
+3. **CLI** (`cli/`): Command-line utilities (27 roles: git, fzf, bat, htop, zoxide, etc.)
+4. **Development** (`dev/`): Programming tools (15 roles: jdk, go, python, neovim, kotlin, etc.)
+5. **DevOps** (`devops/`): Infrastructure tools (14 roles: docker, k8s, helm, gcloud, argocd, etc.)
+6. **Utils** (`utils/`): System utilities (15 roles: mas, appcleaner, nordvpn, lunar, etc.)
+7. **Apps** (`apps/`): GUI applications (14 roles: brave, vscode, slack, notion, etc.)
+8. **Media** (`media/`): Media tools (8 roles: ffmpeg, vlc, obs, handbrake, etc.)
+9. **Gaming** (`gaming/`): Entertainment (3 roles: steam, dosbox, moonlight)
+
+### Tag Filtering Examples
+
+```bash
+# Install only Git (excludes lazygit, gitui, etc.)
+dotfiles --tags=git
+
+# Install development essentials
+dotfiles --tags=jdk,go,python,neovim
+
+# Install Docker and Kubernetes tools
+dotfiles --tags=docker,k8s,helm
+
+# Skip gaming and media categories entirely
+# (configure exclude_categories in group_vars/all.yaml)
 ```
 
 ## Role Architecture
@@ -128,14 +167,59 @@ dotfiles-ansible/
 ├── main.yaml             # Main playbook
 ├── pre_tasks/            # Tasks run before main playbook
 │   ├── detect_1password.yaml
-│   ├── env.yaml          # Environment detection
+│   ├── load_dotfiles_env.yaml  # Environment detection and loading
 │   └── whoami.yaml
 ├── requirements/         # Ansible Galaxy requirements
-├── roles/                # Individual tool configurations
-│   ├── bash/
-│   ├── git/
-│   ├── neovim/
-│   └── ...               # Each with OS-specific and common configurations
+├── roles/                # Category-based role organization
+│   ├── core/             # Essential system components
+│   │   ├── system/
+│   │   ├── 1password/
+│   │   ├── ssh/
+│   │   ├── fonts/
+│   │   └── gnupg/
+│   ├── shell/            # Terminal environment
+│   │   ├── bash/
+│   │   ├── zsh/
+│   │   ├── starship/
+│   │   ├── tmux/
+│   │   ├── kitty/
+│   │   └── neofetch/
+│   ├── cli/              # Command-line utilities
+│   │   ├── git/
+│   │   ├── fzf/
+│   │   ├── bat/
+│   │   ├── htop/
+│   │   └── ...           # 27 total CLI tools
+│   ├── dev/              # Development tools
+│   │   ├── jdk/
+│   │   ├── go/
+│   │   ├── python/
+│   │   ├── neovim/
+│   │   └── ...           # 15 total dev tools
+│   ├── devops/           # Infrastructure tools
+│   │   ├── docker/
+│   │   ├── k8s/
+│   │   ├── helm/
+│   │   ├── gcloud/
+│   │   └── ...           # 14 total devops tools
+│   ├── utils/            # System utilities
+│   │   ├── mas/
+│   │   ├── appcleaner/
+│   │   └── ...           # 15 total utilities
+│   ├── apps/             # GUI applications
+│   │   ├── brave/
+│   │   ├── vscode/
+│   │   ├── slack/
+│   │   └── ...           # 14 total applications
+│   ├── media/            # Media tools
+│   │   ├── ffmpeg/
+│   │   ├── vlc/
+│   │   ├── obs/
+│   │   └── ...           # 8 total media tools
+│   └── gaming/           # Entertainment
+│       ├── steam/
+│       ├── dosbox/
+│       └── moonlight/
 └── set_env.yaml          # Environment setup playbook
 ```
 
@@ -144,14 +228,35 @@ dotfiles-ansible/
 ### Adding Custom Settings
 
 Edit the environment files in `~/.dotfiles/group_vars/`:
-- `all.yaml` for settings that apply everywhere
-- `work.yaml` for work-specific settings
-- `personal.yaml` for personal settings
+- `all.yaml` contains base roles organized by category that apply to all environments
+- `work.yaml` and `personal.yaml` can add environment-specific roles using the same category structure
+
+Example environment-specific additions:
+```yaml
+# In personal.yaml
+additional_roles:
+  gaming:
+    - steam
+    - moonlight
+  media:
+    - obs
+  # Only add roles that aren't already in all.yaml
+```
 
 ### Adding New Roles
 
-1. Create a new directory in the `roles/` folder with a `tasks` subdirectory
-2. Create a `tasks/main.yaml` that follows this pattern:
+1. **Choose the appropriate category** for your new role (core, shell, cli, dev, devops, utils, apps, media, gaming)
+2. **Create the role directory** in the appropriate category: `roles/category/your-role/`
+3. **Create the role structure**:
+   ```
+   roles/category/your-role/
+   ├── tasks/
+   │   ├── main.yaml         # Main role logic
+   │   ├── MacOSX.yaml       # macOS-specific tasks (optional)
+   │   └── Ubuntu.yaml       # Ubuntu-specific tasks (optional)
+   └── files/                # Configuration files (optional)
+   ```
+4. **Create `tasks/main.yaml`** following this pattern:
    ```yaml
    ---
    - name: "{{ role_name }} | Checking for Distribution Config: {{ ansible_distribution }}"
@@ -164,15 +269,20 @@ Edit the environment files in `~/.dotfiles/group_vars/`:
      when: distribution_config.stat.exists
 
    # OS-agnostic tasks go here
-   - name: "Common task example"
+   - name: "Common configuration tasks"
      ansible.builtin.file:
        path: "{{ ansible_user_dir }}/.config/your_tool"
        state: directory
    ```
-3. Create OS-specific files (e.g., `MacOSX.yaml`, `Ubuntu.yaml`) for package installation
-4. Add the role to your environment file's `default_roles` list
+5. **Add the role to the appropriate category** in `group_vars/all.yaml`:
+   ```yaml
+   base_roles:
+     category:
+       - existing-role
+       - your-new-role  # Add here (just the role name, not the full path)
+   ```
 
-This pattern allows your roles to handle OS-specific package installation while maintaining consistent configuration across platforms. OS-specific tasks run first, followed by OS-agnostic configuration tasks directly in the main.yaml file.
+The role will automatically be included in the execution order based on its category, and you can run it individually with `dotfiles --tags=your-new-role`.
 
 ## Acknowledgments
 

@@ -1,115 +1,138 @@
-pre_roles:
-  - core/system # fix later, passwordless sudo not working
-  - core/1password
-  - core/ssh
-  - core/fonts
-  - shell/oh-my-posh
-  - shell/starship
-  - shell/tmux
-  - cli/zoxide
-  - shell/bash
-  - shell/zsh
-  - dev/jdk
+# Base roles organized by category
+base_roles:
+  core:
+    - system # fix later, passwordless sudo not working
+    - 1password
+    - ssh
+    - fonts
+    - gnupg
+  shell:
+    - bash
+    - zsh
+    - oh-my-posh
+    - starship
+    - tmux
+    - kitty
+    - neofetch
+  cli:
+    - zoxide
+    - bat
+    - btop
+    - cloc
+    - colordiff
+    - coreutils
+    - direnv
+    - fzf
+    - git
+    - gnu-sed
+    - htop
+    - httpie
+    - jj
+    - jq
+    - lazygit
+    - mdv
+    - nmap
+    - ranger
+    - shellcheck
+    - speedtest
+    - terminal-notifier
+    - thefuck
+    - trash
+    - tree
+    - watch
+    - wget
+    - yq
+  dev:
+    - jdk
+    - go
+    - kotlin
+    - locationsimulator
+    - lua
+    - maven
+    - neovim
+    - npm
+    - nvm
+    - openwebstart
+    - pwsh
+    - python
+    - spring-boot
+    - utm
+    - yarn
+  devops:
+    - argocd
+    - docker
+    - flux
+    - gcloud
+    # - helm # fix later
+    - helmfile
+    - k8s
+    - k9s
+    - opentofu
+    - operator-sdk
+    - podman
+    - pulumi
+    - talosctl
+    - wireshark
+  utils:
+    - appcleaner
+    - balenaetcher
+    - brew-cask-completion
+    - flatpak
+    - jdownloader
+    - lunar
+    - m-cli
+    - mailsy
+    - mas
+    - nordvpn
+    - onyx
+    - openvpn-connect
+    - the-unarchiver
+    - xquartz
+    - ykman
+  apps:
+    - brave
+    - discord
+    - insomnia
+    - jetbrains-toolbox
+    - libreoffice
+    - microsoft-remote-desktop
+    - notion
+    - obsidian
+    - postman
+    - raycast
+    - signal
+    - slack
+    - tor-browser
+    - vscode
+  media:
+    - ffmpeg
+    - handbrake
+    - mpv
+    - obs
+    - quicklook
+    - rawtherapee
+    - vlc
+    - yt-dlp
+  gaming:
+    - dosbox
+    - moonlight
+    - steam
 
-default_roles:
-  - utils/appcleaner
-  - utils/balenaetcher
-  - cli/bat
-  - apps/brave
-  - utils/brew-cask-completion
-  - cli/btop
-  - cli/cloc
-  - cli/colordiff
-  - cli/coreutils
-  - cli/direnv
-  - apps/discord
-  - devops/docker
-  - gaming/dosbox
-  - media/ffmpeg
-  - utils/flatpak
-  - devops/flux
-  - cli/fzf
-  - devops/gcloud
-  - cli/git
-  - cli/gnu-sed
-  - core/gnupg
-  - dev/go
-  - media/handbrake
-  # - devops/helm # fix later
-  - devops/helmfile
-  - cli/htop
-  - cli/httpie
-  - apps/insomnia
-  - utils/jdownloader
-  - apps/jetbrains-toolbox
-  - cli/jj
-  - cli/jq
-  - devops/k8s
-  - devops/k9s
-  - shell/kitty
-  - dev/kotlin
-  - cli/lazygit
-  - apps/libreoffice
-  - dev/locationsimulator
-  - dev/lua
-  - utils/lunar
-  - utils/m-cli
-  - utils/mailsy
-  - utils/mas
-  - dev/maven
-  - cli/mdv
-  - apps/microsoft-remote-desktop
-  - gaming/moonlight
-  - media/mpv
-  - shell/neofetch
-  - dev/neovim
-  - cli/nmap
-  - utils/nordvpn
-  - apps/notion
-  - dev/npm
-  - dev/nvm
-  - media/obs
-  - apps/obsidian
-  - utils/onyx
-  - devops/opentofu
-  - utils/openvpn-connect
-  - dev/openwebstart
-  - devops/operator-sdk
-  - devops/podman
-  - apps/postman
-  - devops/pulumi
-  - dev/pwsh
-  - dev/python
-  - media/quicklook
-  - cli/ranger
-  - media/rawtherapee
-  - apps/raycast
-  - cli/shellcheck
-  - apps/signal
-  - apps/slack
-  - cli/speedtest
-  - dev/spring-boot
-  - gaming/steam
-  - core/system
-  - devops/talosctl
-  - cli/terminal-notifier
-  - utils/the-unarchiver
-  - cli/thefuck
-  - shell/tmux
-  - apps/tor-browser
-  - cli/trash
-  - cli/tree
-  - dev/utm
-  - media/vlc
-  - apps/vscode
-  - cli/watch
-  - cli/wget
-  - devops/wireshark
-  - utils/xquartz
-  - dev/yarn
-  - utils/ykman
-  - cli/yq
-  - media/yt-dlp
+# Execution order (categories run in this sequence)
+execution_order:
+  - core
+  - shell
+  - cli
+  - dev
+  - devops
+  - utils
+  - apps
+  - media
+  - gaming
+
+# Override controls
+exclude_roles: []
+exclude_categories: []
 
 op:
   k8s:
