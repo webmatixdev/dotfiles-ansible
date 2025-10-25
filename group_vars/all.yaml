@@ -50,10 +50,11 @@ base_roles:
     - locationsimulator
     - lua
     - maven
-    - neovim
+    # - neovim
     - npm
     - nvm
     - python
+    - vim
     - vscode
     - xcode
     - yarn
