@@ -1,22 +1,8 @@
 ---
-- name: "Build tags for {{ category_name }} roles"
-  ansible.builtin.set_fact:
-    category_tags: >-
-      {{
-        [category_name] +
-        ((merged_roles[category_name] | default([])) |
-         difference(exclude_roles | default([])) |
-         map('string') |
-         list)
-      }}
-  tags:
-    - always
-
-- name: "Run {{ category_name }} roles"
+- name: "Run roles in {{ category_name }}"
   ansible.builtin.include_role:
     name: "{{ role_name }}"
   loop: "{{ (merged_roles[category_name] | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
   loop_control:
     loop_var: role_name
   when: 'exclude_categories | default([]) | select("search", "^" + category_name + "$") | list | length == 0'
-  tags: "{{ category_tags }}"
