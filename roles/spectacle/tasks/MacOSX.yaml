@@ -1,6 +1,0 @@
----
-- name: "Spectacle | MacOSX | Install spectacle"
-  community.general.homebrew_cask:
-    name: spectacle
-    state: present
-
