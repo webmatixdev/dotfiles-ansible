@@ -1,6 +1,18 @@
 ---
-- name: "NordVPN | MacOSX | Install nordvpn"
-  community.general.homebrew_cask:
-    name: nordvpn
-    state: present
+- name: "NordVPN | MacOSX | Download NordVPN installer"
+  get_url:
+    url: https://downloads.nordcdn.com/apps/macos/generic/NordVPN-OpenVPN/latest/NordVPN.pkg
+    dest: /tmp/NordVPN.pkg
+    mode: '0644'
+  become: true
 
+- name: "NordVPN | MacOSX | Install NordVPN from pkg"
+  ansible.builtin.command:
+    cmd: "installer -pkg /tmp/NordVPN.pkg -target /"
+  become: true
+
+- name: "NordVPN | MacOSX | Remove NordVPN installer"
+  file:
+    path: /tmp/NordVPN.pkg
+    state: absent
+  become: true
