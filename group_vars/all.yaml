@@ -53,10 +53,7 @@ base_roles:
     - neovim
     - npm
     - nvm
-    - openwebstart
-    - pwsh
     - python
-    - utm
     - vscode
     - xcode
     - yarn
@@ -65,16 +62,13 @@ base_roles:
     - docker
     - flux
     - gcloud
-    # - helm # fix later
+    - helm
     - helmfile
     - k8s
     - k9s
     - opentofu
     - operator-sdk
     - podman
-    - pulumi
-    - talosctl
-    - wireshark
   utils:
     - appcleaner
     - balenaetcher
@@ -83,7 +77,6 @@ base_roles:
     - hex-fiend
     - hp
     - insomnia
-    - jdownloader
     - lunar
     - m-cli
     - mailsy
@@ -99,7 +92,6 @@ base_roles:
     - ykman
   apps:
     - brave
-    - discord
     - libreoffice
     - notion
     - obsidian
@@ -108,9 +100,7 @@ base_roles:
     - slack
     - safari-extensions
     - telegram
-    - tor-browser
     - todoist
-    - cake-wallet
     - home-assistant
     - microsoft-to-do
   media:
@@ -119,13 +109,9 @@ base_roles:
     - mpv
     - obs
     - quicklook
-    - rawtherapee
     - vlc
-    - yt-dlp
   gaming:
-    - dosbox
     - moonlight
-    - steam
 
 # Override controls
 exclude_roles: []

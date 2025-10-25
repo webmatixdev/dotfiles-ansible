@@ -8,16 +8,16 @@
   ansible.builtin.include_tasks: "{{ ansible_distribution }}.yaml"
   when: distribution_config.stat.exists
 
-- name: Helm | Add Helm Repos
-  kubernetes.core.helm_repository:
-    name: "{{ item.name }}"
-    url: "{{ item.url }}"
-    repo_state: present
-  loop: "{{ helm.repos }}"
-
-- name: Add helm repo update command to update config
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_env.HOME }}/.config/update-commands.conf"
-    line: "helm repo update --quiet;Helm Repo Update"
-    state: present
-    create: false
+#- name: Helm | Add Helm Repos
+#  kubernetes.core.helm_repository:
+#    name: "{{ item.name }}"
+#    url: "{{ item.url }}"
+#    repo_state: present
+#  loop: "{{ helm.repos }}"
+#
+#- name: Add helm repo update command to update config
+#  ansible.builtin.lineinfile:
+#    path: "{{ ansible_env.HOME }}/.config/update-commands.conf"
+#    line: "helm repo update --quiet;Helm Repo Update"
+#    state: present
+#    create: false
