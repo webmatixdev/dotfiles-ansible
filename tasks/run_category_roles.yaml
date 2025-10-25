@@ -3,6 +3,7 @@
   ansible.builtin.include_role:
     apply:
       tags:
+        - "{{ category_name }}"
         - "{{ role_name }}"
     name: "{{ role_name }}"
   loop: "{{ (merged_roles[category_name] | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
