@@ -219,7 +219,7 @@ prepare_dotfiles_dir() {
 
   if [[ ! -L "$LINK_TARGET" || "$(readlink -- "$LINK_TARGET")" != "$DOTFILES_BIN" ]]; then
     __task "Symlinking dotfiles script to $LINK_TARGET"
-    _cmd "ln -sf \"$DOTFILES_BIN\" \"$LINK_TARGET\""
+    _cmd "sudo ln -sf \"$DOTFILES_BIN\" \"$LINK_TARGET\""
     _task_done
   fi
 }
