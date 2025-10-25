@@ -22,11 +22,6 @@
       tags:
         - always
 
-    - name: Load 1Password secrets
-      ansible.builtin.import_tasks: pre_tasks/load_1password_secrets.yaml
-      tags:
-        - always
-
   tasks:
     - name: Merge base and additional roles by category
       ansible.builtin.set_fact:
@@ -44,6 +39,7 @@
         category_name: core
       tags:
         - core
+        - "{{ (merged_roles.core | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # Shell category
     - name: Run shell roles
@@ -52,6 +48,7 @@
         category_name: shell
       tags:
         - shell
+        - "{{ (merged_roles.shell | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # CLI category
     - name: Run cli roles
@@ -60,6 +57,7 @@
         category_name: cli
       tags:
         - cli
+        - "{{ (merged_roles.cli | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # Dev category
     - name: Run dev roles
@@ -68,6 +66,7 @@
         category_name: dev
       tags:
         - dev
+        - "{{ (merged_roles.dev | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # DevOps category
     - name: Run devops roles
@@ -76,6 +75,7 @@
         category_name: devops
       tags:
         - devops
+        - "{{ (merged_roles.devops | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # Utils category
     - name: Run utils roles
@@ -84,6 +84,7 @@
         category_name: utils
       tags:
         - utils
+        - "{{ (merged_roles.utils | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # Apps category
     - name: Run apps roles
@@ -92,6 +93,7 @@
         category_name: apps
       tags:
         - apps
+        - "{{ (merged_roles.apps | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # Media category
     - name: Run media roles
@@ -100,6 +102,7 @@
         category_name: media
       tags:
         - media
+        - "{{ (merged_roles.media | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
 
     # Gaming category
     - name: Run gaming roles
@@ -108,3 +111,4 @@
         category_name: gaming
       tags:
         - gaming
+        - "{{ (merged_roles.gaming | default([])) | difference(exclude_roles | default([])) | map('string') | list }}"
