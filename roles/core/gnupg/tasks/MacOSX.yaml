@@ -5,8 +5,7 @@
     state: present
 
 - name: "GnuPG | MacOSX | Install gpg-suite GUI"
+  become: true
   community.general.homebrew_cask:
     name: gpg-suite
     state: present
-    become: true
-
