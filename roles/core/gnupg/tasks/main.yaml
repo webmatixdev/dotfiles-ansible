@@ -14,14 +14,15 @@
     state: directory
     mode: "0700"
 
-- name: "{{ role_name }} | Install GnuPG configuration files"
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: "{{ lookup('env', 'HOME') }}/.gnupg/{{ item }}"
-    mode: "0600"
-    backup: true
-  loop:
-    - gpg.conf
-    - gpg-agent.conf
-    - dirmngr.conf
+- name: "gnupg | Config folder"
+  ansible.builtin.file:
+    mode: "0755"
+    path: "{{ ansible_user_dir }}/.gnupg"
+    state: directory
 
+- name: "gnupg | Create symlink to role files directory"
+  ansible.builtin.file:
+    src: "{{ role_path }}/files"
+    dest: "{{ ansible_user_dir }}/.gnupg"
+    state: link
+    force: true
