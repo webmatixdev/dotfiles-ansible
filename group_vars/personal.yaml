@@ -1,27 +1,27 @@
 # Additional roles for personal environment organized by category
 # Only add roles that are NOT already present in all.yaml
-additional_roles:
-  dev:
-    - openwebstart
-    - pwsh
-    - utm
-  devops:
-    - pulumi
-    - talosctl
-    - wireshark
-  utils:
-    - jdownloader
-  apps:
-    - discord
-    - tor-browser
-    - cake-wallet
-  media:
-    - rawtherapee
-    - yt-dlp
-  gaming:
-    - dosbox
-    - steam
-    - virtualhere-server
+additional_roles: {}
+#  dev:
+#    - openwebstart
+#    - pwsh
+#    - utm
+#  devops:
+#    - pulumi
+#    - talosctl
+#    - wireshark
+#  utils:
+#    - jdownloader
+#  apps:
+#    - discord
+#    - tor-browser
+#    - cake-wallet
+#  media:
+#    - rawtherapee
+#    - yt-dlp
+#  gaming:
+#    - dosbox
+#    - steam
+#    - virtualhere-server
 
 git:
   user:

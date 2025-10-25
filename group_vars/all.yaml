@@ -59,6 +59,10 @@ base_roles:
     - vscode
     - xcode
     - yarn
+    # personal
+    - openwebstart
+    - pwsh
+    - utm
   devops:
     - argocd
     - docker
@@ -71,6 +75,10 @@ base_roles:
     - opentofu
     - operator-sdk
     - podman
+    # personal
+    - pulumi
+    - talosctl
+    - wireshark
   utils:
     - appcleaner
     - balenaetcher
@@ -93,6 +101,7 @@ base_roles:
     - windows-app
     - xquartz
     - ykman
+    - jdownloader
   apps:
     - brave
     - libreoffice
@@ -106,6 +115,10 @@ base_roles:
     - todoist
     - home-assistant
     - microsoft-to-do
+    # personal
+    - discord
+    - tor-browser
+    - cake-wallet
   media:
     - ffmpeg
     - handbrake
@@ -113,8 +126,14 @@ base_roles:
     - obs
     - quicklook
     - vlc
+    # personal
+    - rawtherapee
+    - yt-dlp
   gaming:
     - moonlight
+    - dosbox
+    - steam
+    - virtualhere-server
 
 # Override controls
 exclude_roles: []
