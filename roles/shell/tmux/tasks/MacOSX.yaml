@@ -1,5 +1,8 @@
 ---
 - name: "TMUX | MacOSX | Install tmux"
   community.general.homebrew:
-    name: tmux
+    name: "{{ item }}"
     state: present
+  loop:
+    - tmux
+    - tmux-mem-cpu-load
