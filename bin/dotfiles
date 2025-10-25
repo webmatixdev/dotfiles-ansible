@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # color codes
-
-# shellcheck disable=SC2034
 RESTORE='\033[0m'
 NC='\033[0m'
 BLACK='\033[00;30m'
@@ -35,6 +33,8 @@ HOT="${ORANGE}\xF0\x9F\x94\xA5${NC}"
 WARNING="${RED}\xF0\x9F\x9A\xA8${NC}"
 RIGHT_ANGLE="${GREEN}\xE2\x88\x9F${NC}"
 
+
+
 set -e
 
 # Paths
@@ -49,33 +49,33 @@ SKIP_FIDO=false
 function __task {
   # if _task is called while a task was set, complete the previous
   if [[ $TASK != "" ]]; then
-    printf "%s [✓]  %s\n" "${OVERWRITE}${LGREEN}" "${LGREEN}${TASK}"
+    printf "${OVERWRITE}${LGREEN} [✓]  ${LGREEN}${TASK}\n"
   fi
   # set new task title and print
   TASK=$1
-  printf "%s [ ]  %s \n%s" "${LBLACK}" "${TASK}" "${LRED}"
+  printf "${LBLACK} [ ]  ${TASK} \n${LRED}"
 }
 
 # _cmd performs commands with error checking
 function _cmd {
   #create log if it doesn't exist
   if ! [[ -f $DOTFILES_LOG ]]; then
-    touch "$DOTFILES_LOG"
+    touch $DOTFILES_LOG
   fi
   # empty conduro.log
   # > $DOTFILES_LOG
   # hide stdout, on error we print and exit
-  if eval "$1" 1> /dev/null 2> "$DOTFILES_LOG"; then
+  if eval "$1" 1> /dev/null 2> $DOTFILES_LOG; then
     return 0 # success
   fi
   # read error from log and add spacing
-  printf "%s [X]  %s\n" "${OVERWRITE}${LRED}" "${TASK}${LRED}"
+  printf "${OVERWRITE}${LRED} [X]  ${TASK}${LRED}\n"
   while read -r line; do
-    printf "      %s\n" "${line}"
-  done < "$DOTFILES_LOG"
+    printf "      ${line}\n"
+  done < $DOTFILES_LOG
   printf "\n"
   # remove log file
-  rm "$DOTFILES_LOG"
+  rm $DOTFILES_LOG
   # exit installation
   exit 1
 }
@@ -85,7 +85,7 @@ function _clear_task {
 }
 
 function _task_done {
-  printf "%s [✓]  %s\n" "${OVERWRITE}${LGREEN}" "${LGREEN}${TASK}"
+  printf "${OVERWRITE}${LGREEN} [✓]  ${LGREEN}${TASK}\n"
   _clear_task
 }
 
@@ -140,9 +140,8 @@ function ubuntu_setup() {
     _cmd "sudo apt-get install -y python3"
   fi
 
-  local UBUNTU_MAJOR_VERSION
-  UBUNTU_MAJOR_VERSION=$(echo "$VERSION_ID" | cut -d. -f1)
-  if [ "$UBUNTU_MAJOR_VERSION" -le 22 ]; then
+  local UBUNTU_MAJOR_VERSION=$(echo $VERSION_ID | cut -d. -f1)
+  if [ $UBUNTU_MAJOR_VERSION -le 22 ]; then
     if ! dpkg -s python3-pip >/dev/null 2>&1; then
       __task "Installing Python3 Pip"
       _cmd "sudo apt-get install -y python3-pip"
@@ -199,9 +198,9 @@ update_ansible_galaxy() {
 detect_os() {
   if [ -f /etc/os-release ]; then
     source /etc/os-release
-    echo "$ID"
+    echo $ID
   else
-    uname -s | tr '[:upper:]' '[:lower:]'
+    echo $(uname -s | tr '[:upper:]' '[:lower:]')
   fi
 }
 
@@ -260,9 +259,8 @@ fi
 
 prepare_dotfiles_dir
 
-{ pushd "$DOTFILES_DIR" > /dev/null; } 2>&1
-# To redirect stdout+stderr, 2>&1 must be last (or use '{ cmd > file; } 2>&1' to clarify).
-update_ansible_galaxy "$ID"
+pushd "$DOTFILES_DIR" 2>&1 > /dev/null
+update_ansible_galaxy $ID
 
 # If env is provided, set it first
 if [[ -n "$env_value" ]]; then
@@ -280,7 +278,7 @@ else
   ansible-playbook "$DOTFILES_DIR/main.yaml" "${remaining_args[@]}"
 fi
 
-{ popd > /dev/null; } 2>&1
+popd 2>&1 > /dev/null
 
 if ! [[ -f "$IS_FIRST_RUN" ]]; then
   echo -e "${CHECK_MARK} ${GREEN}First run complete!${NC}"
