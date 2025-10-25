@@ -72,7 +72,7 @@
         user_tags: >-
           {{ ansible_run_tags | difference(['always']) }}
         has_user_tags: >-
-          {{ user_tags | length > 0 }}
+          {{ (ansible_run_tags | difference(['always'])) | length > 0 }}
         run_all_roles: >-
           {{ 'all' in ansible_run_tags }}
       tags:
