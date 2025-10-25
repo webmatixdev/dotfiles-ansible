@@ -30,17 +30,38 @@
       tags:
         - always
 
+    - name: Prepare ordered category list from execution_order
+      ansible.builtin.set_fact:
+        ordered_categories: >-
+          {{ execution_order | sort(attribute='order') | map(attribute='category') | list }}
+      tags:
+        - always
+
+    - name: Prepare filtered ordered category list
+      ansible.builtin.set_fact:
+        filtered_ordered_categories: []
+      tags:
+        - always
+
+    - name: Add category to filtered_ordered_categories if not excluded
+      ansible.builtin.set_fact:
+        filtered_ordered_categories: "{{ filtered_ordered_categories + [item] }}"
+      when: item not in (exclude_categories | default([]))
+      loop: "{{ ordered_categories }}"
+      tags:
+        - always
+
     - name: Build category role paths
       ansible.builtin.set_fact:
         category_role_paths: >-
           {{
-            (merged_roles[category] | default([]) | 
+            (merged_roles[category] | default([]) |
              difference(exclude_roles | default([]))) |
              map('string') |
              map('regex_replace', '^(.*)$', category ~ '/\1') |
              list
           }}
-      loop: "{{ execution_order | difference(exclude_categories | default([])) }}"
+      loop: "{{ filtered_ordered_categories }}"
       loop_control:
         loop_var: category
       register: role_path_results
@@ -97,9 +118,9 @@
     - name: Simulate role execution
       ansible.builtin.debug:
         msg: "Would execute role: {{ role_item }} with tag: {{ role_item | regex_replace('^.+/', '') }}"
+      loop: "{{ final_run_roles }}"
       loop_control:
         loop_var: role_item
-      with_items: "{{ final_run_roles }}"
       tags:
         - always
 
@@ -117,17 +138,31 @@
       tags:
         - always
 
-    - name: Build execution list with exclusions
+    - name: Prepare filtered ordered category list for exclusion test
+      ansible.builtin.set_fact:
+        filtered_ordered_categories_excl: []
+      tags:
+        - always
+
+    - name: Add category to filtered_ordered_categories_excl if not excluded
+      ansible.builtin.set_fact:
+        filtered_ordered_categories_excl: "{{ filtered_ordered_categories_excl + [item] }}"
+      when: item not in (test_exclude_categories | default([]))
+      loop: "{{ ordered_categories }}"
+      tags:
+        - always
+
+    - name: Build exclusion test category paths
       ansible.builtin.set_fact:
         test_category_role_paths: >-
           {{
-            (merged_roles[category] | default([]) | 
+            (merged_roles[category] | default([]) |
              difference(test_exclude_roles | default([]))) |
              map('string') |
              map('regex_replace', '^(.*)$', category ~ '/\1') |
              list
           }}
-      loop: "{{ execution_order | difference(test_exclude_categories | default([])) }}"
+      loop: "{{ filtered_ordered_categories_excl }}"
       loop_control:
         loop_var: category
       register: test_exclusion_results
@@ -282,19 +317,19 @@
       tags:
         - always
 
-    - name: Extract categories from final roles
+    - name: Extract categories from final roles (preserving order)
       ansible.builtin.set_fact:
         executed_categories: >-
-          {{ final_run_roles | map('regex_replace', '/.*', '') | unique | list }}
+          {{ final_run_roles | map('regex_replace', '/.*', '') | list | unique }}
       tags:
         - always
 
-    - name: Verify execution order
+    - name: Verify execution order (preserving order)
       ansible.builtin.debug:
         msg:
-          - "Expected order: {{ execution_order }}"
+          - "Expected order: {{ filtered_ordered_categories }}"
           - "Categories in execution: {{ executed_categories }}"
-          - "Order preserved: {{ executed_categories | sort == (execution_order | intersect(executed_categories)) }}"
+          - "Order preserved: {{ executed_categories == filtered_ordered_categories }}"
       tags:
         - always
 
@@ -349,4 +384,3 @@
           - "✅ Role execution simulation: {{ 'PASS' if final_run_roles | length > 0 else 'FAIL' }}"
       tags:
         - always
-

@@ -1,0 +1,963 @@
+
+PLAY [Test Role Selection Logic] ***********************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [Simulate environment setup] **********************************************
+ok: [localhost]
+
+TASK [Merge base and additional roles by category] *****************************
+ok: [localhost]
+
+TASK [Initialize execution roles list] *****************************************
+ok: [localhost]
+
+TASK [Prepare ordered category list from execution_order] **********************
+ok: [localhost]
+
+TASK [Prepare filtered ordered category list] **********************************
+ok: [localhost]
+
+TASK [Add category to filtered_ordered_categories if not excluded] *************
+ok: [localhost] => (item=core)
+ok: [localhost] => (item=shell)
+ok: [localhost] => (item=cli)
+ok: [localhost] => (item=dev)
+ok: [localhost] => (item=devops)
+ok: [localhost] => (item=utils)
+ok: [localhost] => (item=apps)
+ok: [localhost] => (item=media)
+ok: [localhost] => (item=gaming)
+
+TASK [Build category role paths] ***********************************************
+ok: [localhost] => (item=core)
+ok: [localhost] => (item=shell)
+ok: [localhost] => (item=cli)
+ok: [localhost] => (item=dev)
+ok: [localhost] => (item=devops)
+ok: [localhost] => (item=utils)
+ok: [localhost] => (item=apps)
+ok: [localhost] => (item=media)
+ok: [localhost] => (item=gaming)
+
+TASK [Flatten execution roles list] ********************************************
+ok: [localhost]
+
+TASK [Extract user tags] *******************************************************
+ok: [localhost]
+
+TASK [Prepare tag filtering flags] *********************************************
+ok: [localhost]
+
+TASK [Build tag regex pattern] *************************************************
+skipping: [localhost]
+
+TASK [Filter roles based on tags] **********************************************
+ok: [localhost]
+
+TASK [Simulate role execution] *************************************************
+ok: [localhost] => (item=core/1password) => {
+    "msg": "Would execute role: core/1password with tag: 1password"
+}
+ok: [localhost] => (item=core/fonts) => {
+    "msg": "Would execute role: core/fonts with tag: fonts"
+}
+ok: [localhost] => (item=core/ssh) => {
+    "msg": "Would execute role: core/ssh with tag: ssh"
+}
+ok: [localhost] => (item=core/gnupg) => {
+    "msg": "Would execute role: core/gnupg with tag: gnupg"
+}
+ok: [localhost] => (item=core/system) => {
+    "msg": "Would execute role: core/system with tag: system"
+}
+ok: [localhost] => (item=shell/zsh) => {
+    "msg": "Would execute role: shell/zsh with tag: zsh"
+}
+ok: [localhost] => (item=shell/neofetch) => {
+    "msg": "Would execute role: shell/neofetch with tag: neofetch"
+}
+ok: [localhost] => (item=shell/bash) => {
+    "msg": "Would execute role: shell/bash with tag: bash"
+}
+ok: [localhost] => (item=shell/kitty) => {
+    "msg": "Would execute role: shell/kitty with tag: kitty"
+}
+ok: [localhost] => (item=shell/oh-my-posh) => {
+    "msg": "Would execute role: shell/oh-my-posh with tag: oh-my-posh"
+}
+ok: [localhost] => (item=shell/tmux) => {
+    "msg": "Would execute role: shell/tmux with tag: tmux"
+}
+ok: [localhost] => (item=shell/starship) => {
+    "msg": "Would execute role: shell/starship with tag: starship"
+}
+ok: [localhost] => (item=cli/bat) => {
+    "msg": "Would execute role: cli/bat with tag: bat"
+}
+ok: [localhost] => (item=cli/colordiff) => {
+    "msg": "Would execute role: cli/colordiff with tag: colordiff"
+}
+ok: [localhost] => (item=cli/htop) => {
+    "msg": "Would execute role: cli/htop with tag: htop"
+}
+ok: [localhost] => (item=cli/yq) => {
+    "msg": "Would execute role: cli/yq with tag: yq"
+}
+ok: [localhost] => (item=cli/thefuck) => {
+    "msg": "Would execute role: cli/thefuck with tag: thefuck"
+}
+ok: [localhost] => (item=cli/lazygit) => {
+    "msg": "Would execute role: cli/lazygit with tag: lazygit"
+}
+ok: [localhost] => (item=cli/coreutils) => {
+    "msg": "Would execute role: cli/coreutils with tag: coreutils"
+}
+ok: [localhost] => (item=cli/cloc) => {
+    "msg": "Would execute role: cli/cloc with tag: cloc"
+}
+ok: [localhost] => (item=cli/shellcheck) => {
+    "msg": "Would execute role: cli/shellcheck with tag: shellcheck"
+}
+ok: [localhost] => (item=cli/httpie) => {
+    "msg": "Would execute role: cli/httpie with tag: httpie"
+}
+ok: [localhost] => (item=cli/nmap) => {
+    "msg": "Would execute role: cli/nmap with tag: nmap"
+}
+ok: [localhost] => (item=cli/gnu-sed) => {
+    "msg": "Would execute role: cli/gnu-sed with tag: gnu-sed"
+}
+ok: [localhost] => (item=cli/btop) => {
+    "msg": "Would execute role: cli/btop with tag: btop"
+}
+ok: [localhost] => (item=cli/ranger) => {
+    "msg": "Would execute role: cli/ranger with tag: ranger"
+}
+ok: [localhost] => (item=cli/jj) => {
+    "msg": "Would execute role: cli/jj with tag: jj"
+}
+ok: [localhost] => (item=cli/trash) => {
+    "msg": "Would execute role: cli/trash with tag: trash"
+}
+ok: [localhost] => (item=cli/tree) => {
+    "msg": "Would execute role: cli/tree with tag: tree"
+}
+ok: [localhost] => (item=cli/direnv) => {
+    "msg": "Would execute role: cli/direnv with tag: direnv"
+}
+ok: [localhost] => (item=cli/terminal-notifier) => {
+    "msg": "Would execute role: cli/terminal-notifier with tag: terminal-notifier"
+}
+ok: [localhost] => (item=cli/mdv) => {
+    "msg": "Would execute role: cli/mdv with tag: mdv"
+}
+ok: [localhost] => (item=cli/git) => {
+    "msg": "Would execute role: cli/git with tag: git"
+}
+ok: [localhost] => (item=cli/zoxide) => {
+    "msg": "Would execute role: cli/zoxide with tag: zoxide"
+}
+ok: [localhost] => (item=cli/jq) => {
+    "msg": "Would execute role: cli/jq with tag: jq"
+}
+ok: [localhost] => (item=cli/watch) => {
+    "msg": "Would execute role: cli/watch with tag: watch"
+}
+ok: [localhost] => (item=cli/speedtest) => {
+    "msg": "Would execute role: cli/speedtest with tag: speedtest"
+}
+ok: [localhost] => (item=cli/wget) => {
+    "msg": "Would execute role: cli/wget with tag: wget"
+}
+ok: [localhost] => (item=cli/fzf) => {
+    "msg": "Would execute role: cli/fzf with tag: fzf"
+}
+ok: [localhost] => (item=dev/pwsh) => {
+    "msg": "Would execute role: dev/pwsh with tag: pwsh"
+}
+ok: [localhost] => (item=dev/jdk) => {
+    "msg": "Would execute role: dev/jdk with tag: jdk"
+}
+ok: [localhost] => (item=dev/neovim) => {
+    "msg": "Would execute role: dev/neovim with tag: neovim"
+}
+ok: [localhost] => (item=dev/npm) => {
+    "msg": "Would execute role: dev/npm with tag: npm"
+}
+ok: [localhost] => (item=dev/go) => {
+    "msg": "Would execute role: dev/go with tag: go"
+}
+ok: [localhost] => (item=dev/kotlin) => {
+    "msg": "Would execute role: dev/kotlin with tag: kotlin"
+}
+ok: [localhost] => (item=dev/locationsimulator) => {
+    "msg": "Would execute role: dev/locationsimulator with tag: locationsimulator"
+}
+ok: [localhost] => (item=dev/maven) => {
+    "msg": "Would execute role: dev/maven with tag: maven"
+}
+ok: [localhost] => (item=dev/lua) => {
+    "msg": "Would execute role: dev/lua with tag: lua"
+}
+ok: [localhost] => (item=dev/nvm) => {
+    "msg": "Would execute role: dev/nvm with tag: nvm"
+}
+ok: [localhost] => (item=dev/openwebstart) => {
+    "msg": "Would execute role: dev/openwebstart with tag: openwebstart"
+}
+ok: [localhost] => (item=dev/yarn) => {
+    "msg": "Would execute role: dev/yarn with tag: yarn"
+}
+ok: [localhost] => (item=dev/python) => {
+    "msg": "Would execute role: dev/python with tag: python"
+}
+ok: [localhost] => (item=dev/utm) => {
+    "msg": "Would execute role: dev/utm with tag: utm"
+}
+ok: [localhost] => (item=devops/k8s) => {
+    "msg": "Would execute role: devops/k8s with tag: k8s"
+}
+ok: [localhost] => (item=devops/k9s) => {
+    "msg": "Would execute role: devops/k9s with tag: k9s"
+}
+ok: [localhost] => (item=devops/pulumi) => {
+    "msg": "Would execute role: devops/pulumi with tag: pulumi"
+}
+ok: [localhost] => (item=devops/flux) => {
+    "msg": "Would execute role: devops/flux with tag: flux"
+}
+ok: [localhost] => (item=devops/argocd) => {
+    "msg": "Would execute role: devops/argocd with tag: argocd"
+}
+ok: [localhost] => (item=devops/operator-sdk) => {
+    "msg": "Would execute role: devops/operator-sdk with tag: operator-sdk"
+}
+ok: [localhost] => (item=devops/docker) => {
+    "msg": "Would execute role: devops/docker with tag: docker"
+}
+ok: [localhost] => (item=devops/podman) => {
+    "msg": "Would execute role: devops/podman with tag: podman"
+}
+ok: [localhost] => (item=devops/wireshark) => {
+    "msg": "Would execute role: devops/wireshark with tag: wireshark"
+}
+ok: [localhost] => (item=devops/opentofu) => {
+    "msg": "Would execute role: devops/opentofu with tag: opentofu"
+}
+ok: [localhost] => (item=devops/talosctl) => {
+    "msg": "Would execute role: devops/talosctl with tag: talosctl"
+}
+ok: [localhost] => (item=devops/gcloud) => {
+    "msg": "Would execute role: devops/gcloud with tag: gcloud"
+}
+ok: [localhost] => (item=devops/helmfile) => {
+    "msg": "Would execute role: devops/helmfile with tag: helmfile"
+}
+ok: [localhost] => (item=utils/jdownloader) => {
+    "msg": "Would execute role: utils/jdownloader with tag: jdownloader"
+}
+ok: [localhost] => (item=utils/lunar) => {
+    "msg": "Would execute role: utils/lunar with tag: lunar"
+}
+ok: [localhost] => (item=utils/openvpn-connect) => {
+    "msg": "Would execute role: utils/openvpn-connect with tag: openvpn-connect"
+}
+ok: [localhost] => (item=utils/ykman) => {
+    "msg": "Would execute role: utils/ykman with tag: ykman"
+}
+ok: [localhost] => (item=utils/appcleaner) => {
+    "msg": "Would execute role: utils/appcleaner with tag: appcleaner"
+}
+ok: [localhost] => (item=utils/nordvpn) => {
+    "msg": "Would execute role: utils/nordvpn with tag: nordvpn"
+}
+ok: [localhost] => (item=utils/onyx) => {
+    "msg": "Would execute role: utils/onyx with tag: onyx"
+}
+ok: [localhost] => (item=utils/mas) => {
+    "msg": "Would execute role: utils/mas with tag: mas"
+}
+ok: [localhost] => (item=utils/mailsy) => {
+    "msg": "Would execute role: utils/mailsy with tag: mailsy"
+}
+ok: [localhost] => (item=utils/the-unarchiver) => {
+    "msg": "Would execute role: utils/the-unarchiver with tag: the-unarchiver"
+}
+ok: [localhost] => (item=utils/xquartz) => {
+    "msg": "Would execute role: utils/xquartz with tag: xquartz"
+}
+ok: [localhost] => (item=utils/balenaetcher) => {
+    "msg": "Would execute role: utils/balenaetcher with tag: balenaetcher"
+}
+ok: [localhost] => (item=utils/m-cli) => {
+    "msg": "Would execute role: utils/m-cli with tag: m-cli"
+}
+ok: [localhost] => (item=utils/brew-cask-completion) => {
+    "msg": "Would execute role: utils/brew-cask-completion with tag: brew-cask-completion"
+}
+ok: [localhost] => (item=utils/flatpak) => {
+    "msg": "Would execute role: utils/flatpak with tag: flatpak"
+}
+ok: [localhost] => (item=apps/signal) => {
+    "msg": "Would execute role: apps/signal with tag: signal"
+}
+ok: [localhost] => (item=apps/obsidian) => {
+    "msg": "Would execute role: apps/obsidian with tag: obsidian"
+}
+ok: [localhost] => (item=apps/notion) => {
+    "msg": "Would execute role: apps/notion with tag: notion"
+}
+ok: [localhost] => (item=apps/microsoft-remote-desktop) => {
+    "msg": "Would execute role: apps/microsoft-remote-desktop with tag: microsoft-remote-desktop"
+}
+ok: [localhost] => (item=apps/postman) => {
+    "msg": "Would execute role: apps/postman with tag: postman"
+}
+ok: [localhost] => (item=apps/raycast) => {
+    "msg": "Would execute role: apps/raycast with tag: raycast"
+}
+ok: [localhost] => (item=apps/brave) => {
+    "msg": "Would execute role: apps/brave with tag: brave"
+}
+ok: [localhost] => (item=apps/slack) => {
+    "msg": "Would execute role: apps/slack with tag: slack"
+}
+ok: [localhost] => (item=apps/tor-browser) => {
+    "msg": "Would execute role: apps/tor-browser with tag: tor-browser"
+}
+ok: [localhost] => (item=apps/jetbrains-toolbox) => {
+    "msg": "Would execute role: apps/jetbrains-toolbox with tag: jetbrains-toolbox"
+}
+ok: [localhost] => (item=apps/insomnia) => {
+    "msg": "Would execute role: apps/insomnia with tag: insomnia"
+}
+ok: [localhost] => (item=apps/discord) => {
+    "msg": "Would execute role: apps/discord with tag: discord"
+}
+ok: [localhost] => (item=apps/vscode) => {
+    "msg": "Would execute role: apps/vscode with tag: vscode"
+}
+ok: [localhost] => (item=apps/libreoffice) => {
+    "msg": "Would execute role: apps/libreoffice with tag: libreoffice"
+}
+ok: [localhost] => (item=media/mpv) => {
+    "msg": "Would execute role: media/mpv with tag: mpv"
+}
+ok: [localhost] => (item=media/handbrake) => {
+    "msg": "Would execute role: media/handbrake with tag: handbrake"
+}
+ok: [localhost] => (item=media/ffmpeg) => {
+    "msg": "Would execute role: media/ffmpeg with tag: ffmpeg"
+}
+ok: [localhost] => (item=media/quicklook) => {
+    "msg": "Would execute role: media/quicklook with tag: quicklook"
+}
+ok: [localhost] => (item=media/rawtherapee) => {
+    "msg": "Would execute role: media/rawtherapee with tag: rawtherapee"
+}
+ok: [localhost] => (item=media/yt-dlp) => {
+    "msg": "Would execute role: media/yt-dlp with tag: yt-dlp"
+}
+ok: [localhost] => (item=media/obs) => {
+    "msg": "Would execute role: media/obs with tag: obs"
+}
+ok: [localhost] => (item=media/vlc) => {
+    "msg": "Would execute role: media/vlc with tag: vlc"
+}
+ok: [localhost] => (item=gaming/dosbox) => {
+    "msg": "Would execute role: gaming/dosbox with tag: dosbox"
+}
+ok: [localhost] => (item=gaming/moonlight) => {
+    "msg": "Would execute role: gaming/moonlight with tag: moonlight"
+}
+ok: [localhost] => (item=gaming/steam) => {
+    "msg": "Would execute role: gaming/steam with tag: steam"
+}
+
+TASK [=== EXCLUSION TESTS ===] *************************************************
+ok: [localhost] => {
+    "msg": "Testing exclusion functionality"
+}
+
+TASK [Test role exclusion] *****************************************************
+ok: [localhost]
+
+TASK [Prepare filtered ordered category list for exclusion test] ***************
+ok: [localhost]
+
+TASK [Add category to filtered_ordered_categories_excl if not excluded] ********
+ok: [localhost] => (item=core)
+ok: [localhost] => (item=shell)
+ok: [localhost] => (item=cli)
+ok: [localhost] => (item=dev)
+ok: [localhost] => (item=devops)
+ok: [localhost] => (item=utils)
+ok: [localhost] => (item=apps)
+ok: [localhost] => (item=media)
+skipping: [localhost] => (item=gaming) 
+
+TASK [Build exclusion test category paths] *************************************
+ok: [localhost] => (item=core)
+ok: [localhost] => (item=shell)
+ok: [localhost] => (item=cli)
+ok: [localhost] => (item=dev)
+ok: [localhost] => (item=devops)
+ok: [localhost] => (item=utils)
+ok: [localhost] => (item=apps)
+ok: [localhost] => (item=media)
+
+TASK [Flatten exclusion test results] ******************************************
+ok: [localhost]
+
+TASK [=== ENVIRONMENT TESTS ===] ***********************************************
+ok: [localhost] => {
+    "msg": "Testing environment-specific role merging"
+}
+
+TASK [Show additional_roles from environment] **********************************
+ok: [localhost] => {
+    "additional_roles": {}
+}
+
+TASK [Verify role merging worked] **********************************************
+ok: [localhost] => {
+    "msg": [
+        "Base roles in dev: 14",
+        "Additional roles in dev: 0",
+        "Merged roles in dev: 14"
+    ]
+}
+
+TASK [=== MAIN TEST RESULTS ===] ***********************************************
+ok: [localhost] => {
+    "msg": "Starting comprehensive test output analysis"
+}
+
+TASK [Show provided tags] ******************************************************
+ok: [localhost] => {
+    "ansible_run_tags": [
+        "all"
+    ]
+}
+
+TASK [Show user tags (without 'always')] ***************************************
+ok: [localhost] => {
+    "user_tags": [
+        "all"
+    ]
+}
+
+TASK [Show tag filtering flags] ************************************************
+ok: [localhost] => {
+    "msg": [
+        "Has user tags: True",
+        "Run all roles: True",
+        "Tag pattern: not set"
+    ]
+}
+
+TASK [Show merged roles by category] *******************************************
+ok: [localhost] => {
+    "merged_roles": {
+        "apps": [
+            "brave",
+            "discord",
+            "insomnia",
+            "jetbrains-toolbox",
+            "libreoffice",
+            "microsoft-remote-desktop",
+            "notion",
+            "obsidian",
+            "postman",
+            "raycast",
+            "signal",
+            "slack",
+            "tor-browser",
+            "vscode"
+        ],
+        "cli": [
+            "zoxide",
+            "bat",
+            "btop",
+            "cloc",
+            "colordiff",
+            "coreutils",
+            "direnv",
+            "fzf",
+            "git",
+            "gnu-sed",
+            "htop",
+            "httpie",
+            "jj",
+            "jq",
+            "lazygit",
+            "mdv",
+            "nmap",
+            "ranger",
+            "shellcheck",
+            "speedtest",
+            "terminal-notifier",
+            "thefuck",
+            "trash",
+            "tree",
+            "watch",
+            "wget",
+            "yq"
+        ],
+        "core": [
+            "system",
+            "1password",
+            "ssh",
+            "fonts",
+            "gnupg"
+        ],
+        "dev": [
+            "jdk",
+            "go",
+            "kotlin",
+            "locationsimulator",
+            "lua",
+            "maven",
+            "neovim",
+            "npm",
+            "nvm",
+            "openwebstart",
+            "pwsh",
+            "python",
+            "utm",
+            "yarn"
+        ],
+        "devops": [
+            "argocd",
+            "docker",
+            "flux",
+            "gcloud",
+            "helmfile",
+            "k8s",
+            "k9s",
+            "opentofu",
+            "operator-sdk",
+            "podman",
+            "pulumi",
+            "talosctl",
+            "wireshark"
+        ],
+        "gaming": [
+            "dosbox",
+            "moonlight",
+            "steam"
+        ],
+        "media": [
+            "ffmpeg",
+            "handbrake",
+            "mpv",
+            "obs",
+            "quicklook",
+            "rawtherapee",
+            "vlc",
+            "yt-dlp"
+        ],
+        "shell": [
+            "bash",
+            "zsh",
+            "oh-my-posh",
+            "starship",
+            "tmux",
+            "kitty",
+            "neofetch"
+        ],
+        "utils": [
+            "appcleaner",
+            "balenaetcher",
+            "brew-cask-completion",
+            "flatpak",
+            "jdownloader",
+            "lunar",
+            "m-cli",
+            "mailsy",
+            "mas",
+            "nordvpn",
+            "onyx",
+            "openvpn-connect",
+            "the-unarchiver",
+            "xquartz",
+            "ykman"
+        ]
+    }
+}
+
+TASK [Show execution order] ****************************************************
+ok: [localhost] => {
+    "execution_order": [
+        {
+            "category": "core",
+            "order": 0
+        },
+        {
+            "category": "shell",
+            "order": 1
+        },
+        {
+            "category": "cli",
+            "order": 2
+        },
+        {
+            "category": "dev",
+            "order": 3
+        },
+        {
+            "category": "devops",
+            "order": 4
+        },
+        {
+            "category": "utils",
+            "order": 5
+        },
+        {
+            "category": "apps",
+            "order": 6
+        },
+        {
+            "category": "media",
+            "order": 7
+        },
+        {
+            "category": "gaming",
+            "order": 8
+        }
+    ]
+}
+
+TASK [Show all roles in execution order (before tag filtering)] ****************
+ok: [localhost] => {
+    "execution_roles": [
+        "core/1password",
+        "core/fonts",
+        "core/ssh",
+        "core/gnupg",
+        "core/system",
+        "shell/zsh",
+        "shell/neofetch",
+        "shell/bash",
+        "shell/kitty",
+        "shell/oh-my-posh",
+        "shell/tmux",
+        "shell/starship",
+        "cli/bat",
+        "cli/colordiff",
+        "cli/htop",
+        "cli/yq",
+        "cli/thefuck",
+        "cli/lazygit",
+        "cli/coreutils",
+        "cli/cloc",
+        "cli/shellcheck",
+        "cli/httpie",
+        "cli/nmap",
+        "cli/gnu-sed",
+        "cli/btop",
+        "cli/ranger",
+        "cli/jj",
+        "cli/trash",
+        "cli/tree",
+        "cli/direnv",
+        "cli/terminal-notifier",
+        "cli/mdv",
+        "cli/git",
+        "cli/zoxide",
+        "cli/jq",
+        "cli/watch",
+        "cli/speedtest",
+        "cli/wget",
+        "cli/fzf",
+        "dev/pwsh",
+        "dev/jdk",
+        "dev/neovim",
+        "dev/npm",
+        "dev/go",
+        "dev/kotlin",
+        "dev/locationsimulator",
+        "dev/maven",
+        "dev/lua",
+        "dev/nvm",
+        "dev/openwebstart",
+        "dev/yarn",
+        "dev/python",
+        "dev/utm",
+        "devops/k8s",
+        "devops/k9s",
+        "devops/pulumi",
+        "devops/flux",
+        "devops/argocd",
+        "devops/operator-sdk",
+        "devops/docker",
+        "devops/podman",
+        "devops/wireshark",
+        "devops/opentofu",
+        "devops/talosctl",
+        "devops/gcloud",
+        "devops/helmfile",
+        "utils/jdownloader",
+        "utils/lunar",
+        "utils/openvpn-connect",
+        "utils/ykman",
+        "utils/appcleaner",
+        "utils/nordvpn",
+        "utils/onyx",
+        "utils/mas",
+        "utils/mailsy",
+        "utils/the-unarchiver",
+        "utils/xquartz",
+        "utils/balenaetcher",
+        "utils/m-cli",
+        "utils/brew-cask-completion",
+        "utils/flatpak",
+        "apps/signal",
+        "apps/obsidian",
+        "apps/notion",
+        "apps/microsoft-remote-desktop",
+        "apps/postman",
+        "apps/raycast",
+        "apps/brave",
+        "apps/slack",
+        "apps/tor-browser",
+        "apps/jetbrains-toolbox",
+        "apps/insomnia",
+        "apps/discord",
+        "apps/vscode",
+        "apps/libreoffice",
+        "media/mpv",
+        "media/handbrake",
+        "media/ffmpeg",
+        "media/quicklook",
+        "media/rawtherapee",
+        "media/yt-dlp",
+        "media/obs",
+        "media/vlc",
+        "gaming/dosbox",
+        "gaming/moonlight",
+        "gaming/steam"
+    ]
+}
+
+TASK [Show final roles that would be executed] *********************************
+ok: [localhost] => {
+    "final_run_roles": [
+        "core/1password",
+        "core/fonts",
+        "core/ssh",
+        "core/gnupg",
+        "core/system",
+        "shell/zsh",
+        "shell/neofetch",
+        "shell/bash",
+        "shell/kitty",
+        "shell/oh-my-posh",
+        "shell/tmux",
+        "shell/starship",
+        "cli/bat",
+        "cli/colordiff",
+        "cli/htop",
+        "cli/yq",
+        "cli/thefuck",
+        "cli/lazygit",
+        "cli/coreutils",
+        "cli/cloc",
+        "cli/shellcheck",
+        "cli/httpie",
+        "cli/nmap",
+        "cli/gnu-sed",
+        "cli/btop",
+        "cli/ranger",
+        "cli/jj",
+        "cli/trash",
+        "cli/tree",
+        "cli/direnv",
+        "cli/terminal-notifier",
+        "cli/mdv",
+        "cli/git",
+        "cli/zoxide",
+        "cli/jq",
+        "cli/watch",
+        "cli/speedtest",
+        "cli/wget",
+        "cli/fzf",
+        "dev/pwsh",
+        "dev/jdk",
+        "dev/neovim",
+        "dev/npm",
+        "dev/go",
+        "dev/kotlin",
+        "dev/locationsimulator",
+        "dev/maven",
+        "dev/lua",
+        "dev/nvm",
+        "dev/openwebstart",
+        "dev/yarn",
+        "dev/python",
+        "dev/utm",
+        "devops/k8s",
+        "devops/k9s",
+        "devops/pulumi",
+        "devops/flux",
+        "devops/argocd",
+        "devops/operator-sdk",
+        "devops/docker",
+        "devops/podman",
+        "devops/wireshark",
+        "devops/opentofu",
+        "devops/talosctl",
+        "devops/gcloud",
+        "devops/helmfile",
+        "utils/jdownloader",
+        "utils/lunar",
+        "utils/openvpn-connect",
+        "utils/ykman",
+        "utils/appcleaner",
+        "utils/nordvpn",
+        "utils/onyx",
+        "utils/mas",
+        "utils/mailsy",
+        "utils/the-unarchiver",
+        "utils/xquartz",
+        "utils/balenaetcher",
+        "utils/m-cli",
+        "utils/brew-cask-completion",
+        "utils/flatpak",
+        "apps/signal",
+        "apps/obsidian",
+        "apps/notion",
+        "apps/microsoft-remote-desktop",
+        "apps/postman",
+        "apps/raycast",
+        "apps/brave",
+        "apps/slack",
+        "apps/tor-browser",
+        "apps/jetbrains-toolbox",
+        "apps/insomnia",
+        "apps/discord",
+        "apps/vscode",
+        "apps/libreoffice",
+        "media/mpv",
+        "media/handbrake",
+        "media/ffmpeg",
+        "media/quicklook",
+        "media/rawtherapee",
+        "media/yt-dlp",
+        "media/obs",
+        "media/vlc",
+        "gaming/dosbox",
+        "gaming/moonlight",
+        "gaming/steam"
+    ]
+}
+
+TASK [Show role count summary] *************************************************
+ok: [localhost] => {
+    "msg": [
+        "Total available roles: 106",
+        "Final roles to execute: 106",
+        "Filtered out: 0"
+    ]
+}
+
+TASK [Show exclusion test results] *********************************************
+ok: [localhost] => {
+    "msg": [
+        "Excluded roles count: 5",
+        "Remaining after exclusions: 101",
+        "Excluded gaming category: True"
+    ]
+}
+
+TASK [=== EDGE CASE TESTS ===] *************************************************
+ok: [localhost] => {
+    "msg": "Testing edge cases and error scenarios"
+}
+
+TASK [Test empty tag scenario] *************************************************
+ok: [localhost]
+
+TASK [Test non-existent role tags] *********************************************
+ok: [localhost]
+
+TASK [Filter with non-existent tags] *******************************************
+ok: [localhost]
+
+TASK [Show non-existent tag results] *******************************************
+ok: [localhost] => {
+    "msg": [
+        "Fake tags: ['nonexistent', 'invalid']",
+        "Fake pattern: /(nonexistent|invalid)$",
+        "Roles found with fake tags: 0"
+    ]
+}
+
+TASK [=== EXECUTION ORDER TESTS ===] *******************************************
+ok: [localhost] => {
+    "msg": "Validating role execution order matches category priority"
+}
+
+TASK [Extract categories from final roles (preserving order)] ******************
+ok: [localhost]
+
+TASK [Verify execution order (preserving order)] *******************************
+ok: [localhost] => {
+    "msg": [
+        "Expected order: ['core', 'shell', 'cli', 'dev', 'devops', 'utils', 'apps', 'media', 'gaming']",
+        "Categories in execution: ['core', 'shell', 'cli', 'dev', 'devops', 'utils', 'apps', 'media', 'gaming']",
+        "Order preserved: True"
+    ]
+}
+
+TASK [=== REGEX PATTERN TESTS ===] *********************************************
+ok: [localhost] => {
+    "msg": "Testing regex pattern construction and matching"
+}
+
+TASK [Test various tag combinations] *******************************************
+ok: [localhost] => {
+    "msg": [
+        "Single tag 'git' pattern: /(git)$",
+        "Multi tag 'git,docker' pattern: /(git|docker)$",
+        "Complex tag pattern works: /(git|docker|jdk)$"
+    ]
+}
+
+TASK [=== PERFORMANCE TESTS ===] ***********************************************
+ok: [localhost] => {
+    "msg": "Testing performance with large role sets"
+}
+
+TASK [Show performance metrics] ************************************************
+ok: [localhost] => {
+    "msg": [
+        "Total categories: 9",
+        "Total roles processed: 106",
+        "Average roles per category: 11.8",
+        "Largest category: 27"
+    ]
+}
+
+TASK [=== FINAL VALIDATION ===] ************************************************
+ok: [localhost] => {
+    "msg": "Main.yaml functionality validation complete"
+}
+
+TASK [Validation summary] ******************************************************
+ok: [localhost] => {
+    "msg": [
+        "✅ Role path construction: PASS",
+        "✅ Category ordering: PASS",
+        "✅ Tag filtering: PASS",
+        "✅ Environment merging: PASS",
+        "✅ Exclusion support: PASS",
+        "✅ Role execution simulation: PASS"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=46   changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+

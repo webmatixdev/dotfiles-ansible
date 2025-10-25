@@ -119,15 +119,24 @@ base_roles:
 
 # Execution order (categories run in this sequence)
 execution_order:
-  - core
-  - shell
-  - cli
-  - dev
-  - devops
-  - utils
-  - apps
-  - media
-  - gaming
+  - category: core
+    order: 0
+  - category: shell
+    order: 1
+  - category: cli
+    order: 2
+  - category: dev
+    order: 3
+  - category: devops
+    order: 4
+  - category: utils
+    order: 5
+  - category: apps
+    order: 6
+  - category: media
+    order: 7
+  - category: gaming
+    order: 8
 
 # Override controls
 exclude_roles: []

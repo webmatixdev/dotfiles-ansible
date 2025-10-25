@@ -38,6 +38,13 @@
       tags:
         - always
 
+    - name: Prepare ordered category list from execution_order
+      ansible.builtin.set_fact:
+        ordered_categories: >-
+          {{ execution_order | sort(attribute='order') | map(attribute='category') | list }}
+      tags:
+        - always
+
     - name: Build category role paths
       ansible.builtin.set_fact:
         category_role_paths: >-
@@ -48,7 +55,7 @@
              map('regex_replace', '^(.*)$', category ~ '/\1') |
              list
           }}
-      loop: "{{ execution_order | difference(exclude_categories | default([])) }}"
+      loop: "{{ ordered_categories | difference(exclude_categories | default([])) }}"
       loop_control:
         loop_var: category
       register: role_path_results
@@ -102,8 +109,8 @@
           tags:
             - "{{ role_item | regex_replace('^.+/', '') }}"
         name: "{{ role_item }}"
+      loop: "{{ final_run_roles }}"
       loop_control:
         loop_var: role_item
-      with_items: "{{ final_run_roles }}"
       tags:
         - always
