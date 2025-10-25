@@ -1,0 +1,6 @@
+---
+- name: "Notion | MacOSX | Install notion"
+  community.general.homebrew_cask:
+    name: notion
+    state: present
+

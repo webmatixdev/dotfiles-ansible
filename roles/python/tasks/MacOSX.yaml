@@ -1,5 +1,8 @@
 ---
-- name: "Python | MacOSX | Install python3"
+- name: "Python | MacOSX | Install python tools"
   community.general.homebrew:
-    name: python3
+    name: "{{ item }}"
     state: present
+  loop:
+    - python3
+    - pipx

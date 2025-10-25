@@ -1,0 +1,6 @@
+---
+- name: "LocationSimulator | MacOSX | Install locationsimulator"
+  community.general.homebrew_cask:
+    name: locationsimulator
+    state: present
+

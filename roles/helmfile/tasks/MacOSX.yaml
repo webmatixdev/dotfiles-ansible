@@ -1,0 +1,6 @@
+---
+- name: "Helmfile | MacOSX | Install helmfile"
+  community.general.homebrew:
+    name: helmfile
+    state: present
+

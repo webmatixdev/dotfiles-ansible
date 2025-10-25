@@ -1,0 +1,6 @@
+---
+- name: "OnyX | MacOSX | Install onyx"
+  community.general.homebrew_cask:
+    name: onyx
+    state: present
+

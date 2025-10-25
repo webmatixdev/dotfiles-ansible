@@ -1,0 +1,6 @@
+---
+- name: "Cloc | MacOSX | Install cloc"
+  community.general.homebrew:
+    name: cloc
+    state: present
+

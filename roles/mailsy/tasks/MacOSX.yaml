@@ -1,0 +1,6 @@
+---
+- name: "Mailsy | MacOSX | Install mailsy"
+  community.general.homebrew:
+    name: mailsy
+    state: present
+

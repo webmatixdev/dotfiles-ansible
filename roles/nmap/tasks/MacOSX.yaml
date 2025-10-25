@@ -1,0 +1,6 @@
+---
+- name: "Nmap | MacOSX | Install nmap"
+  community.general.homebrew:
+    name: nmap
+    state: present
+

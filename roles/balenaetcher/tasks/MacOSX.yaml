@@ -1,0 +1,6 @@
+---
+- name: "BalenaEtcher | MacOSX | Install balenaetcher"
+  community.general.homebrew_cask:
+    name: balenaetcher
+    state: present
+

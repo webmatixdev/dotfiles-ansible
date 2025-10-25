@@ -1,0 +1,6 @@
+---
+- name: "JDownloader | MacOSX | Install jdownloader"
+  community.general.homebrew_cask:
+    name: jdownloader
+    state: present
+

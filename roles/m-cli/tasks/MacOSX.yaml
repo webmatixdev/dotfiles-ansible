@@ -1,0 +1,6 @@
+---
+- name: "M-cli | MacOSX | Install m-cli"
+  community.general.homebrew:
+    name: m-cli
+    state: present
+

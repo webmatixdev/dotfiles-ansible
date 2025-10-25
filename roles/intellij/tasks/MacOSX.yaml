@@ -1,5 +1,0 @@
----
-- name: "intellij | MacOSX | Install intellij"
-  community.general.homebrew_cask:
-    name: intellij-idea
-    state: present

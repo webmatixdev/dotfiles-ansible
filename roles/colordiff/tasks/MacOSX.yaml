@@ -1,0 +1,6 @@
+---
+- name: "Colordiff | MacOSX | Install colordiff"
+  community.general.homebrew:
+    name: colordiff
+    state: present
+

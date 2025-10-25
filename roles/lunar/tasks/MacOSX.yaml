@@ -1,0 +1,6 @@
+---
+- name: "Lunar | MacOSX | Install lunar"
+  community.general.homebrew_cask:
+    name: lunar
+    state: present
+

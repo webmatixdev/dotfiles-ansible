@@ -1,0 +1,6 @@
+---
+- name: "ArgoCD | MacOSX | Install argocd"
+  community.general.homebrew:
+    name: argocd
+    state: present
+

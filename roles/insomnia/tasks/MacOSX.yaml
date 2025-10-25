@@ -1,0 +1,6 @@
+---
+- name: "Insomnia | MacOSX | Install insomnia"
+  community.general.homebrew_cask:
+    name: insomnia
+    state: present
+

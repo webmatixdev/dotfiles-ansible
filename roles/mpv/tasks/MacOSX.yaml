@@ -1,0 +1,6 @@
+---
+- name: "Mpv | MacOSX | Install mpv"
+  community.general.homebrew:
+    name: mpv
+    state: present
+

@@ -1,0 +1,6 @@
+---
+- name: "Microsoft Remote Desktop | MacOSX | Install microsoft-remote-desktop"
+  community.general.homebrew_cask:
+    name: microsoft-remote-desktop
+    state: present
+

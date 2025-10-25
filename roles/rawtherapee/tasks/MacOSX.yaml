@@ -1,0 +1,6 @@
+---
+- name: "RawTherapee | MacOSX | Install rawtherapee"
+  community.general.homebrew_cask:
+    name: rawtherapee
+    state: present
+

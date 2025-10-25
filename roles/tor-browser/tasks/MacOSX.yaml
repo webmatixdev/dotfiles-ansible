@@ -1,0 +1,6 @@
+---
+- name: "Tor Browser | MacOSX | Install tor-browser"
+  community.general.homebrew_cask:
+    name: tor-browser
+    state: present
+

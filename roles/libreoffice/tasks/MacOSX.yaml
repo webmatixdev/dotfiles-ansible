@@ -1,0 +1,6 @@
+---
+- name: "LibreOffice | MacOSX | Install libreoffice"
+  community.general.homebrew_cask:
+    name: libreoffice
+    state: present
+

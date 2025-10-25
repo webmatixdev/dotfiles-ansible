@@ -1,0 +1,6 @@
+---
+- name: "Ykman | MacOSX | Install ykman"
+  community.general.homebrew:
+    name: ykman
+    state: present
+

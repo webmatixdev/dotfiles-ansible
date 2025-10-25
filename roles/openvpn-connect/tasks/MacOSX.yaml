@@ -1,0 +1,6 @@
+---
+- name: "OpenVPN Connect | MacOSX | Install openvpn-connect"
+  community.general.homebrew_cask:
+    name: openvpn-connect
+    state: present
+

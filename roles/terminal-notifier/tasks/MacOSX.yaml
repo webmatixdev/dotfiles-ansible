@@ -1,0 +1,6 @@
+---
+- name: "Terminal-notifier | MacOSX | Install terminal-notifier"
+  community.general.homebrew:
+    name: terminal-notifier
+    state: present
+

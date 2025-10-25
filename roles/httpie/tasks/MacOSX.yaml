@@ -1,0 +1,6 @@
+---
+- name: "HTTPie | MacOSX | Install httpie"
+  community.general.homebrew:
+    name: httpie
+    state: present
+

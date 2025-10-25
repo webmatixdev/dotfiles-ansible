@@ -1,0 +1,6 @@
+---
+- name: "JetBrains Toolbox | MacOSX | Install jetbrains-toolbox"
+  community.general.homebrew_cask:
+    name: jetbrains-toolbox
+    state: present
+

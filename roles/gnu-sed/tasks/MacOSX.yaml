@@ -1,0 +1,6 @@
+---
+- name: "GNU Sed | MacOSX | Install gnu-sed"
+  community.general.homebrew:
+    name: gnu-sed
+    state: present
+

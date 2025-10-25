@@ -1,0 +1,6 @@
+---
+- name: "DOSBox | MacOSX | Install dosbox"
+  community.general.homebrew_cask:
+    name: dosbox
+    state: present
+

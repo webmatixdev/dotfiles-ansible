@@ -1,0 +1,9 @@
+[user]
+name = "Matthias Webhofer"
+email = "matthias@webhofer.pro"
+
+[ui]
+editor = "vim"
+pager = ":builtin"
+default-command = "log"
+diff-editor = ":builtin"

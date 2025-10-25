@@ -1,0 +1,6 @@
+---
+- name: "NordVPN | MacOSX | Install nordvpn"
+  community.general.homebrew_cask:
+    name: nordvpn
+    state: present
+

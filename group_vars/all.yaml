@@ -12,36 +12,105 @@ pre_roles:
   - jdk
 
 default_roles:
+  - appcleaner
+  - balenaetcher
   - bat
   - brave
+  - brew-cask-completion
   - btop
+  - cloc
+  - colordiff
+  - coreutils
+  - direnv
   - discord
   - docker
+  - dosbox
+  - ffmpeg
   - flatpak
+  - flux
   - fzf
   - gcloud
   - git
+  - gnu-sed
+  - gnupg
   - go
-  - intellij
+  - handbrake
   # - helm # fix later
-  # - jj
+  - helmfile
+  - htop
+  - httpie
+  - insomnia
+  - jdownloader
+  - jetbrains-toolbox
+  - jj
+  - jq
   - k8s
   - k9s
   - kitty
   - kotlin
   - lazygit
+  - libreoffice
+  - locationsimulator
   - lua
+  - lunar
+  - m-cli
+  - mailsy
+  - mas
   - maven
+  - mdv
+  - microsoft-remote-desktop
+  - moonlight
+  - mpv
   - neofetch
   - neovim
+  - nmap
+  - nordvpn
+  - notion
   - npm
   - nvm
+  - obs
+  - obsidian
+  - onyx
+  - opentofu
+  - openvpn-connect
+  - openwebstart
+  - operator-sdk
   - podman
+  - postman
+  - pulumi
   - pwsh
   - python
+  - quicklook
+  - ranger
+  - rawtherapee
   - raycast
+  - shellcheck
+  - signal
   - slack
+  - spectacle
+  - speedtest
+  - spring-boot
+  - steam
+  - system
+  - talosctl
+  - terminal-notifier
+  - the-unarchiver
+  - thefuck
+  - tmux
+  - tor-browser
+  - trash
+  - tree
+  - utm
+  - vlc
   - vscode
+  - watch
+  - wget
+  - wireshark
+  - xquartz
+  - yarn
+  - ykman
+  - yq
+  - yt-dlp
 
 op:
   k8s:

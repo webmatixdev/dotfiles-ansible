@@ -1,0 +1,14 @@
+---
+- name: "QuickLook | MacOSX | Install quicklook plugins"
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - quicklook-csv
+    - quicklook-json
+
+- name: "QuickLook | MacOSX | Refresh QuickLook plugins"
+  ansible.builtin.command:
+    cmd: qlmanage -r
+  changed_when: false
+

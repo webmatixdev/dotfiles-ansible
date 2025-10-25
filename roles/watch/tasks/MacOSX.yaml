@@ -1,0 +1,6 @@
+---
+- name: "Watch | MacOSX | Install watch"
+  community.general.homebrew:
+    name: watch
+    state: present
+

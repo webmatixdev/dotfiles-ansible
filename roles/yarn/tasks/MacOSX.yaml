@@ -1,0 +1,6 @@
+---
+- name: "Yarn | MacOSX | Install yarn"
+  community.general.homebrew:
+    name: yarn
+    state: present
+

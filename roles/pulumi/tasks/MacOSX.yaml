@@ -1,0 +1,6 @@
+---
+- name: "Pulumi | MacOSX | Install pulumi"
+  community.general.homebrew:
+    name: pulumi
+    state: present
+

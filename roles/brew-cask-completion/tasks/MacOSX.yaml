@@ -1,0 +1,6 @@
+---
+- name: "Brew Cask Completion | MacOSX | Install brew-cask-completion"
+  community.general.homebrew:
+    name: brew-cask-completion
+    state: present
+

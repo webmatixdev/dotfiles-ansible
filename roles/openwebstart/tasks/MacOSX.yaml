@@ -1,0 +1,6 @@
+---
+- name: "OpenWebStart | MacOSX | Install openwebstart"
+  community.general.homebrew_cask:
+    name: openwebstart
+    state: present
+

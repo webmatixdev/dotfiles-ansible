@@ -1,0 +1,6 @@
+---
+- name: "Wireshark | MacOSX | Install wireshark"
+  community.general.homebrew_cask:
+    name: wireshark
+    state: present
+

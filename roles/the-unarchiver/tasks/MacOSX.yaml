@@ -1,0 +1,6 @@
+---
+- name: "The Unarchiver | MacOSX | Install the-unarchiver"
+  community.general.homebrew_cask:
+    name: the-unarchiver
+    state: present
+

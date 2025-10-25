@@ -1,0 +1,11 @@
+---
+- name: "GnuPG | MacOSX | Install gnupg CLI"
+  community.general.homebrew:
+    name: gnupg
+    state: present
+
+- name: "GnuPG | MacOSX | Install gpg-suite GUI"
+  community.general.homebrew_cask:
+    name: gpg-suite
+    state: present
+

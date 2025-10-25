@@ -1,0 +1,6 @@
+---
+- name: "OpenTofu | MacOSX | Install opentofu"
+  community.general.homebrew:
+    name: opentofu
+    state: present
+

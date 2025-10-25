@@ -1,0 +1,6 @@
+---
+- name: "XQuartz | MacOSX | Install xquartz"
+  community.general.homebrew_cask:
+    name: xquartz
+    state: present
+

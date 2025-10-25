@@ -1,0 +1,6 @@
+---
+- name: "Talosctl | MacOSX | Install talosctl"
+  community.general.homebrew:
+    name: talosctl
+    state: present
+

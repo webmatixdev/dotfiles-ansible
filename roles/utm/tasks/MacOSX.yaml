@@ -1,0 +1,6 @@
+---
+- name: "UTM | MacOSX | Install utm"
+  community.general.homebrew_cask:
+    name: utm
+    state: present
+

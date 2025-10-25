@@ -1,0 +1,6 @@
+---
+- name: "Operator-sdk | MacOSX | Install operator-sdk"
+  community.general.homebrew:
+    name: operator-sdk
+    state: present
+

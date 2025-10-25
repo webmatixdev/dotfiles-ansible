@@ -1,0 +1,6 @@
+---
+- name: "Postman | MacOSX | Install postman"
+  community.general.homebrew_cask:
+    name: postman
+    state: present
+

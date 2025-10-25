@@ -1,0 +1,6 @@
+---
+- name: "Mas | MacOSX | Install mas"
+  community.general.homebrew:
+    name: mas
+    state: present
+

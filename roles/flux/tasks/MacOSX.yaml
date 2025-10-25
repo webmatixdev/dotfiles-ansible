@@ -1,0 +1,6 @@
+---
+- name: "Flux | MacOSX | Install flux"
+  community.general.homebrew:
+    name: flux
+    state: present
+

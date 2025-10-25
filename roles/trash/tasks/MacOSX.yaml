@@ -1,0 +1,6 @@
+---
+- name: "Trash | MacOSX | Install trash"
+  community.general.homebrew:
+    name: trash
+    state: present
+

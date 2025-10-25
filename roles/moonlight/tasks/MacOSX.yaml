@@ -1,0 +1,6 @@
+---
+- name: "Moonlight | MacOSX | Install moonlight"
+  community.general.homebrew_cask:
+    name: moonlight
+    state: present
+

@@ -1,0 +1,6 @@
+---
+- name: "Thefuck | MacOSX | Install thefuck"
+  community.general.homebrew:
+    name: thefuck
+    state: present
+

@@ -1,0 +1,6 @@
+---
+- name: "Yq | MacOSX | Install yq"
+  community.general.homebrew:
+    name: yq
+    state: present
+

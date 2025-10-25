@@ -1,0 +1,6 @@
+---
+- name: "Mdv | MacOSX | Install mdv"
+  community.general.homebrew:
+    name: mdv
+    state: present
+

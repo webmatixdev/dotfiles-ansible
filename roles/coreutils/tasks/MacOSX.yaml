@@ -1,0 +1,6 @@
+---
+- name: "Coreutils | MacOSX | Install coreutils"
+  community.general.homebrew:
+    name: coreutils
+    state: present
+

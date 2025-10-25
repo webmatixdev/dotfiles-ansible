@@ -1,0 +1,6 @@
+---
+- name: "OBS Studio | MacOSX | Install obs"
+  community.general.homebrew_cask:
+    name: obs
+    state: present
+

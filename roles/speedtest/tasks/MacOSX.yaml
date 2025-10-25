@@ -1,0 +1,6 @@
+---
+- name: "Speedtest | MacOSX | Install speedtest"
+  community.general.homebrew:
+    name: teamookla/speedtest/speedtest
+    state: present
+
