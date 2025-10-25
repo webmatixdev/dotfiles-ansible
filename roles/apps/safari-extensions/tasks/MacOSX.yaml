@@ -1,0 +1,22 @@
+---
+- name: "Safari Extensions | MacOSX | Install Safari Extensions from Mac App Store"
+  community.general.mas:
+    id: 1569813296  # 1Password for Safari
+    state: present
+- name: "Safari Extensions | MacOSX | Install AdGuard for Safari from Mac App Store"
+  community.general.mas:
+    id: 1440147259
+    state: present
+- name: "Safari Extensions | MacOSX | Install DeArrow from Mac App Store"
+  community.general.mas:
+    id: 6451469297
+    state: present
+- name: "Safari Extensions | MacOSX | Install SponsorBlock from Mac App Store"
+  community.general.mas:
+    id: 1573461917
+    state: present
+- name: "Safari Extensions | MacOSX | Install Super Agent from Mac App Store"
+  community.general.mas:
+    id: 1568262835
+    state: present
+

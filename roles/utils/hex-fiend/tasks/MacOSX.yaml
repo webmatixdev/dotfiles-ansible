@@ -1,0 +1,6 @@
+---
+- name: "Hex Fiend | MacOSX | Install Hex Fiend from Mac App Store"
+  community.general.mas:
+    id: 1342896380
+    state: present
+

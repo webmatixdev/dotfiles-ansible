@@ -1,0 +1,6 @@
+---
+- name: "Cake Wallet | MacOSX | Install Cake Wallet from Mac App Store"
+  community.general.mas:
+    id: 1334702542
+    state: present
+

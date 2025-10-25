@@ -6,6 +6,7 @@ base_roles:
     - ssh
     - fonts
     - gnupg
+    - mas
   shell:
     - bash
     - zsh
@@ -34,7 +35,6 @@ base_roles:
     - nmap
     - ranger
     - shellcheck
-    - speedtest
     - terminal-notifier
     - thefuck
     - trash
@@ -45,6 +45,7 @@ base_roles:
   dev:
     - jdk
     - go
+    - jetbrains-toolbox
     - kotlin
     - locationsimulator
     - lua
@@ -56,6 +57,8 @@ base_roles:
     - pwsh
     - python
     - utm
+    - vscode
+    - xcode
     - yarn
   devops:
     - argocd
@@ -77,32 +80,39 @@ base_roles:
     - balenaetcher
     - brew-cask-completion
     - flatpak
+    - hex-fiend
+    - hp
+    - insomnia
     - jdownloader
     - lunar
     - m-cli
     - mailsy
-    - mas
     - nordvpn
     - onyx
     - openvpn-connect
+    - postman
+    - speedtest
+    - tailscale
     - the-unarchiver
+    - windows-app
     - xquartz
     - ykman
   apps:
     - brave
     - discord
-    - insomnia
-    - jetbrains-toolbox
     - libreoffice
-    - microsoft-remote-desktop
     - notion
     - obsidian
-    - postman
     - raycast
     - signal
     - slack
+    - safari-extensions
+    - telegram
     - tor-browser
-    - vscode
+    - todoist
+    - cake-wallet
+    - home-assistant
+    - microsoft-to-do
   media:
     - ffmpeg
     - handbrake

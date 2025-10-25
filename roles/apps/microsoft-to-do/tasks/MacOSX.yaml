@@ -1,0 +1,6 @@
+---
+- name: "Microsoft To Do | MacOSX | Install Microsoft To Do from Mac App Store"
+  community.general.mas:
+    id: 1274495053
+    state: present
+

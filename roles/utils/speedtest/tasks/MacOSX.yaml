@@ -9,3 +9,8 @@
     name: speedtest
     state: present
 
+- name: "Speedtest | MacOSX | Install Speedtest from Mac App Store"
+  community.general.mas:
+    id: 1153157709
+    state: present
+

@@ -1,0 +1,6 @@
+---
+- name: "Xcode | MacOSX | Install Xcode from Mac App Store"
+  community.general.mas:
+    id: 497799835
+    state: present
+

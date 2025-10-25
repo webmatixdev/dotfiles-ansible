@@ -1,0 +1,6 @@
+---
+- name: "Tailscale | MacOSX | Install Tailscale from Mac App Store"
+  community.general.mas:
+    id: 1475387142
+    state: present
+

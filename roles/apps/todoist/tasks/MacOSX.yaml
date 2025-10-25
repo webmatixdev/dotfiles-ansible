@@ -1,0 +1,6 @@
+---
+- name: "Todoist | MacOSX | Install Todoist from Mac App Store"
+  community.general.mas:
+    id: 585829637
+    state: present
+

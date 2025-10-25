@@ -1,0 +1,6 @@
+---
+- name: "Home Assistant | MacOSX | Install Home Assistant from Mac App Store"
+  community.general.mas:
+    id: 1099568401
+    state: present
+

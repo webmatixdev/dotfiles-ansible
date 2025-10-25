@@ -1,0 +1,6 @@
+---
+- name: "Telegram | MacOSX | Install Telegram from Mac App Store"
+  community.general.mas:
+    id: 747648890
+    state: present
+
