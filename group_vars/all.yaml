@@ -7,7 +7,7 @@ base_roles:
     - fonts
     - gnupg
     - mas
-    - onedrive
+    # - onedrive
   shell:
     - bash
     - zsh
