@@ -133,7 +133,7 @@ base_roles:
     - moonlight
     - dosbox
     - steam
-    - virtualhere-server
+    # - virtualhere-server
 
 # Override controls
 exclude_roles: []
