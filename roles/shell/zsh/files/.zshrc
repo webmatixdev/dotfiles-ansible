@@ -120,3 +120,4 @@ eval "$(fzf --zsh)"
 # Initialize zoxide
 eval "$(zoxide init zsh)"
 #eval "$(gh copilot alias -- zsh)"
+eval "$(direnv hook zsh)"
