@@ -1,9 +1,26 @@
 [user]
-name = "Matthias Webhofer"
+name = "webmatixdev"
 email = "matthias@webhofer.pro"
+
+[signing]
+backend = "ssh"
+behavior = "own"
+key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDSu4V4GkZQo4NMPX3CTz0EDwdAEPgJx3By2vWINnVoY"
+
+[signing.backends.ssh]
+program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 [ui]
 editor = "vim"
 pager = ":builtin"
 default-command = "log"
 diff-editor = ":builtin"
+
+[ui.streampager]
+wrapping = "word"
+interface = "quit-if-one-page"
+
+[git]
+push-new-bookmarks = true
+colocate = true
+track-default-bookmark-on-clone = true

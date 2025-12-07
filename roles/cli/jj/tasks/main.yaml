@@ -14,9 +14,17 @@
     state: directory
     mode: '0755'
 
-- name: "{{ role_name }} | Copy jj configuration"
+- name: "{{ role_name }} | Copy main jj configuration"
   ansible.builtin.copy:
     src: config.toml
     dest: "{{ ansible_user_dir }}/.config/jj/config.toml"
     mode: '0644'
+
+- name: "{{ role_name }} | Copy conf.d directory"
+  ansible.builtin.copy:
+    src: conf.d
+    dest: "{{ ansible_user_dir }}/.config/jj/conf.d"
+    mode: "0644"
+    directory_mode: "0755"
+    force: true
 

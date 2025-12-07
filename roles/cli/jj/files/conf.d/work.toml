@@ -1,0 +1,14 @@
+--when.repositories = ["~/vs-workspace"]
+
+[user]
+name = "matthias.webhofer"
+email = "matthias.webhofer@viesure.io"
+
+[signing]
+backend = "ssh"
+behavior = "own"
+key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQZeWC+ZfRAlBe+8A7gWkOekocQ17tk3ulzxn0i2MLp"
+
+[signing.backends.ssh]
+program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
