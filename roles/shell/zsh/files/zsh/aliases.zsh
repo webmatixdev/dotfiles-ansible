@@ -64,3 +64,5 @@ fi
 
 alias terraform='tofu'
 
+alias wake-pve0='wakeonlan 38:05:25:32:57:09'
+alias wake-pve1='wakeonlan d8:43:ae:b5:03:91'
