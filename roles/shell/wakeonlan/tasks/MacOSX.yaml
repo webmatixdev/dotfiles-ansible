@@ -1,0 +1,5 @@
+---
+- name: "wakeonlan | MacOSX | Install wakeonlan"
+  community.general.homebrew:
+    name: wakeonlan
+    state: present
